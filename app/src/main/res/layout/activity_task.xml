@@ -27,7 +27,7 @@
                 android:src="@drawable/back" />
 
             <TextView
-                android:id="@+id/weekly_tvDate"
+                android:id="@+id/weekly_tvHeader"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"

@@ -9,7 +9,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyPlanner">
-
+        <activity
+            android:name=".week.WeeklyGoalsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".week.WeeklyReviewActivity"
+            android:exported="false" />
         <activity
             android:name=".AddEventActivity"
             android:exported="false" />

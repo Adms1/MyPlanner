@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context=".week.WeeklyReviewActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/wg_llHeader"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"
+            android:padding="10dp"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/wg_ivBack"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_weight="0.1"
+                android:src="@drawable/back" />
+
+            <TextView
+                android:id="@+id/wg_tvHeader"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="0.6"
+                android:text="Weekly Goals"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/wg_etHeader1"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_margin="10dp"
+            android:background="@drawable/black_ring"
+            android:gravity="top"
+            android:hint="Please add goals..."
+            android:padding="10dp"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@+id/wg_llHeader" />
+
+        <TextView
+            android:id="@+id/wr_btnSubmit"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_margin="10dp"
+            android:background="@color/black"
+            android:padding="10dp"
+            android:text="Submit"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            app:layout_constraintTop_toBottomOf="@+id/wg_etHeader1" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>
