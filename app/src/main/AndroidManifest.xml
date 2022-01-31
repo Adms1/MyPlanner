@@ -10,16 +10,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyPlanner">
         <activity
-            android:name=".week.WeeklyGoalsActivity"
+            android:name=".week.HabitTrackerActivity"
             android:exported="false" />
         <activity
-            android:name=".week.WeeklyReviewActivity"
+            android:name=".daily.DailyActivity"
             android:exported="false" />
         <activity
-            android:name=".AddEventActivity"
-            android:exported="false" />
-        <activity
-            android:name=".task.TaskActivity"
+            android:name=".DashboardActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -28,7 +25,27 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MainActivity"
+            android:name=".week.WeeklyGoalsActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustNothing" />
+        <activity
+            android:name=".week.WeeklyReviewActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustNothing" />
+        <activity
+            android:name=".AddEventActivity"
+            android:exported="false" />
+        <activity
+            android:name=".task.TaskActivity"
+            android:exported="true" />
+        <activity
+            android:name=".old.MainActivity"
+            android:exported="true" />
+        <activity
+            android:name=".week.WeekPlanActivity"
+            android:exported="true" />
+        <activity
+            android:name=".month.MonthlyActivity"
             android:exported="true" />
     </application>
 

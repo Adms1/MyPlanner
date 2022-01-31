@@ -1,14 +1,14 @@
-package com.example.myplanner
+package com.example.myplanner.month
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.widget.LinearLayout
-import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.events.calendar.utils.EventsCalendarUtil
 import com.events.calendar.views.EventsCalendar
+import com.example.myplanner.AddEventActivity
+import com.example.myplanner.R
 import kotlinx.android.synthetic.main.activity_monthly.*
 import java.util.*
 

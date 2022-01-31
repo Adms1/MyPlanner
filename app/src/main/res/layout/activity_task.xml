@@ -8,7 +8,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:context=".task.TaskActivity">
+        tools:context=".task.TaskActivity"
+        android:paddingBottom="10dp">
 
         <LinearLayout
             android:id="@+id/task_llHeader"
@@ -20,7 +21,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
-                android:id="@+id/weekly_ivBack"
+                android:id="@+id/task_ivBack"
                 android:layout_width="0dp"
                 android:layout_height="30dp"
                 android:layout_weight="0.1"

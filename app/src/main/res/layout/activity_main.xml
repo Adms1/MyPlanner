@@ -6,13 +6,13 @@
     <data>
         <variable
             name="DayViewModel"
-            type="com.example.myplanner.DayViewModel" />
+            type="com.example.myplanner.old.DayViewModel" />
     </data>
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".MainActivity">
+        tools:context=".old.MainActivity">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"

@@ -72,7 +72,7 @@
             android:layout_width="0dp"
             android:layout_height="30dp"
             android:layout_weight="0.1"
-            android:src="@drawable/red_circle" />
+            android:background="@color/red" />
 
         <TextView
             android:id="@+id/addevent_tvEname"
