@@ -44,6 +44,24 @@
             android:layout_marginBottom="10dp"
             android:layout_marginLeft="5dp" />
 
+        <View
+            android:id="@+id/mevent_time1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.01"
+            android:background="@color/black" />
+
+
+        <ImageView
+            android:id="@+id/calEditDateTime"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.15"
+            android:gravity="center_vertical"
+            android:padding="5dp"
+            android:src="@drawable/ic_baseline_edit_24" />
+
+
     </LinearLayout>
 
 </androidx.cardview.widget.CardView>

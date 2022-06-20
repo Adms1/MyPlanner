@@ -1,6 +1,8 @@
 package com.example.myplanner.daily
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -12,6 +14,7 @@ import kotlinx.android.synthetic.main.activity_monthly.*
 import kotlinx.android.synthetic.main.activity_task.*
 
 class DailyActivity : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_daily)
@@ -21,6 +24,12 @@ class DailyActivity : AppCompatActivity() {
         }
 
         daily_ivAdd.setOnClickListener {
+
+            val sharedPreference =  getSharedPreferences("PREFERENCE_NAME",Context.MODE_PRIVATE)
+            var editor = sharedPreference.edit()
+            editor.putString("newDateTime","newDateTime")
+            editor.commit()
+
             val intent = Intent(this@DailyActivity, AddEventActivity::class.java)
             startActivity(intent)
         }

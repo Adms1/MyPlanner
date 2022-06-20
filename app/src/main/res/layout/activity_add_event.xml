@@ -7,6 +7,7 @@
     android:layout_height="match_parent"
     tools:context=".AddEventActivity">
 
+
     <LinearLayout
         android:id="@+id/addevent_llHeader"
         android:layout_width="match_parent"
@@ -24,23 +25,16 @@
             android:src="@drawable/back" />
 
         <TextView
-            android:id="@+id/addevent_tvDate"
+            android:id="@+id/txtActivityName"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_weight="0.6"
-            android:text="24 December, 2021"
+            android:text="Add Event"
             android:textColor="@color/black"
             android:textSize="20sp"
             android:textStyle="bold" />
 
-        <ImageView
-            android:id="@+id/addevent_ivCal"
-            android:layout_width="0dp"
-            android:layout_height="30dp"
-            android:layout_weight="0.15"
-            android:gravity="center"
-            android:src="@drawable/cale" />
 
         <ImageView
             android:id="@+id/addevent_ivMenu"
@@ -71,16 +65,19 @@
             android:id="@+id/addevent_ivColor"
             android:layout_width="0dp"
             android:layout_height="30dp"
+            android:layout_gravity="center_vertical"
             android:layout_weight="0.1"
             android:background="@color/red" />
 
-        <TextView
+        <EditText
             android:id="@+id/addevent_tvEname"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_weight="0.9"
-            android:text="Event name 1"
+            android:backgroundTint="@android:color/transparent"
+            android:hint="Event name"
+            android:imeOptions="actionNext"
             android:textColor="@color/black"
             android:textSize="20sp" />
 
@@ -93,12 +90,15 @@
         android:background="@color/black"
         app:layout_constraintTop_toBottomOf="@id/addevent_llName" />
 
-    <TextView
+    <EditText
         android:id="@+id/addevent_tvEdesc"
         android:layout_width="match_parent"
         android:layout_height="150dp"
         android:layout_margin="5dp"
+        android:backgroundTint="@android:color/transparent"
+        android:gravity="top|start"
         android:hint="Event Description"
+        android:imeOptions="actionNext"
         android:maxLines="5"
         android:padding="10dp"
         android:textColor="@color/black"
@@ -113,12 +113,49 @@
         app:layout_constraintTop_toBottomOf="@id/addevent_tvEdesc" />
 
     <LinearLayout
-        android:id="@+id/addevent_llTime"
+        android:id="@+id/addevent_llcal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:padding="15dp"
         app:layout_constraintTop_toBottomOf="@id/addevent_line3">
+
+
+        <TextView
+            android:id="@+id/addevent_tvDate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="0.6"
+            android:text="24 December, 2021"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/addevent_ivCal"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_weight="0.15"
+            android:gravity="center"
+            android:src="@drawable/cale" />
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/addevent_line4"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/black"
+        app:layout_constraintTop_toBottomOf="@id/addevent_llcal" />
+
+    <LinearLayout
+        android:id="@+id/addevent_llTime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="15dp"
+        app:layout_constraintTop_toBottomOf="@id/addevent_line4">
 
         <ImageView
             android:id="@+id/addevent_ivstime"
@@ -155,7 +192,7 @@
     </LinearLayout>
 
     <View
-        android:id="@+id/addevent_line4"
+        android:id="@+id/addevent_line5"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/black"
@@ -166,57 +203,25 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="15dp"
-        app:layout_constraintTop_toBottomOf="@id/addevent_line4">
+        app:layout_constraintTop_toBottomOf="@id/addevent_line5">
 
         <ImageView
             android:id="@+id/addevent_ivNotification"
             android:layout_width="0dp"
             android:layout_height="30dp"
+            android:layout_gravity="center_vertical"
             android:layout_weight="0.1"
             android:padding="2dp"
             android:src="@drawable/alarm" />
 
-        <TextView
+        <EditText
             android:id="@+id/addevent_tvNotification"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.9"
-            android:text="Notification Description"
-            android:textColor="@color/black"
-            android:textSize="20sp" />
-
-    </LinearLayout>
-
-    <View
-        android:id="@+id/addevent_line5"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/black"
-        app:layout_constraintTop_toBottomOf="@id/addevent_llNotification" />
-
-    <LinearLayout
-        android:id="@+id/addevent_llLocation"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="15dp"
-        app:layout_constraintTop_toBottomOf="@id/addevent_line5">
-
-        <ImageView
-            android:id="@+id/addevent_ivLocation"
-            android:layout_width="0dp"
-            android:layout_height="30dp"
-            android:layout_weight="0.1"
-            android:padding="2dp"
-            android:src="@drawable/map_new" />
-
-        <TextView
-            android:id="@+id/addevent_tvLocation"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.9"
-            android:text="Location 1"
+            android:backgroundTint="@android:color/transparent"
+            android:hint="Notification Description"
+            android:imeOptions="actionNext"
             android:textColor="@color/black"
             android:textSize="20sp" />
 
@@ -227,30 +232,32 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/black"
-        app:layout_constraintTop_toBottomOf="@id/addevent_llLocation" />
+        app:layout_constraintTop_toBottomOf="@id/addevent_llNotification" />
 
     <LinearLayout
-        android:id="@+id/addevent_llRepeat"
+        android:id="@+id/addevent_llLocation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="15dp"
         app:layout_constraintTop_toBottomOf="@id/addevent_line6">
 
         <ImageView
-            android:id="@+id/addevent_ivRepeat"
+            android:id="@+id/addevent_ivLocation"
             android:layout_width="0dp"
             android:layout_height="30dp"
+            android:layout_gravity="center_vertical"
             android:layout_weight="0.1"
             android:padding="2dp"
-            android:src="@drawable/repeat" />
+            android:src="@drawable/map_new" />
 
-        <TextView
-            android:id="@+id/addevent_tvRepeat"
+        <EditText
+            android:id="@+id/addevent_tvLocation"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.9"
-            android:text="Repeat"
+            android:backgroundTint="@android:color/transparent"
+            android:hint="Location 1"
+            android:imeOptions="actionNext"
             android:textColor="@color/black"
             android:textSize="20sp" />
 
@@ -258,6 +265,42 @@
 
     <View
         android:id="@+id/addevent_line7"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/black"
+        app:layout_constraintTop_toBottomOf="@id/addevent_llLocation" />
+
+    <LinearLayout
+        android:id="@+id/addevent_llRepeat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/addevent_line7">
+
+        <ImageView
+            android:id="@+id/addevent_ivRepeat"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="0.1"
+            android:padding="2dp"
+            android:src="@drawable/repeat" />
+
+        <EditText
+            android:id="@+id/addevent_tvRepeat"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.9"
+            android:backgroundTint="@android:color/transparent"
+            android:hint="Repeat"
+            android:imeOptions="actionDone"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/addevent_line8"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/black"
