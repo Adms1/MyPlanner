@@ -2,19 +2,18 @@ package com.example.myplanner.daily
 
 import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.myplanner.AddEventActivity
 import com.example.myplanner.R
-import com.example.myplanner.month.MonthlyEventListAdapter
+import com.example.myplanner.db.DatabaseHandler
+import com.example.myplanner.pojo.DailyPlanner
 import kotlinx.android.synthetic.main.activity_daily.*
-import kotlinx.android.synthetic.main.activity_monthly.*
-import kotlinx.android.synthetic.main.activity_task.*
 
 class DailyActivity : AppCompatActivity() {
-
+    private var listOfDailyPlan: ArrayList<DailyPlanner> = ArrayList()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_daily)
@@ -25,9 +24,9 @@ class DailyActivity : AppCompatActivity() {
 
         daily_ivAdd.setOnClickListener {
 
-            val sharedPreference =  getSharedPreferences("PREFERENCE_NAME",Context.MODE_PRIVATE)
+            val sharedPreference = getSharedPreferences("PREFERENCE_NAME", Context.MODE_PRIVATE)
             var editor = sharedPreference.edit()
-            editor.putString("newDateTime","newDateTime")
+            editor.putString("editOrNotDateTime", "newDateTime")
             editor.commit()
 
             val intent = Intent(this@DailyActivity, AddEventActivity::class.java)
@@ -37,8 +36,11 @@ class DailyActivity : AppCompatActivity() {
         setList()
     }
 
-    private fun setList(){
+    private fun setList() {
+        val db = DatabaseHandler(this)
+        listOfDailyPlan = db.getAllPlan();
+        Log.d("sizeOfPlan", listOfDailyPlan.size.toString())
         daily_rvList.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-        daily_rvList.adapter = DailyAdaper(this)
+        daily_rvList.adapter = DailyAdaper(this, listOfDailyPlan)
     }
 }

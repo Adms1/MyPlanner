@@ -22,28 +22,30 @@
             android:layout_width="0dp"
             android:layout_height="30dp"
             android:layout_weight="0.1"
-            android:src="@drawable/back" />
+            android:src="@drawable/back"
+            android:contentDescription="@string/app_name" />
 
         <TextView
             android:id="@+id/txtActivityName"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
             android:layout_weight="0.6"
-            android:text="Add Event"
+            android:text="@string/add_event"
             android:textColor="@color/black"
             android:textSize="20sp"
             android:textStyle="bold" />
 
 
-        <ImageView
+     <!--   <ImageView
             android:id="@+id/addevent_ivMenu"
             android:layout_width="0dp"
             android:layout_height="30dp"
             android:layout_weight="0.15"
             android:gravity="center"
-            android:src="@drawable/three_dots" />
-
+            android:src="@drawable/three_dots"
+            android:contentDescription="@string/app_name" />
+-->
     </LinearLayout>
 
     <View
@@ -67,19 +69,21 @@
             android:layout_height="30dp"
             android:layout_gravity="center_vertical"
             android:layout_weight="0.1"
-            android:background="@color/red" />
+            android:background="@color/red"
+            android:contentDescription="@string/app_name" />
 
         <EditText
             android:id="@+id/addevent_tvEname"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
             android:layout_weight="0.9"
             android:backgroundTint="@android:color/transparent"
-            android:hint="Event name"
+            android:hint="@string/event_name"
             android:imeOptions="actionNext"
             android:textColor="@color/black"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:autofillHints="" />
 
     </LinearLayout>
 
@@ -97,7 +101,7 @@
         android:layout_margin="5dp"
         android:backgroundTint="@android:color/transparent"
         android:gravity="top|start"
-        android:hint="Event Description"
+        android:hint="@string/event_description"
         android:imeOptions="actionNext"
         android:maxLines="5"
         android:padding="10dp"
@@ -125,9 +129,9 @@
             android:id="@+id/addevent_tvDate"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
             android:layout_weight="0.6"
-            android:text="24 December, 2021"
+            android:text=""
             android:textColor="@color/black"
             android:textSize="20sp"
             android:textStyle="bold" />
@@ -138,7 +142,8 @@
             android:layout_height="30dp"
             android:layout_weight="0.15"
             android:gravity="center"
-            android:src="@drawable/cale" />
+            android:src="@drawable/cale"
+            android:contentDescription="@string/app_name" />
 
     </LinearLayout>
 
@@ -162,7 +167,8 @@
             android:layout_width="0dp"
             android:layout_height="30dp"
             android:layout_weight="0.1"
-            android:src="@drawable/clock" />
+            android:src="@drawable/clock"
+            android:contentDescription="@string/app_name" />
 
         <TextView
             android:id="@+id/addevent_tvStime"
@@ -212,7 +218,8 @@
             android:layout_gravity="center_vertical"
             android:layout_weight="0.1"
             android:padding="2dp"
-            android:src="@drawable/alarm" />
+            android:src="@drawable/alarm"
+            android:contentDescription="@string/app_name" />
 
         <EditText
             android:id="@+id/addevent_tvNotification"
@@ -220,7 +227,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.9"
             android:backgroundTint="@android:color/transparent"
-            android:hint="Notification Description"
+            android:hint="@string/notification_description"
             android:imeOptions="actionNext"
             android:textColor="@color/black"
             android:textSize="20sp" />
@@ -248,7 +255,8 @@
             android:layout_gravity="center_vertical"
             android:layout_weight="0.1"
             android:padding="2dp"
-            android:src="@drawable/map_new" />
+            android:src="@drawable/map_new"
+            android:contentDescription="@string/app_name" />
 
         <EditText
             android:id="@+id/addevent_tvLocation"
@@ -256,7 +264,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.9"
             android:backgroundTint="@android:color/transparent"
-            android:hint="Location 1"
+            android:hint="@string/location_1"
             android:imeOptions="actionNext"
             android:textColor="@color/black"
             android:textSize="20sp" />
@@ -284,7 +292,8 @@
             android:layout_gravity="center_vertical"
             android:layout_weight="0.1"
             android:padding="2dp"
-            android:src="@drawable/repeat" />
+            android:src="@drawable/repeat"
+            android:contentDescription="@string/app_name" />
 
         <EditText
             android:id="@+id/addevent_tvRepeat"
@@ -292,7 +301,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.9"
             android:backgroundTint="@android:color/transparent"
-            android:hint="Repeat"
+            android:hint="@string/repeat"
             android:imeOptions="actionDone"
             android:textColor="@color/black"
             android:textSize="20sp" />
@@ -306,5 +315,15 @@
         android:background="@color/black"
         app:layout_constraintTop_toBottomOf="@id/addevent_llRepeat" />
 
-
+    <Button
+        android:id="@+id/btnSave"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@color/red"
+        android:gravity="center_vertical|center_horizontal"
+        android:text="Save"
+        app:layout_constraintTop_toBottomOf="@id/addevent_line8"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="161dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

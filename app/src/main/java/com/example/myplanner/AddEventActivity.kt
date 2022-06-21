@@ -4,8 +4,8 @@ import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Context
 import android.os.Bundle
-import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import com.example.myplanner.db.DatabaseHandler
 import com.github.dhaval2404.colorpicker.MaterialColorPickerDialog
 import com.github.dhaval2404.colorpicker.model.ColorShape
 import com.github.dhaval2404.colorpicker.model.ColorSwatch
@@ -21,15 +21,47 @@ class AddEventActivity : AppCompatActivity() {
     val day = Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
     val hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
     val minute = Calendar.getInstance().get(Calendar.MINUTE)
-    val ampm = Calendar.getInstance().get(Calendar.AM_PM)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_event)
         val sharedPreference = getSharedPreferences("PREFERENCE_NAME", Context.MODE_PRIVATE)
-
-        var strDateTime = sharedPreference.getString("editDateTime", "")
+        var id: Int? = null
+        val strDateTime = sharedPreference.getString("editOrNotDateTime", "")
         if (strDateTime.equals("editDateTime")) {
+            id = sharedPreference.getInt("id", 0)
+            val strDate = sharedPreference.getString("date", "")
+            val strToTime = sharedPreference.getString("toTime", "")
+            val strFromTime = sharedPreference.getString("fromTime", "")
+            val strEventName = sharedPreference.getString("eventName", "")
+            val strEventDescription = sharedPreference.getString("eventDescription", "")
+            val strNotificationDescription =
+                sharedPreference.getString("notificationDescription", "")
+            val strLocation = sharedPreference.getString("Location", "")
+            val strRepeat = sharedPreference.getString("repeat", "")
+
+
+            addevent_tvDate.text = strDate
+            addevent_tvStime.text = strToTime
+            addevent_tvEtime.text = strFromTime
+            addevent_tvEname.setText(strEventName.toString())
+            addevent_tvEdesc.setText(strEventDescription.toString())
+            addevent_tvNotification.setText(strNotificationDescription.toString())
+            addevent_tvLocation.setText(strLocation.toString())
+            addevent_tvRepeat.setText(strRepeat.toString())
+
+            addevent_tvEname.isCursorVisible = false
+            addevent_tvEdesc.isCursorVisible = false
+            addevent_tvNotification.isCursorVisible = false
+            addevent_tvLocation.isCursorVisible = false
+            addevent_tvRepeat.isCursorVisible = false
+
+            addevent_tvEname.isFocusable = false
+            addevent_tvEdesc.isFocusable = false
+            addevent_tvNotification.isFocusable = false
+            addevent_tvLocation.isFocusable = false
+            addevent_tvRepeat.isFocusable = false
+
 
         } else {
 
@@ -63,6 +95,35 @@ class AddEventActivity : AppCompatActivity() {
                 }
                 .show()
         }
+
+        btnSave.setOnClickListener({
+            val db = DatabaseHandler(this)
+
+            val strEventName = addevent_tvEname.text.toString()
+            val strEventDescription = addevent_tvEdesc.text.toString()
+            val strDate = addevent_tvDate.text.toString()
+            val strToTime = addevent_tvStime.text.toString()
+            val strFromTime = addevent_tvEtime.text.toString()
+            val strNotification = addevent_tvNotification.text.toString()
+            val strLocation = addevent_tvLocation.text.toString()
+            val strRepet = addevent_tvRepeat.text.toString()
+
+            if (strDateTime.equals("editDateTime")) {
+                id?.let { it1 -> db.updateDateTime(it1, strDate, strToTime, strFromTime) }
+
+            } else {
+                db.addDailyPlan(
+                    strEventName,
+                    strEventDescription,
+                    strDate,
+                    strToTime,
+                    strFromTime,
+                    strNotification,
+                    strLocation,
+                    strRepet
+                )
+            }
+        })
 
     }
 
@@ -120,7 +181,6 @@ class AddEventActivity : AppCompatActivity() {
                 }
             }, hour, minute, false
         )
-
         picker.setTitle("Select Time")
         picker.show()
 
