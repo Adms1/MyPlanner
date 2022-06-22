@@ -2,15 +2,23 @@ package com.example.myplanner.daily
 
 import android.content.Context
 import android.content.Intent
+import android.opengl.Visibility
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.annotation.RequiresApi
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myplanner.AddEventActivity
 import com.example.myplanner.R
 import com.example.myplanner.pojo.DailyPlanner
+import com.github.dhaval2404.colorpicker.util.setVisibility
+import java.text.DateFormatSymbols
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import java.util.*
 
 class DailyAdaper(
@@ -31,13 +39,32 @@ class DailyAdaper(
 
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: viewholder, position: Int) {
 
+        val current = LocalDateTime.now()
+
+        val formatter = DateTimeFormatter.ofPattern("dd MM, yyyy")
+        val formatted = current.format(formatter)
+        val date = Calendar.getInstance().time
+        val strDay = Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
+        val strMonth = getMonthForInt(Calendar.getInstance().get(Calendar.MONTH))
+        val strYear = Calendar.getInstance().get(Calendar.YEAR)
+        val Date = (strDay.toString() + " " + (strMonth) + ", " + strYear)
+
+        if (listOfDailyPlan[position].date.equals(Date)) {
+            holder.mainCardView.visibility = View.VISIBLE
+
+        } else {
+            holder.mainCardView.visibility = View.VISIBLE
+
+
+        }
+
+
+
         holder.txtEvent.text = listOfDailyPlan[position].event_name
-        holder.txtDate.text =
-            listOfDailyPlan[position].to_time + "     " + listOfDailyPlan[position].from_time
-
-
+        holder.txtDate.text = listOfDailyPlan[position].to_time + "     " + listOfDailyPlan[position].from_time
         holder.calEditDateTime.setOnClickListener({
             val sharedPreference =
                 context.getSharedPreferences("PREFERENCE_NAME", Context.MODE_PRIVATE)
@@ -62,11 +89,23 @@ class DailyAdaper(
         })
     }
 
+        fun getMonthForInt(num: Int): String? {
+            var month = "wrong"
+            val dfs = DateFormatSymbols()
+            val months: Array<String> = dfs.getMonths()
+            if (num >= 0 && num <= 11) {
+                month = months[num]
+            }
+            return month
+        }
+
+
     class viewholder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         var calEditDateTime: ImageView = itemView.findViewById(R.id.calEditDateTime)
         var txtDate: TextView = itemView.findViewById(R.id.txtDate)
         var txtEvent: TextView = itemView.findViewById(R.id.txtEvent)
+        var mainCardView: CardView = itemView.findViewById(R.id.mainCardView);
 
     }
 

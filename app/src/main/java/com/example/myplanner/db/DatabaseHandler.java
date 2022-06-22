@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import com.example.myplanner.pojo.DailyPlanner;
 
@@ -108,11 +109,12 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return blnResult;
     }
 
-    @NotNull
-    public ArrayList<DailyPlanner> getAllPlan() {
+
+    public ArrayList<DailyPlanner> getAllPlan(/*String date*/) {
+     //   Log.d("Date",date.toString());
         ArrayList<DailyPlanner> AllPlan = new ArrayList<DailyPlanner>();
         // Select All Query
-        String selectQuery = "SELECT " + ID + "," + DATE + "," + To_TIME + "," + FROM_TIME + "," + EVENT_NAME + "," + EVENT_DESCRIPTION + "," + NOTIFICATION_DESCRIPTION + "," + LOCATION + "," + REPEAT + " FROM " + TABLE_DAILYPLANNER;
+        String selectQuery = "SELECT " + ID + "," + DATE + "," + To_TIME + "," + FROM_TIME + "," + EVENT_NAME + "," + EVENT_DESCRIPTION + "," + NOTIFICATION_DESCRIPTION + "," + LOCATION + "," + REPEAT + " FROM " + TABLE_DAILYPLANNER/*+ " WHERE " + DATE + " = " + date*/ ;
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);

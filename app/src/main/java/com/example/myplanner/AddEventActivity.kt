@@ -21,6 +21,7 @@ class AddEventActivity : AppCompatActivity() {
     val day = Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
     val hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
     val minute = Calendar.getInstance().get(Calendar.MINUTE)
+    var datesStore: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -109,13 +110,13 @@ class AddEventActivity : AppCompatActivity() {
             val strRepet = addevent_tvRepeat.text.toString()
 
             if (strDateTime.equals("editDateTime")) {
-                id?.let { it1 -> db.updateDateTime(it1, strDate, strToTime, strFromTime) }
+                id?.let { it1 -> db.updateDateTime(it1, datesStore, strToTime, strFromTime) }
 
             } else {
                 db.addDailyPlan(
                     strEventName,
                     strEventDescription,
-                    strDate,
+                    datesStore,
                     strToTime,
                     strFromTime,
                     strNotification,
@@ -135,11 +136,10 @@ class AddEventActivity : AppCompatActivity() {
             this@AddEventActivity,
             { view, year, monthOfYear, dayOfMonth ->
                 val Date = (day.toString() + "-" + (month + 1) + "-" + year)
-
+                datesStore = (day.toString() + " " + (month + 1) + " " + year)
                 // set this date in TextView for Display
                 addevent_tvDate.setText(Date)
 
-//                addevent_tvDate.text = "" + dayOfMonth + " " + (monthOfYear+1) + ", " + year
                 updateLabel(dayOfMonth, monthOfYear + 1, year)
 
             }, year, month, day
@@ -150,81 +150,81 @@ class AddEventActivity : AppCompatActivity() {
 
     private fun openStartCalendar() {
 
-        val picker = TimePickerDialog(
-            this@AddEventActivity,
-            { timePicker, hour, selectedMinute ->
-
-                var hour = hour
+        val mTimePicker: TimePickerDialog
+        mTimePicker = TimePickerDialog(
+            this,
+            { timePicker, selectedHour, selectedMinute ->
+                var selectedHour = hour
                 var am_pm = ""
                 // AM_PM decider logic
                 when {
 
                     hour == 0 -> {
-                        hour += 12
+                        selectedHour += 12
                         am_pm = "AM"
                     }
                     hour == 12 -> am_pm = "PM"
                     hour > 12 -> {
-                        hour -= 12
+                        selectedHour -= 12
                         am_pm = "PM"
                     }
                     else -> am_pm = "AM"
                 }
                 if (addevent_tvStime != null) {
-                    val hour = if (hour < 10) "0" + hour else hour
-                    val min = if (minute < 10) "0" + minute else minute
-                    // display format of time
-                    val msg = "$hour : $min $am_pm"
+                    val min = if (selectedMinute < 10) "0" + selectedMinute else selectedMinute
+                    val msg = "$selectedHour : $min $am_pm"
                     addevent_tvStime.text = msg
-
-
+                    // addevent_tvStime.setText("$selectedHour:$selectedMinute")
                 }
-            }, hour, minute, false
-        )
-        picker.setTitle("Select Time")
-        picker.show()
+            },
+            hour,
+            minute,
+            false
+        ) //Yes 24 hour time
+
+        mTimePicker.setTitle("Select Time")
+        mTimePicker.show()
 
     }
 
     private fun openEndCalendar() {
 
-        val picker = TimePickerDialog(
-            this@AddEventActivity,
-            { timePicker, hour, selectedMinute ->
 
-                var hour = hour
+        val mTimePicker: TimePickerDialog
+        mTimePicker = TimePickerDialog(
+            this,
+            { timePicker, selectedHour, selectedMinute ->
+                var selectedHour = hour
                 var am_pm = ""
                 // AM_PM decider logic
                 when {
 
                     hour == 0 -> {
-                        hour += 12
+                        selectedHour += 12
                         am_pm = "AM"
                     }
                     hour == 12 -> am_pm = "PM"
                     hour > 12 -> {
-                        hour -= 12
+                        selectedHour -= 12
                         am_pm = "PM"
                     }
                     else -> am_pm = "AM"
                 }
-                if (addevent_tvEtime != null) {
-                    val hour = if (hour < 10) "0" + hour else hour
-                    val min = if (minute < 10) "0" + minute else minute
-                    // display format of time
-                    val msg = "$hour : $min $am_pm"
-                    addevent_tvEtime.text = msg
-
-
+                if (addevent_tvStime != null) {
+                    val min = if (selectedMinute < 10) "0" + selectedMinute else selectedMinute
+                    val msg = "$selectedHour : $min $am_pm"
+                    addevent_tvStime.text = msg
+                    // addevent_tvStime.setText("$selectedHour:$selectedMinute")
                 }
+            },
+            hour,
+            minute,
+            false
+        ) //Yes 24 hour time
 
 
-            }, hour, minute, false
-        )
-
-        picker.setTitle("Select Time")
-        picker.show()
-
+        mTimePicker.setTitle("Select Time")
+        mTimePicker.show()
 
     }
 

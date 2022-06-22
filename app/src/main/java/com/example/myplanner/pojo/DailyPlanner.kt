@@ -11,4 +11,4 @@ class DailyPlanner(
     var notification_description: String,
     var location: String,
     var repeat: String
-): Section(date)
+)

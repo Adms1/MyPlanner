@@ -61,5 +61,6 @@ dependencies {
 
     //colour picker
     implementation 'com.github.Dhaval2404:ColorPicker:2.3'
+    implementation 'com.wdullaer:materialdatetimepicker:2.3.0'
 
 }
