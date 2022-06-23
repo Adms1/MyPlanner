@@ -42,11 +42,7 @@ class DailyAdaper(
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: viewholder, position: Int) {
 
-        val current = LocalDateTime.now()
 
-        val formatter = DateTimeFormatter.ofPattern("dd MM, yyyy")
-        val formatted = current.format(formatter)
-        val date = Calendar.getInstance().time
         val strDay = Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
         val strMonth = getMonthForInt(Calendar.getInstance().get(Calendar.MONTH))
         val strYear = Calendar.getInstance().get(Calendar.YEAR)

@@ -12,6 +12,7 @@ import com.example.myplanner.pojo.DailyPlanner;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public class DatabaseHandler extends SQLiteOpenHelper {
 
@@ -110,11 +111,33 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     }
 
 
-    public ArrayList<DailyPlanner> getAllPlan(/*String date*/) {
+    public ArrayList<DailyPlanner> getTodayPlan(String date) {
      //   Log.d("Date",date.toString());
         ArrayList<DailyPlanner> AllPlan = new ArrayList<DailyPlanner>();
         // Select All Query
-        String selectQuery = "SELECT " + ID + "," + DATE + "," + To_TIME + "," + FROM_TIME + "," + EVENT_NAME + "," + EVENT_DESCRIPTION + "," + NOTIFICATION_DESCRIPTION + "," + LOCATION + "," + REPEAT + " FROM " + TABLE_DAILYPLANNER/*+ " WHERE " + DATE + " = " + date*/ ;
+        String selectQuery = "SELECT " + ID + "," + DATE + "," + To_TIME + "," + FROM_TIME + "," + EVENT_NAME + "," + EVENT_DESCRIPTION + "," + NOTIFICATION_DESCRIPTION + "," + LOCATION + "," + REPEAT + " FROM " + TABLE_DAILYPLANNER+ " WHERE " + DATE + " = " + date ;
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                AllPlan.add(new DailyPlanner(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getString(7),cursor.getString(8)));
+            } while (cursor.moveToNext());
+        }
+        // closing connection
+        cursor.close();
+        db.close();
+        // returning labels
+
+
+        return AllPlan;
+    }
+    public ArrayList<DailyPlanner> getAllPlan() {
+        //   Log.d("Date",date.toString());
+        ArrayList<DailyPlanner> AllPlan = new ArrayList<DailyPlanner>();
+        // Select All Query
+        String selectQuery = "SELECT " + ID + "," + DATE + "," + To_TIME + "," + FROM_TIME + "," + EVENT_NAME + "," + EVENT_DESCRIPTION + "," + NOTIFICATION_DESCRIPTION + "," + LOCATION + "," + REPEAT + " FROM " + TABLE_DAILYPLANNER;
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
@@ -133,6 +156,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return AllPlan;
     }
 
+
     public void updateDateTime(int id, String date ,String ToTime,String FromTime) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
@@ -143,7 +167,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.update(TABLE_DAILYPLANNER, cv, ID + "=" + id, null);
         db.close();
     }
-    public void deleteAllBrands() {
+    public void deleteAllPlan() {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_DAILYPLANNER, "", new String[]{});
         db.close();

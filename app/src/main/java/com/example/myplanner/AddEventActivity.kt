@@ -3,7 +3,10 @@ package com.example.myplanner
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
+import android.text.TextUtils.isEmpty
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.myplanner.db.DatabaseHandler
 import com.github.dhaval2404.colorpicker.MaterialColorPickerDialog
@@ -12,6 +15,7 @@ import com.github.dhaval2404.colorpicker.model.ColorSwatch
 import kotlinx.android.synthetic.main.activity_add_event.*
 import java.text.DateFormatSymbols
 import java.util.*
+
 
 class AddEventActivity : AppCompatActivity() {
 
@@ -22,6 +26,15 @@ class AddEventActivity : AppCompatActivity() {
     val hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
     val minute = Calendar.getInstance().get(Calendar.MINUTE)
     var datesStore: String? = null
+    var strEventName: String? = null
+    var strEventDescription: String? = null
+    var strDate: String? = null
+    var strToTime: String? = null
+    var strFromTime: String? = null
+    var strNotification: String? = null
+    var strLocation: String? = null
+    var strRepeat: String? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -98,40 +111,42 @@ class AddEventActivity : AppCompatActivity() {
         }
 
         btnSave.setOnClickListener({
-            val db = DatabaseHandler(this)
+            strEventName = addevent_tvEname.text.toString()
+            strEventDescription = addevent_tvEdesc.text.toString()
+            strDate = addevent_tvDate.text.toString()
+            strToTime = addevent_tvStime.text.toString()
+            strFromTime = addevent_tvEtime.text.toString()
+            strNotification = addevent_tvNotification.text.toString()
+            strLocation = addevent_tvLocation.text.toString()
+            strRepeat = addevent_tvRepeat.text.toString()
 
-            val strEventName = addevent_tvEname.text.toString()
-            val strEventDescription = addevent_tvEdesc.text.toString()
-            val strDate = addevent_tvDate.text.toString()
-            val strToTime = addevent_tvStime.text.toString()
-            val strFromTime = addevent_tvEtime.text.toString()
-            val strNotification = addevent_tvNotification.text.toString()
-            val strLocation = addevent_tvLocation.text.toString()
-            val strRepet = addevent_tvRepeat.text.toString()
+            if (validateInput()) {
+                val db = DatabaseHandler(this)
 
-            if (strDateTime.equals("editDateTime")) {
-                id?.let { it1 -> db.updateDateTime(it1, datesStore, strToTime, strFromTime) }
 
-            } else {
-                db.addDailyPlan(
-                    strEventName,
-                    strEventDescription,
-                    datesStore,
-                    strToTime,
-                    strFromTime,
-                    strNotification,
-                    strLocation,
-                    strRepet
-                )
+                if (strDateTime.equals("editDateTime")) {
+                    id?.let { it1 -> db.updateDateTime(it1, strDate, strToTime, strFromTime) }
+
+                } else {
+                    db.addDailyPlan(
+                        strEventName,
+                        strEventDescription,
+                        strDate,
+                        strToTime,
+                        strFromTime,
+                        strNotification,
+                        strLocation,
+                        strRepeat
+                    )
+                }
+
+                val intent = Intent(this@AddEventActivity, DashboardActivity::class.java)
+                startActivity(intent)
             }
         })
-
     }
 
     private fun openCalendar() {
-
-//        val format = SimpleDateFormat("MMM dd,yyyy  hh:mm a")
-//        val date = format.format(Date.parse("Your date string"))
         val picker = DatePickerDialog(
             this@AddEventActivity,
             { view, year, monthOfYear, dayOfMonth ->
@@ -149,30 +164,29 @@ class AddEventActivity : AppCompatActivity() {
     }
 
     private fun openStartCalendar() {
-
-        val mTimePicker: TimePickerDialog
-        mTimePicker = TimePickerDialog(
-            this,
-            { timePicker, selectedHour, selectedMinute ->
-                var selectedHour = hour
+        val mTimePicker = TimePickerDialog(
+            this@AddEventActivity,
+            { timePicker, hour, selectedMinute ->
+                var hour = hour
                 var am_pm = ""
                 // AM_PM decider logic
                 when {
 
                     hour == 0 -> {
-                        selectedHour += 12
+                        hour += 12
                         am_pm = "AM"
                     }
                     hour == 12 -> am_pm = "PM"
                     hour > 12 -> {
-                        selectedHour -= 12
+                        hour -= 12
                         am_pm = "PM"
                     }
                     else -> am_pm = "AM"
                 }
                 if (addevent_tvStime != null) {
                     val min = if (selectedMinute < 10) "0" + selectedMinute else selectedMinute
-                    val msg = "$selectedHour : $min $am_pm"
+                    val hour = if (hour < 10) "0" + hour else hour
+                    val msg = "$hour : $min $am_pm"
                     addevent_tvStime.text = msg
                     // addevent_tvStime.setText("$selectedHour:$selectedMinute")
                 }
@@ -193,27 +207,29 @@ class AddEventActivity : AppCompatActivity() {
         val mTimePicker: TimePickerDialog
         mTimePicker = TimePickerDialog(
             this,
-            { timePicker, selectedHour, selectedMinute ->
-                var selectedHour = hour
+            { timePicker, hour, selectedMinute ->
+                var hour = hour
                 var am_pm = ""
                 // AM_PM decider logic
                 when {
 
                     hour == 0 -> {
-                        selectedHour += 12
+                        hour += 12
                         am_pm = "AM"
                     }
                     hour == 12 -> am_pm = "PM"
                     hour > 12 -> {
-                        selectedHour -= 12
+                        hour -= 12
                         am_pm = "PM"
                     }
                     else -> am_pm = "AM"
                 }
-                if (addevent_tvStime != null) {
+                if (addevent_tvEtime != null) {
                     val min = if (selectedMinute < 10) "0" + selectedMinute else selectedMinute
-                    val msg = "$selectedHour : $min $am_pm"
-                    addevent_tvStime.text = msg
+                    val hour = if (hour < 10) "0" + hour else hour
+
+                    val msg = "$hour : $min $am_pm"
+                    addevent_tvEtime.text = msg
                     // addevent_tvStime.setText("$selectedHour:$selectedMinute")
                 }
             },
@@ -245,4 +261,47 @@ class AddEventActivity : AppCompatActivity() {
         }
         return month
     }
+
+    private fun validateInput(): Boolean {
+        // TODO Auto-generated method stub
+        var isValidData = true
+        if (isEmpty(this.strEventName)) {
+            Toast.makeText(applicationContext, "Plese Enter Event Name", Toast.LENGTH_SHORT).show()
+            isValidData = false
+        } else if (isEmpty(this.strEventDescription)) {
+            Toast.makeText(applicationContext, "Plese Enter Event Description", Toast.LENGTH_SHORT)
+                .show()
+            isValidData = false
+        } else if (isEmpty(this.strDate)) {
+            Toast.makeText(applicationContext, "Plese Select Date", Toast.LENGTH_SHORT).show()
+            isValidData = false
+        } else if (isEmpty(this.strToTime)) {
+            Toast.makeText(applicationContext, "Plese Select To Time", Toast.LENGTH_SHORT).show()
+            isValidData = false
+        } else if (isEmpty(this.strFromTime)) {
+            Toast.makeText(applicationContext, "Plese Select From Time", Toast.LENGTH_SHORT).show()
+
+            isValidData = false
+        } else if (isEmpty(this.strNotification)) {
+            Toast.makeText(applicationContext, "Plese Enter Notification", Toast.LENGTH_SHORT)
+                .show()
+
+            isValidData = false
+        } else if (isEmpty(this.strLocation)) {
+            Toast.makeText(applicationContext, "Plese Enter Event Location", Toast.LENGTH_SHORT)
+                .show()
+
+            isValidData = false
+        } else if (isEmpty(this.strRepeat)) {
+            Toast.makeText(
+                applicationContext,
+                "Plese Enter Event Repeat Or Not",
+                Toast.LENGTH_SHORT
+            ).show()
+
+            isValidData = false
+        }
+        return isValidData
+    }
+
 }

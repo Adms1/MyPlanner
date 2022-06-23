@@ -186,7 +186,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.4"
-                    android:text="02:59 PM"
+                    android:hint="02:59 PM"
                     android:textColor="@color/black"
                     android:textSize="20sp" />
 
@@ -202,7 +202,7 @@
                     android:layout_width="0dp"
                     android:layout_height="25dp"
                     android:layout_weight="0.4"
-                    android:text="03:59 PM"
+                    android:hint="03:59 PM"
                     android:textColor="@color/black"
                     android:textSize="20sp" />
 
