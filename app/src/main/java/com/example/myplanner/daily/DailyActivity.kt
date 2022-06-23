@@ -29,22 +29,27 @@ class DailyActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_daily)
 
+        assert(
+            supportActionBar != null
+        )
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+
         val actionBar = supportActionBar
         actionBar!!.title = "  Daily Plan  "
+
 
         val strDay = Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
         val strMonth = getMonthForInt(Calendar.getInstance().get(Calendar.MONTH))
         val strYear = Calendar.getInstance().get(Calendar.YEAR)
-
         Date = (strDay.toString() + " " + (strMonth) + ", " + strYear)
         var strdate = Date
         Log.d("Date", strdate.toString())
 
-        daily_tvDate.text = Date
+        /* daily_tvDate.text = Date
 
-        daily_ivBack.setOnClickListener {
-            onBackPressed()
-        }
+         daily_ivBack.setOnClickListener {
+             onBackPressed()
+         }*/
 
         daily_ivAdd.setOnClickListener {
 
@@ -77,6 +82,11 @@ class DailyActivity : AppCompatActivity() {
         daily_rvList.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         daily_rvList.adapter = DailyAdaper(this, listOfDailyPlan)
 
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        finish()
+        return true
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

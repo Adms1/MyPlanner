@@ -58,9 +58,10 @@ class DailyAdaper(
         }
 
 
-
+        holder.txtDate.text = listOfDailyPlan[position].date
         holder.txtEvent.text = listOfDailyPlan[position].event_name
-        holder.txtDate.text = listOfDailyPlan[position].to_time + "     " + listOfDailyPlan[position].from_time
+        holder.txtTime.text =
+            listOfDailyPlan[position].to_time + "     " + listOfDailyPlan[position].from_time
         holder.calEditDateTime.setOnClickListener({
             val sharedPreference =
                 context.getSharedPreferences("PREFERENCE_NAME", Context.MODE_PRIVATE)
@@ -85,21 +86,22 @@ class DailyAdaper(
         })
     }
 
-        fun getMonthForInt(num: Int): String? {
-            var month = "wrong"
-            val dfs = DateFormatSymbols()
-            val months: Array<String> = dfs.getMonths()
-            if (num >= 0 && num <= 11) {
-                month = months[num]
-            }
-            return month
+    fun getMonthForInt(num: Int): String? {
+        var month = "wrong"
+        val dfs = DateFormatSymbols()
+        val months: Array<String> = dfs.getMonths()
+        if (num >= 0 && num <= 11) {
+            month = months[num]
         }
+        return month
+    }
 
 
     class viewholder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         var calEditDateTime: ImageView = itemView.findViewById(R.id.calEditDateTime)
         var txtDate: TextView = itemView.findViewById(R.id.txtDate)
+        var txtTime: TextView = itemView.findViewById(R.id.txtTime)
         var txtEvent: TextView = itemView.findViewById(R.id.txtEvent)
         var mainCardView: CardView = itemView.findViewById(R.id.mainCardView);
 

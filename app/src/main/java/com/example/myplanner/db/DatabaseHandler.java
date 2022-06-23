@@ -137,7 +137,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         //   Log.d("Date",date.toString());
         ArrayList<DailyPlanner> AllPlan = new ArrayList<DailyPlanner>();
         // Select All Query
-        String selectQuery = "SELECT " + ID + "," + DATE + "," + To_TIME + "," + FROM_TIME + "," + EVENT_NAME + "," + EVENT_DESCRIPTION + "," + NOTIFICATION_DESCRIPTION + "," + LOCATION + "," + REPEAT + " FROM " + TABLE_DAILYPLANNER;
+        String selectQuery = "SELECT " + ID + "," + DATE + "," + To_TIME + "," + FROM_TIME + "," + EVENT_NAME + "," + EVENT_DESCRIPTION + "," + NOTIFICATION_DESCRIPTION + "," + LOCATION + "," + REPEAT + " FROM " + TABLE_DAILYPLANNER ;
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
