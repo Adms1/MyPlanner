@@ -1,5 +1,6 @@
 package com.example.myplanner
 
+import android.annotation.SuppressLint
 import android.app.AlarmManager
 import android.app.DatePickerDialog
 import android.app.PendingIntent
@@ -149,9 +150,10 @@ class AddEventActivity : AppCompatActivity() {
                         strNotification,
                         strLocation,
                         strRepeat
+
                     )
                 }
-
+                "24-06-2022"?.let { processinsert("test", it, "06:18") }
                 val intent = Intent(this@AddEventActivity, DashboardActivity::class.java)
                 startActivity(intent)
             }
@@ -162,8 +164,7 @@ class AddEventActivity : AppCompatActivity() {
         val picker = DatePickerDialog(
             this@AddEventActivity,
             { view, year, monthOfYear, dayOfMonth ->
-                val Date = (day.toString() + "-" + (month + 1) + "-" + year)
-                datesStore = (day.toString() + " " + (month + 1) + " " + year)
+                val Date = (day.toString() + " " + (month + 1) + "," + year)
                 // set this date in TextView for Display
                 addevent_tvDate.setText(Date)
 
@@ -248,7 +249,6 @@ class AddEventActivity : AppCompatActivity() {
 
                     val msg = "$hour : $min $am_pm"
                     addevent_tvEtime.text = msg
-                    strDate?.let { processinsert("test", it, msg) }
 
                     // addevent_tvStime.setText("$selectedHour:$selectedMinute")
                 }
@@ -274,22 +274,44 @@ class AddEventActivity : AppCompatActivity() {
         ) //inserts the title,date,time into sql lite database
 
         setAlarm(title, date, time) //calls the set alarm method to set alarm
-       // mTitledit.setText("")
+        // mTitledit.setText("")
         Toast.makeText(applicationContext, result, Toast.LENGTH_SHORT).show()
 
 
     }
 
     private fun setAlarm(title: String?, date: Any, time: Any) {
-        val am = getSystemService(Context.ALARM_SERVICE) as AlarmManager //assigning alarm manager object to set alarm
+        val am =
+            getSystemService(Context.ALARM_SERVICE) as AlarmManager //assigning alarm manager object to set alarm
 
-        val intent = Intent(applicationContext, AlarmBroadcast::class.java)
-        intent.putExtra("event", title) //sending data to alarm class to create channel and notification
-       // intent.putExtra("time", date)
-        //intent.putString("date", time)
-        val pendingIntent: PendingIntent = PendingIntent.getBroadcast(applicationContext, 0, intent, PendingIntent.FLAG_ONE_SHOT)
-        val dateandtime = "$date $time"
+
+        val bundle = Bundle()
+
+        bundle.putString("event", title)
+        bundle.putString("time", time.toString())
+        bundle.putString("date", date.toString())
+
+
+        intent = Intent(applicationContext, AlarmBroadcast::class.java)
+
+        intent.putExtras(bundle)
+
+        //  startActivity(intent)
+
+
+        /*       val intent = Intent(applicationContext, AlarmBroadcast::class.java)
+               intent.putExtra(
+                   "event",
+                   title
+               ) //sending data to alarm class to create channel and notification
+               intent.putExtra("time", time)
+               intent.putExtra("date", date)*/
+        val pendingIntent: PendingIntent =
+            PendingIntent.getBroadcast(applicationContext, 0, intent, PendingIntent.FLAG_ONE_SHOT)
+        val dateandtime = /*"$date $time"*/ "24-06-2022 05:26:00"
         val formatter: DateFormat = SimpleDateFormat("d-M-yyyy hh:mm")
+      //  modifyDateLayout(dateandtime)
+
         try {
             val date1: Date = formatter.parse(dateandtime)
             am[AlarmManager.RTC_WAKEUP, date1.time] = pendingIntent
@@ -306,6 +328,10 @@ class AddEventActivity : AppCompatActivity() {
         startActivity(intentBack)                                                                     //navigates from adding reminder activity to mainactivity
         //navigates from adding reminder activity to mainactivity
     }
+
+
+
+
     private fun updateLabel(date: Int, month: Int, year: Int) {
         // val myFormat = "dd/MM/yyyy"
         //  val dateFormat = SimpleDateFormat(myFormat, Locale.US)
@@ -367,6 +393,8 @@ class AddEventActivity : AppCompatActivity() {
     }
 
 }
+
+
 
 
 
