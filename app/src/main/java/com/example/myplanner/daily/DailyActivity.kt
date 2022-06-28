@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,12 +16,19 @@ import com.example.myplanner.db.DatabaseHandler
 import com.example.myplanner.pojo.DailyPlanner
 import kotlinx.android.synthetic.main.activity_daily.*
 import java.text.DateFormatSymbols
+import java.text.SimpleDateFormat
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
 import java.util.*
 
 class DailyActivity : AppCompatActivity() {
     private var listOfDailyPlan: ArrayList<DailyPlanner> = ArrayList()
     var Date: String? = null
     var yesterday: String? = null
+    var listDataHeader: List<String>? = null
+    var listDataChild: HashMap<String, ArrayList<DailyPlanner>>? = null
+    var date1: String? = ""
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,6 +43,10 @@ class DailyActivity : AppCompatActivity() {
         val actionBar = supportActionBar
         actionBar!!.title = "  Daily Plan  "
 
+        val dateTime = LocalDateTime.now()   // current date
+        val formatter =
+            DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)  // date time formatter
+        Log.d("Date:", "parssed date ${dateTime.format(formatter)}")
 
         val strDay = Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
         val strMonth = getMonthForInt(Calendar.getInstance().get(Calendar.MONTH))
@@ -45,11 +55,17 @@ class DailyActivity : AppCompatActivity() {
         var strdate = Date
         Log.d("Date", strdate.toString())
 
-        /* daily_tvDate.text = Date
+        daily_tvDate.text = Date
 
-         daily_ivBack.setOnClickListener {
-             onBackPressed()
-         }*/
+        daily_ivBack.setOnClickListener {
+
+            getPriDate("dd MMM ,YYYY", daily_tvDate.text.toString())
+
+        }
+
+        daily_ivNext.setOnClickListener({
+            nextDay("dd MMM ,YYYY", daily_tvDate.text.toString())
+        })
 
         daily_ivAdd.setOnClickListener {
 
@@ -65,6 +81,27 @@ class DailyActivity : AppCompatActivity() {
         setList()
     }
 
+    private fun getPriDate(s: String, text: String?): String {
+        val cal = Calendar.getInstance()
+        val s = SimpleDateFormat(s)
+        cal.add(Calendar.DAY_OF_YEAR, -1)
+        Log.d("date", s.format(Date(cal.timeInMillis)))
+        daily_tvDate.text = s.format(Date(cal.timeInMillis))
+
+        return s.format(Date(cal.timeInMillis))
+    }
+
+    private fun nextDay(s: String, text: String?): String {
+        val cal = Calendar.getInstance()
+        val s = SimpleDateFormat(s)
+        cal.add(Calendar.DAY_OF_YEAR, +1)
+        Log.d("date", s.format(Date(cal.timeInMillis)))
+        daily_tvDate.text = s.format(Date(cal.timeInMillis))
+
+        return s.format(Date(cal.timeInMillis))
+    }
+
+
     fun getMonthForInt(num: Int): String? {
         var month = "wrong"
         val dfs = DateFormatSymbols()
@@ -77,10 +114,12 @@ class DailyActivity : AppCompatActivity() {
 
     private fun setList() {
         val db = DatabaseHandler(this)
+
         listOfDailyPlan = db.getTodayPlan("'" + Date.toString() + "'");
         Log.d("sizeOfPlan", listOfDailyPlan.size.toString())
         daily_rvList.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-        daily_rvList.adapter = DailyAdaper(this, listOfDailyPlan)
+        daily_rvList.adapter = DailyAdaper(this, listOfDailyPlan, date1.toString())
+
 
     }
 
@@ -90,7 +129,8 @@ class DailyActivity : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
+        // Inflate the menu; this adds items to the action bar if it is
+        // .
         menuInflater.inflate(R.menu.menu, menu)
         return true
     }
@@ -104,23 +144,31 @@ class DailyActivity : AppCompatActivity() {
                 Log.d("sizeOfPlan", listOfDailyPlan.size.toString())
                 daily_rvList.layoutManager =
                     LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-                daily_rvList.adapter = DailyAdaper(this, listOfDailyPlan)
+                daily_rvList.adapter = DailyAdaper(this, listOfDailyPlan, date1.toString())
                 true
             }
             R.id.item2 -> {
-                Toast.makeText(applicationContext, "Item 2 Selected", Toast.LENGTH_LONG).show()
-                true
-            }
-            R.id.item3 -> {
 
                 val db = DatabaseHandler(this)
                 listOfDailyPlan = db.getAllPlan();
                 Log.d("sizeOfPlan", listOfDailyPlan.size.toString())
                 daily_rvList.layoutManager =
                     LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-                daily_rvList.adapter = DailyAdaper(this, listOfDailyPlan)
+                daily_rvList.adapter = DailyAdaper(this, listOfDailyPlan, date1.toString())
                 true
             }
+
+            R.id.item3 -> {
+
+                val db = DatabaseHandler(this)
+                listOfDailyPlan = db.getCompletedPlan();
+                Log.d("sizeOfPlan", listOfDailyPlan.size.toString())
+                daily_rvList.layoutManager =
+                    LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+                daily_rvList.adapter = DailyAdaper(this, listOfDailyPlan, date1.toString())
+                true
+            }
+
             else -> super.onOptionsItemSelected(item)
         }
     }

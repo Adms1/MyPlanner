@@ -15,7 +15,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <LinearLayout
@@ -110,11 +110,11 @@
                 android:id="@+id/addevent_tvEdesc"
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
+                android:backgroundTint="@android:color/transparent"
                 android:gravity="top|start"
                 android:hint="@string/event_description"
                 android:imeOptions="actionNext"
                 android:maxLines="5"
-                android:backgroundTint="@android:color/transparent"
                 android:padding="10dp"
                 android:textColor="@color/black"
                 android:textSize="20sp"
@@ -254,14 +254,14 @@
                 app:layout_constraintTop_toBottomOf="@id/addevent_llNotification" />
 
             <LinearLayout
-                android:id="@+id/addevent_llLocation"
+                android:id="@+id/linerCompany"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 app:layout_constraintTop_toBottomOf="@id/addevent_line6">
 
                 <ImageView
-                    android:id="@+id/addevent_ivLocation"
+                    android:id="@+id/imgCompany"
                     android:layout_width="0dp"
                     android:layout_height="30dp"
                     android:layout_gravity="center_vertical"
@@ -270,17 +270,21 @@
                     android:padding="2dp"
                     android:src="@drawable/map_new" />
 
-                <EditText
-                    android:id="@+id/addevent_tvLocation"
+
+                <Spinner
+                    android:id="@+id/spinnerCompany"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.9"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
                     android:backgroundTint="@android:color/transparent"
                     android:hint="@string/location_1"
                     android:imeOptions="actionNext"
                     android:singleLine="true"
                     android:textColor="@color/black"
                     android:textSize="20sp" />
+
 
             </LinearLayout>
 
@@ -289,14 +293,56 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/black"
-                app:layout_constraintTop_toBottomOf="@id/addevent_llLocation" />
+                app:layout_constraintTop_toBottomOf="@id/linerCompany" />
+
+            <LinearLayout
+                android:id="@+id/linerPriority"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toBottomOf="@id/addevent_line6">
+
+                <ImageView
+                    android:id="@+id/imgPriority"
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="0.1"
+                    android:contentDescription="@string/app_name"
+                    android:padding="2dp"
+                    android:src="@drawable/map_new" />
+
+
+                <Spinner
+                    android:id="@+id/spinnerPriority"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.9"
+                    android:backgroundTint="@android:color/transparent"
+                    android:hint="@string/location_1"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:imeOptions="actionNext"
+                    android:singleLine="true"
+                    android:textColor="@color/black"
+                    android:textSize="20sp" />
+
+
+            </LinearLayout>
+
+            <View
+                android:id="@+id/addevent_line8"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/black"
+                app:layout_constraintTop_toBottomOf="@id/linerPriority" />
 
             <LinearLayout
                 android:id="@+id/addevent_llRepeat"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                app:layout_constraintTop_toBottomOf="@id/addevent_line7">
+                app:layout_constraintTop_toBottomOf="@id/addevent_line8">
 
                 <ImageView
                     android:id="@+id/addevent_ivRepeat"
@@ -308,14 +354,17 @@
                     android:padding="2dp"
                     android:src="@drawable/repeat" />
 
-                <EditText
-                    android:id="@+id/addevent_tvRepeat"
+
+                <Spinner
+                    android:id="@+id/spinnerRepeat"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.9"
                     android:backgroundTint="@android:color/transparent"
                     android:hint="@string/repeat"
                     android:imeOptions="actionDone"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
                     android:singleLine="true"
                     android:textColor="@color/black"
                     android:textSize="20sp" />
@@ -323,7 +372,7 @@
             </LinearLayout>
 
             <View
-                android:id="@+id/addevent_line8"
+                android:id="@+id/addevent_line9"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/black"
@@ -333,11 +382,11 @@
                 android:id="@+id/btnSave"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_marginTop="16dp"
+                android:layout_marginBottom="15dp"
                 android:background="@color/red"
                 android:gravity="center"
-                android:layout_gravity="center"
-                android:layout_marginBottom="15dp"
                 android:text="Save" />
         </LinearLayout>
     </ScrollView>

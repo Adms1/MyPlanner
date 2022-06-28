@@ -1,53 +1,38 @@
 package com.example.myplanner
 
-import android.annotation.SuppressLint
-import android.app.AlarmManager
 import android.app.DatePickerDialog
-import android.app.PendingIntent
 import android.app.TimePickerDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils.isEmpty
+import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.myplanner.db.DatabaseHandler
-import com.example.myplanner.db.dbManager
-import com.example.myplanner.old.MainActivity
 import com.github.dhaval2404.colorpicker.MaterialColorPickerDialog
 import com.github.dhaval2404.colorpicker.model.ColorShape
 import com.github.dhaval2404.colorpicker.model.ColorSwatch
 import kotlinx.android.synthetic.main.activity_add_event.*
-import java.text.DateFormat
 import java.text.DateFormatSymbols
-import java.text.ParseException
-import java.text.SimpleDateFormat
 import java.util.*
 
 
 class AddEventActivity : AppCompatActivity() {
-
-
     val year = Calendar.getInstance().get(Calendar.YEAR)
     val month = Calendar.getInstance().get(Calendar.MONTH)
     val day = Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
     val hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
     val minute = Calendar.getInstance().get(Calendar.MINUTE)
-    var datesStore: String? = null
     var strEventName: String? = null
     var strEventDescription: String? = null
     var strDate: String? = null
     var strToTime: String? = null
     var strFromTime: String? = null
     var strNotification: String? = null
-    var strLocation: String? = null
-    var strRepeat: String? = null
 
-    private var minHour = -1
-    private var minMinute = -1
-
-    private var maxHour = 25
-    private var maxMinute = 25
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -74,20 +59,20 @@ class AddEventActivity : AppCompatActivity() {
             addevent_tvEname.setText(strEventName.toString())
             addevent_tvEdesc.setText(strEventDescription.toString())
             addevent_tvNotification.setText(strNotificationDescription.toString())
-            addevent_tvLocation.setText(strLocation.toString())
-            addevent_tvRepeat.setText(strRepeat.toString())
+            // addevent_tvLocation.setText(strLocation.toString())
+            // addevent_tvRepeat.setText(strRepeat.toString())
 
             addevent_tvEname.isCursorVisible = false
             addevent_tvEdesc.isCursorVisible = false
             addevent_tvNotification.isCursorVisible = false
-            addevent_tvLocation.isCursorVisible = false
-            addevent_tvRepeat.isCursorVisible = false
+            //    addevent_tvLocation.isCursorVisible = false
+            //   addevent_tvRepeat.isCursorVisible = false
 
             addevent_tvEname.isFocusable = false
             addevent_tvEdesc.isFocusable = false
             addevent_tvNotification.isFocusable = false
-            addevent_tvLocation.isFocusable = false
-            addevent_tvRepeat.isFocusable = false
+            //     addevent_tvLocation.isFocusable = false
+            //     addevent_tvRepeat.isFocusable = false
 
 
         } else {
@@ -122,6 +107,86 @@ class AddEventActivity : AppCompatActivity() {
                 }
                 .show()
         }
+        val spnCompany = resources.getStringArray(R.array.Company)
+        if (spinnerCompany != null) {
+            val adapter = ArrayAdapter(
+                this,
+                android.R.layout.simple_spinner_item, spnCompany
+            )
+            spinnerCompany.adapter = adapter
+        }
+        spinnerCompany.onItemSelectedListener = object :
+            AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>,
+                view: View, position: Int, id: Long
+            ) {
+                Toast.makeText(
+                    this@AddEventActivity,
+                    getString(R.string.selected_Company) + " " +
+                            "" + spnCompany[position], Toast.LENGTH_SHORT
+                ).show()
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {
+                // write code to perform some action
+            }
+        }
+        val spnPriority = resources.getStringArray(R.array.Priority)
+        if (spinnerPriority != null) {
+            val adapter = ArrayAdapter(
+                this,
+                android.R.layout.simple_spinner_item, spnPriority
+            )
+            spinnerPriority.adapter = adapter
+        }
+        spinnerPriority.onItemSelectedListener = object :
+            AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>,
+                view: View, position: Int, id: Long
+            ) {
+                Toast.makeText(
+                    this@AddEventActivity,
+                    getString(R.string.selected_Priority) + " " +
+                            "" + spnPriority[position], Toast.LENGTH_SHORT
+                ).show()
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {
+                // write code to perform some action
+            }
+
+        }
+
+
+        val spnRepeat = resources.getStringArray(R.array.Repeat)
+        if (spinnerRepeat != null) {
+            val adapter = ArrayAdapter(
+                this,
+                android.R.layout.simple_spinner_item, spnRepeat
+            )
+            spinnerRepeat.adapter = adapter
+        }
+        spinnerRepeat.onItemSelectedListener = object :
+            AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>,
+                view: View, position: Int, id: Long
+            ) {
+                Toast.makeText(
+                    this@AddEventActivity,
+                    getString(R.string.selected_repeat) + " " +
+                            "" + spnPriority[position], Toast.LENGTH_SHORT
+                ).show()
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {
+                // write code to perform some action
+            }
+
+        }
+
 
         btnSave.setOnClickListener({
             strEventName = addevent_tvEname.text.toString()
@@ -130,8 +195,8 @@ class AddEventActivity : AppCompatActivity() {
             strToTime = addevent_tvStime.text.toString()
             strFromTime = addevent_tvEtime.text.toString()
             strNotification = addevent_tvNotification.text.toString()
-            strLocation = addevent_tvLocation.text.toString()
-            strRepeat = addevent_tvRepeat.text.toString()
+            //  strLocation = addevent_tvLocation.text.toString()
+            //  strRepeat = addevent_tvRepeat.text.toString()
 
             if (validateInput()) {
                 val db = DatabaseHandler(this)
@@ -148,12 +213,11 @@ class AddEventActivity : AppCompatActivity() {
                         strToTime,
                         strFromTime,
                         strNotification,
-                        strLocation,
-                        strRepeat
+                        strNotification,
+                        strNotification
 
                     )
                 }
-                "24-06-2022"?.let { processinsert("test", it, "06:18") }
                 val intent = Intent(this@AddEventActivity, DashboardActivity::class.java)
                 startActivity(intent)
             }
@@ -265,73 +329,6 @@ class AddEventActivity : AppCompatActivity() {
 
     }
 
-    private fun processinsert(title: String?, date: String, time: String) {
-
-        val result: String = dbManager(this).addreminder(
-            title,
-            date,
-            time
-        ) //inserts the title,date,time into sql lite database
-
-        setAlarm(title, date, time) //calls the set alarm method to set alarm
-        // mTitledit.setText("")
-        Toast.makeText(applicationContext, result, Toast.LENGTH_SHORT).show()
-
-
-    }
-
-    private fun setAlarm(title: String?, date: Any, time: Any) {
-        val am =
-            getSystemService(Context.ALARM_SERVICE) as AlarmManager //assigning alarm manager object to set alarm
-
-
-        val bundle = Bundle()
-
-        bundle.putString("event", title)
-        bundle.putString("time", time.toString())
-        bundle.putString("date", date.toString())
-
-
-        intent = Intent(applicationContext, AlarmBroadcast::class.java)
-
-        intent.putExtras(bundle)
-
-        //  startActivity(intent)
-
-
-        /*       val intent = Intent(applicationContext, AlarmBroadcast::class.java)
-               intent.putExtra(
-                   "event",
-                   title
-               ) //sending data to alarm class to create channel and notification
-               intent.putExtra("time", time)
-               intent.putExtra("date", date)*/
-        val pendingIntent: PendingIntent =
-            PendingIntent.getBroadcast(applicationContext, 0, intent, PendingIntent.FLAG_ONE_SHOT)
-        val dateandtime = /*"$date $time"*/ "24-06-2022 05:26:00"
-        val formatter: DateFormat = SimpleDateFormat("d-M-yyyy hh:mm")
-      //  modifyDateLayout(dateandtime)
-
-        try {
-            val date1: Date = formatter.parse(dateandtime)
-            am[AlarmManager.RTC_WAKEUP, date1.time] = pendingIntent
-            Toast.makeText(applicationContext, "Alarm", Toast.LENGTH_SHORT).show()
-        } catch (e: ParseException) {
-            e.printStackTrace()
-        }
-        val intentBack = Intent(
-            applicationContext,
-            MainActivity::class.java
-        ) //this intent will be called once the setting alarm is complete
-
-        intentBack.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-        startActivity(intentBack)                                                                     //navigates from adding reminder activity to mainactivity
-        //navigates from adding reminder activity to mainactivity
-    }
-
-
-
-
     private fun updateLabel(date: Int, month: Int, year: Int) {
         // val myFormat = "dd/MM/yyyy"
         //  val dateFormat = SimpleDateFormat(myFormat, Locale.US)
@@ -375,12 +372,12 @@ class AddEventActivity : AppCompatActivity() {
                 .show()
 
             isValidData = false
-        } else if (isEmpty(this.strLocation)) {
+        } else if (isEmpty(this.strNotification)) {
             Toast.makeText(applicationContext, "Plese Enter Event Location", Toast.LENGTH_SHORT)
                 .show()
 
             isValidData = false
-        } else if (isEmpty(this.strRepeat)) {
+        } else if (isEmpty(this.strToTime)) {
             Toast.makeText(
                 applicationContext,
                 "Plese Enter Event Repeat Or Not",

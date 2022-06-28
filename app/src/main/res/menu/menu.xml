@@ -5,8 +5,11 @@
 
     <item  android:id="@+id/item1"
         android:title="Today"/>
-    <item  android:id="@+id/item3"
+    <item  android:id="@+id/item2"
         android:title="All"
+        app:showAsAction="withText"/>
+    <item  android:id="@+id/item3"
+        android:title="Completed Plan"
         app:showAsAction="withText"/>
 
 </menu>

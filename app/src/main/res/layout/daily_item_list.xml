@@ -4,10 +4,15 @@
     android:id="@+id/mainCardView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
+    android:layout_marginTop="4dp"
+    android:layout_marginBottom="4dp"
+    android:layout_marginRight="8dp"
+    android:layout_marginLeft="8dp"
     android:background="@color/white"
     app:cardCornerRadius="5dp"
-    app:cardElevation="4dp">
+    app:cardElevation="4dp"
+    app:strokeWidth="1dp"
+    app:strokeColor="@color/red">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,24 +20,20 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/txtDate"
+            android:id="@+id/headingView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:layout_weight="0.35"
-            android:gravity="center"
-            android:text=""
+            android:layout_height="match_parent"
+            android:textSize="20sp"
+            android:textStyle="bold"
             android:textColor="@color/black"
-
-            android:textSize="15sp" />
+            android:gravity="center"
+            android:text="rtgrggtfg" />
 
         <View
-            android:id="@+id/view"
+            android:id="@+id/mevent_time11"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/black" />
-
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -66,7 +67,7 @@
                 android:layout_marginLeft="5dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
-                android:layout_weight="0.64"
+                android:layout_weight="0.59"
                 android:gravity="center_vertical"
                 android:text=""
                 android:textColor="@color/black"
@@ -84,11 +85,26 @@
                 android:id="@+id/calEditDateTime"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="0.15"
+                android:layout_weight="0.10"
                 android:gravity="center_vertical"
                 android:padding="5dp"
                 android:src="@drawable/ic_baseline_edit_24" />
 
+            <View
+                android:id="@+id/mevent_time2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.01"
+                android:background="@color/black" />
+
+            <ImageView
+                android:id="@+id/imgStatus"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.10"
+                android:gravity="center_vertical"
+                android:padding="5dp"
+                android:src="@drawable/ic_baseline_check_24" />
 
         </LinearLayout>
     </LinearLayout>
