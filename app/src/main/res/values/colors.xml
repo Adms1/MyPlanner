@@ -11,4 +11,5 @@
     <color name="pista">#93C572</color>
     <color name="red">#ff0000</color>
     <color name="grey">#CDCDCD</color>
+    <color name="lightgrey">#f0f0f0 </color>
 </resources>

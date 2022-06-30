@@ -70,41 +70,6 @@
                 android:textColor="@color/black"
                 android:textSize="15sp" />
 
-            <View
-                android:id="@+id/mevent_timec"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="0.01"
-                android:background="@color/black" />
-
-
-            <ImageView
-                android:id="@+id/imgEditCal"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="0.10"
-                android:contentDescription="@string/app_name"
-                android:gravity="center_vertical"
-                android:padding="5dp"
-                android:src="@drawable/ic_baseline_edit_24" />
-
-            <View
-                android:id="@+id/mevent_time2"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="0.01"
-                android:background="@color/black" />
-
-            <ImageView
-                android:id="@+id/imgStatus"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="0.10"
-                android:contentDescription="@string/app_name"
-                android:gravity="center_vertical"
-                android:padding="5dp"
-                android:src="@drawable/ic_outline_check_box_24" />
-
         </LinearLayout>
     </LinearLayout>
     <!--

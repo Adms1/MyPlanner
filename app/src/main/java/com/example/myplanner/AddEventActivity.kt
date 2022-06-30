@@ -5,12 +5,14 @@ import android.app.TimePickerDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.provider.CalendarContract
 import android.text.TextUtils.isEmpty
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.events.calendar.utils.Events
 import com.example.myplanner.db.DatabaseHandler
 import com.github.dhaval2404.colorpicker.MaterialColorPickerDialog
 import com.github.dhaval2404.colorpicker.model.ColorShape
@@ -32,6 +34,9 @@ class AddEventActivity : AppCompatActivity() {
     var strToTime: String? = null
     var strFromTime: String? = null
     var strNotification: String? = null
+    var strRepeat: String? = null
+    var strPriority: String? = null
+    var strCompany: String? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -75,8 +80,6 @@ class AddEventActivity : AppCompatActivity() {
             //     addevent_tvRepeat.isFocusable = false
 
 
-        } else {
-
         }
 
         addevent_ivstime.setOnClickListener { openStartCalendar() }
@@ -87,7 +90,20 @@ class AddEventActivity : AppCompatActivity() {
         addevent_ivCal.setOnClickListener {
 
             openCalendar()
-
+            val calendar = Calendar.getInstance()
+/*
+            val intent: Intent = Intent(Intent.ACTION_INSERT)
+                .setData(Events.CONTENT_URI)
+                .setType("vnd.android.cursor.item/event")
+                .putExtra(Events.TITLE, "Tuesdays")
+                .putExtra(Events.DESCRIPTION, "Tuesday Specials")
+                .putExtra(Events.EVENT_LOCATION, "Lixious Bench")
+                .putExtra(Events.RRULE, "FREQ=WEEKLY;BYDAY=Tu;UNTIL=20151231")
+                .putExtra(Events.DTSTART, calendar.timeInMillis)
+                .putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY, true)
+                .putExtra(CalendarContract.Events.HAS_ALARM, 1)
+                .putExtra(Events.AVAILABILITY, Events.AVAILABILITY_BUSY)
+            startActivity(intent*/)
         }
 
         addevent_ivBack.setOnClickListener {
@@ -107,6 +123,7 @@ class AddEventActivity : AppCompatActivity() {
                 }
                 .show()
         }
+
         val spnCompany = resources.getStringArray(R.array.Company)
         if (spinnerCompany != null) {
             val adapter = ArrayAdapter(
@@ -115,17 +132,20 @@ class AddEventActivity : AppCompatActivity() {
             )
             spinnerCompany.adapter = adapter
         }
-        spinnerCompany.onItemSelectedListener = object :
-            AdapterView.OnItemSelectedListener {
+        spinnerCompany.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>,
-                view: View, position: Int, id: Long
+                view: View,
+                position: Int,
+                id: Long
             ) {
                 Toast.makeText(
                     this@AddEventActivity,
-                    getString(R.string.selected_Company) + " " +
-                            "" + spnCompany[position], Toast.LENGTH_SHORT
+                    getString(R.string.selected_Company) + " " + "" + spnCompany[position],
+                    Toast.LENGTH_SHORT
                 ).show()
+                strCompany = spinnerCompany.getSelectedItem().toString()
+
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {
@@ -151,6 +171,8 @@ class AddEventActivity : AppCompatActivity() {
                     getString(R.string.selected_Priority) + " " +
                             "" + spnPriority[position], Toast.LENGTH_SHORT
                 ).show()
+                strPriority = spinnerPriority.getSelectedItem().toString()
+
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {
@@ -179,6 +201,8 @@ class AddEventActivity : AppCompatActivity() {
                     getString(R.string.selected_repeat) + " " +
                             "" + spnPriority[position], Toast.LENGTH_SHORT
                 ).show()
+                strRepeat = spinnerRepeat.getSelectedItem().toString()
+
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {
@@ -196,7 +220,7 @@ class AddEventActivity : AppCompatActivity() {
             strFromTime = addevent_tvEtime.text.toString()
             strNotification = addevent_tvNotification.text.toString()
             //  strLocation = addevent_tvLocation.text.toString()
-            //  strRepeat = addevent_tvRepeat.text.toString()
+            //  strRepeat = addevent_tvRepeat.tex.ttoString()
 
             if (validateInput()) {
                 val db = DatabaseHandler(this)
@@ -213,9 +237,9 @@ class AddEventActivity : AppCompatActivity() {
                         strToTime,
                         strFromTime,
                         strNotification,
-                        strNotification,
-                        strNotification
-
+                        strCompany,
+                        strPriority,
+                        strRepeat
                     )
                 }
                 val intent = Intent(this@AddEventActivity, DashboardActivity::class.java)
@@ -264,7 +288,6 @@ class AddEventActivity : AppCompatActivity() {
                     val hour = if (hour < 10) "0" + hour else hour
                     val msg = "$hour : $min $am_pm"
                     addevent_tvStime.text = msg
-                    // addevent_tvStime.setText("$selectedHour:$selectedMinute")
                 }
             },
             hour,
@@ -285,7 +308,6 @@ class AddEventActivity : AppCompatActivity() {
             { timePicker, hour, selectedMinute ->
                 var hour = hour
                 var am_pm = ""
-                // AM_PM decider logic
                 when {
 
                     hour == 0 -> {
@@ -299,22 +321,12 @@ class AddEventActivity : AppCompatActivity() {
                     }
                     else -> am_pm = "AM"
                 }
-                /*if ((hour < (Calendar.getInstance().get(Calendar.HOUR_OF_DAY))) &&
-                    (minute == (Calendar.getInstance().get(Calendar.MINUTE)))
-                ) {
-                    Toast.makeText(
-                        this, "Wrong hour",
-                        Toast.LENGTH_SHORT
-                    ).show();
-                } else {*/
                 if (addevent_tvEtime != null) {
                     val min = if (selectedMinute < 10) "0" + selectedMinute else selectedMinute
                     val hour = if (hour < 10) "0" + hour else hour
 
                     val msg = "$hour : $min $am_pm"
                     addevent_tvEtime.text = msg
-
-                    // addevent_tvStime.setText("$selectedHour:$selectedMinute")
                 }
 
 

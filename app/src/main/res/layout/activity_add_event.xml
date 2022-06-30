@@ -263,7 +263,7 @@
                 <ImageView
                     android:id="@+id/imgCompany"
                     android:layout_width="0dp"
-                    android:layout_height="30dp"
+                    android:layout_height="28dp"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="0.1"
                     android:contentDescription="@string/app_name"
@@ -275,16 +275,15 @@
                     android:id="@+id/spinnerCompany"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.9"
-                    android:layout_marginBottom="10dp"
                     android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_weight="0.9"
                     android:backgroundTint="@android:color/transparent"
                     android:hint="@string/location_1"
                     android:imeOptions="actionNext"
                     android:singleLine="true"
                     android:textColor="@color/black"
                     android:textSize="20sp" />
-
 
             </LinearLayout>
 
@@ -317,11 +316,11 @@
                     android:id="@+id/spinnerPriority"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
                     android:layout_weight="0.9"
                     android:backgroundTint="@android:color/transparent"
                     android:hint="@string/location_1"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginTop="10dp"
                     android:imeOptions="actionNext"
                     android:singleLine="true"
                     android:textColor="@color/black"
@@ -359,12 +358,12 @@
                     android:id="@+id/spinnerRepeat"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
                     android:layout_weight="0.9"
                     android:backgroundTint="@android:color/transparent"
                     android:hint="@string/repeat"
                     android:imeOptions="actionDone"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginTop="10dp"
                     android:singleLine="true"
                     android:textColor="@color/black"
                     android:textSize="20sp" />

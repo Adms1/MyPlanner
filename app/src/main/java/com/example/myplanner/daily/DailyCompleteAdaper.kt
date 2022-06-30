@@ -22,18 +22,18 @@ import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
 
-class DailyAdaper(
+class DailyCompleteAdaper(
     var context: Context,
     var listOfDailyPlan: ArrayList<DailyPlanner>,
     var date1: String? = ""
 
-) : RecyclerView.Adapter<DailyAdaper.viewholder>() {
+) : RecyclerView.Adapter<DailyCompleteAdaper.viewholder>() {
 
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): viewholder {
 
         return viewholder(
 
-            LayoutInflater.from(context).inflate(R.layout.daily_item_list, p0, false)
+            LayoutInflater.from(context).inflate(R.layout.daily_item_list_complete, p0, false)
         )
     }
 
@@ -72,6 +72,7 @@ class DailyAdaper(
         }
         holder.txtEvent.text = listOfDailyPlan[position].event_name
         holder.txtTime.text = listOfDailyPlan[position].to_time
+/*
         holder.imgEditCal.setOnClickListener({
             val sharedPreference =
                 context.getSharedPreferences("PREFERENCE_NAME", Context.MODE_PRIVATE)
@@ -87,14 +88,14 @@ class DailyAdaper(
                 "notificationDescription",
                 listOfDailyPlan[position].notification_description
             )
-            editor.putString("Location", listOfDailyPlan[position].company)
-            editor.putString("Priority", listOfDailyPlan[position].priority)
-
+            editor.putString("Location", listOfDailyPlan[position].location)
             editor.putString("repeat", listOfDailyPlan[position].repeat)
             editor.apply()
             val intent = Intent(context, AddEventActivity::class.java)
             context.startActivity(intent)
         })
+*/
+/*
         holder.imgStatus.setOnClickListener({
             holder.imgStatus.setBackgroundColor(context.getResources().getColor(R.color.red))
             val db = DatabaseHandler(context)
@@ -103,6 +104,7 @@ class DailyAdaper(
             notifyDataSetChanged();
             notifyItemRemoved(position)
         })
+*/
         holder.lastDate = holder.headingView.text.toString()
         Log.d("rfgttgtgt", holder.lastDate.toString())
 
@@ -121,12 +123,12 @@ class DailyAdaper(
 
 
     class viewholder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var imgEditCal: ImageView = itemView.findViewById(R.id.imgEditCal)
+//        var imgEditCal: ImageView = itemView.findViewById(R.id.imgEditCal)
         var txtTime: TextView = itemView.findViewById(R.id.txtTime)
         var txtEvent: TextView = itemView.findViewById(R.id.txtEvent)
         var mainCardView: CardView = itemView.findViewById(R.id.mainCardView)
         var LinearLayout: LinearLayout = itemView.findViewById(R.id.liner2)
-        var imgStatus: ImageView = itemView.findViewById(R.id.imgStatus)
+     //   var imgStatus: ImageView = itemView.findViewById(R.id.imgStatus)
         var headingView: TextView = itemView.findViewById(R.id.headingView)
         var lastDate: String? = ""
 

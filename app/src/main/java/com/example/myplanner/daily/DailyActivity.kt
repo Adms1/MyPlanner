@@ -165,7 +165,7 @@ class DailyActivity : AppCompatActivity() {
                 Log.d("sizeOfPlan", listOfDailyPlan.size.toString())
                 daily_rvList.layoutManager =
                     LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-                daily_rvList.adapter = DailyAdaper(this, listOfDailyPlan, date1.toString())
+                daily_rvList.adapter = DailyCompleteAdaper(this, listOfDailyPlan, date1.toString())
                 true
             }
 

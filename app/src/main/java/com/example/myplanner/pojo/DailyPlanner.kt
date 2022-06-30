@@ -11,7 +11,8 @@ class DailyPlanner(
     var event_name: String,
     var event_description: String,
     var notification_description: String,
-    var location: String,
+    var company: String,
+    var priority: String,
     var repeat: String,
     var Status: String
 
