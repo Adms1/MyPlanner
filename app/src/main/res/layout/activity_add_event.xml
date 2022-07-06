@@ -1,0 +1,413 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AddEventActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="-127dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/addevent_llHeader"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal"
+                android:padding="10dp"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/addevent_ivBack"
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    android:layout_weight="0.1"
+                    android:contentDescription="@string/app_name"
+                    android:src="@drawable/back" />
+
+                <TextView
+                    android:id="@+id/txtActivityName"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_weight="0.6"
+                    android:text="@string/add_event"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+
+                <!--   <ImageView
+                       android:id="@+id/addevent_ivMenu"
+                       android:layout_width="0dp"
+                       android:layout_height="30dp"
+                       android:layout_weight="0.15"
+                       android:gravity="center"
+                       android:src="@drawable/three_dots"
+                       android:contentDescription="@string/app_name" />
+           -->
+            </LinearLayout>
+
+            <View
+                android:id="@+id/addevent_line1"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/black"
+                app:layout_constraintTop_toBottomOf="@id/addevent_llHeader" />
+
+            <LinearLayout
+                android:id="@+id/addevent_llName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="10dp"
+                app:layout_constraintTop_toBottomOf="@id/addevent_line1">
+
+                <ImageView
+                    android:id="@+id/addevent_ivColor"
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="0.1"
+                    android:background="@color/red"
+                    android:contentDescription="@string/app_name" />
+
+                <EditText
+                    android:id="@+id/addevent_tvEname"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_weight="0.9"
+                    android:autofillHints=""
+                    android:backgroundTint="@android:color/transparent"
+                    android:hint="@string/event_name"
+                    android:imeOptions="actionNext"
+                    android:minLines="1"
+                    android:singleLine="true"
+                    android:textColor="@color/black"
+                    android:textSize="20sp" />
+
+            </LinearLayout>
+
+            <View
+                android:id="@+id/addevent_line2"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/black"
+                app:layout_constraintTop_toBottomOf="@id/addevent_llName" />
+
+            <EditText
+                android:id="@+id/addevent_tvEdesc"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:backgroundTint="@android:color/transparent"
+                android:gravity="top|start"
+                android:hint="@string/event_description"
+                android:imeOptions="actionNext"
+                android:maxLines="5"
+                android:padding="10dp"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                app:layout_constraintTop_toBottomOf="@id/addevent_line2" />
+
+            <View
+                android:id="@+id/addevent_line3"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/black"
+                app:layout_constraintTop_toBottomOf="@id/addevent_tvEdesc" />
+
+            <LinearLayout
+                android:id="@+id/addevent_llcal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="15dp"
+                app:layout_constraintTop_toBottomOf="@id/addevent_line3">
+
+
+                <TextView
+                    android:id="@+id/addevent_tvDate"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_weight="0.6"
+                    android:hint="Please Select Date"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:id="@+id/addevent_ivCal"
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    android:layout_weight="0.15"
+                    android:contentDescription="@string/app_name"
+                    android:gravity="center"
+                    android:src="@drawable/cale" />
+
+            </LinearLayout>
+
+            <View
+                android:id="@+id/addevent_line4"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/black"
+                app:layout_constraintTop_toBottomOf="@id/addevent_llcal" />
+
+            <LinearLayout
+                android:id="@+id/addevent_llTime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="15dp"
+                app:layout_constraintTop_toBottomOf="@id/addevent_line4">
+
+                <ImageView
+                    android:id="@+id/addevent_ivstime"
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    android:layout_weight="0.1"
+                    android:contentDescription="@string/app_name"
+                    android:src="@drawable/clock" />
+
+                <TextView
+                    android:id="@+id/addevent_tvStime"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.4"
+                    android:hint="02:59 PM"
+                    android:textColor="@color/black"
+                    android:textSize="20sp" />
+
+                <ImageView
+                    android:id="@+id/addevent_ivEtime"
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    android:layout_weight="0.1"
+                    android:src="@drawable/clock" />
+
+                <TextView
+                    android:id="@+id/addevent_tvEtime"
+                    android:layout_width="0dp"
+                    android:layout_height="25dp"
+                    android:layout_weight="0.4"
+                    android:hint="03:59 PM"
+                    android:textColor="@color/black"
+                    android:textSize="20sp" />
+
+            </LinearLayout>
+
+            <View
+                android:id="@+id/addevent_line5"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/black"
+                app:layout_constraintTop_toBottomOf="@id/addevent_llTime" />
+
+            <LinearLayout
+                android:id="@+id/addevent_llNotification"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toBottomOf="@id/addevent_line5">
+
+                <ImageView
+                    android:id="@+id/addevent_ivNotification"
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="0.1"
+                    android:contentDescription="@string/app_name"
+                    android:padding="2dp"
+                    android:src="@drawable/alarm" />
+
+                <EditText
+                    android:id="@+id/addevent_tvNotification"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.9"
+                    android:backgroundTint="@android:color/transparent"
+                    android:hint="@string/notification_description"
+                    android:imeOptions="actionNext"
+                    android:singleLine="true"
+                    android:textColor="@color/black"
+                    android:textSize="20sp" />
+
+            </LinearLayout>
+
+            <View
+                android:id="@+id/addevent_line6"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/black"
+                app:layout_constraintTop_toBottomOf="@id/addevent_llNotification" />
+
+            <LinearLayout
+                android:id="@+id/linerCompany"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toBottomOf="@id/addevent_line6">
+
+                <ImageView
+                    android:id="@+id/imgCompany"
+                    android:layout_width="0dp"
+                    android:layout_height="28dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="0.1"
+                    android:contentDescription="@string/app_name"
+                    android:padding="2dp"
+                    android:src="@drawable/map_new" />
+
+
+                <Spinner
+                    android:id="@+id/spinnerCompany"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_weight="0.9"
+                    android:backgroundTint="@android:color/transparent"
+                    android:hint="@string/location_1"
+                    android:imeOptions="actionNext"
+                    android:singleLine="true"
+                    android:textColor="@color/black"
+                    android:textSize="20sp" />
+
+            </LinearLayout>
+
+            <View
+                android:id="@+id/addevent_line7"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/black"
+                app:layout_constraintTop_toBottomOf="@id/linerCompany" />
+
+            <LinearLayout
+                android:id="@+id/linerPriority"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toBottomOf="@id/addevent_line6">
+
+                <ImageView
+                    android:id="@+id/imgPriority"
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="0.1"
+                    android:contentDescription="@string/app_name"
+                    android:padding="2dp"
+                    android:src="@drawable/map_new" />
+
+
+                <Spinner
+                    android:id="@+id/spinnerPriority"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_weight="0.9"
+                    android:backgroundTint="@android:color/transparent"
+                    android:hint="@string/location_1"
+                    android:imeOptions="actionNext"
+                    android:singleLine="true"
+                    android:textColor="@color/black"
+                    android:textSize="20sp" />
+
+
+            </LinearLayout>
+
+            <View
+                android:id="@+id/addevent_line8"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/black"
+                app:layout_constraintTop_toBottomOf="@id/linerPriority" />
+
+            <LinearLayout
+                android:id="@+id/addevent_llRepeat"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toBottomOf="@id/addevent_line8">
+
+                <ImageView
+                    android:id="@+id/addevent_ivRepeat"
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="0.1"
+                    android:contentDescription="@string/app_name"
+                    android:padding="2dp"
+                    android:src="@drawable/repeat" />
+
+
+                <Spinner
+                    android:id="@+id/spinnerRepeat"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_weight="0.9"
+                    android:backgroundTint="@android:color/transparent"
+                    android:hint="@string/repeat"
+                    android:imeOptions="actionDone"
+                    android:singleLine="true"
+                    android:textColor="@color/black"
+                    android:textSize="20sp" />
+
+            </LinearLayout>
+
+            <View
+                android:id="@+id/addevent_line9"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/black"
+                app:layout_constraintTop_toBottomOf="@id/addevent_llRepeat" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="1">
+
+                <Button
+                    android:id="@+id/btnSave"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="15dp"
+                    android:background="@color/red"
+                    android:layout_weight="0.5"
+                    android:gravity="center"
+                    android:layout_margin="20dp"
+                    android:text="Save" />
+
+                <Button
+                    android:id="@+id/btnTaskComplete"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="15dp"
+                    android:background="@color/red"
+                    android:layout_weight="0.5"
+                    android:layout_margin="20dp"
+                    android:gravity="center"
+                    android:text="MARK COMPLETE" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

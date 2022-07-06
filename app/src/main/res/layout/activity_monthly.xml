@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.events.calendar.views.EventsCalendar
+        android:id="@+id/eventsCalendar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:foregroundGravity="center"
+        android:overScrollMode="never"
+        app:datesTextSize="16sp"
+        app:eventDotColor="@color/pista"
+        app:isBoldTextOnSelectionEnabled="true"
+        app:layout_constraintTop_toTopOf="parent"
+        app:monthTitleColor="@color/white"
+        app:monthTitleTextSize="24sp"
+        app:primaryTextColor="@color/red"
+        app:secondaryTextColor="@color/grey"
+        app:selectedTextColor="@color/white"
+        app:selectionColor="@color/red"
+        app:weekHeaderColor="@color/white"
+        app:weekHeaderTextSize="15sp" />
+
+    <View
+        android:id="@+id/monthly_line"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/red"
+        app:layout_constraintTop_toBottomOf="@id/eventsCalendar"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/monthly_rvList"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/monthly_line" />
+
+    <ImageView
+        android:id="@+id/monthly_ivAdd"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="20dp"
+        android:src="@drawable/plus"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
