@@ -9,6 +9,7 @@ android:paddingTop="@dimen/medium_margin">
 <!--
 <include layout="@layout/top_navigation" />
 -->
+<!--
     <LinearLayout
         android:id="@+id/daily_llHeader"
         android:layout_width="match_parent"
@@ -48,6 +49,7 @@ android:paddingTop="@dimen/medium_margin">
 
 
     </LinearLayout>
+-->
 
     <com.simplemobiletools.commons.views.MyRecyclerView
         android:id="@+id/daily_rvList"

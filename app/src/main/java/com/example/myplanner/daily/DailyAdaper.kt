@@ -13,6 +13,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.cardview.widget.CardView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myplanner.AddEventActivity
 import com.example.myplanner.R
@@ -48,9 +49,11 @@ class DailyAdaper(
         if (holder.oneTimeCheck.equals(true)) {
             holder.oneTimeCheck = false
             if (listOfDailyPlan.get(position).date.equals(date1)) {
-                holder.headingView.setVisibility(View.GONE);
+                holder.headingView.setVisibility(View.GONE)
+                holder.LinearLayout.setVisibility(View.GONE)
             } else {
                 holder.headingView.setVisibility(View.VISIBLE);
+                holder.LinearLayout.setVisibility(View.VISIBLE)
                 holder.headingView.setText(listOfDailyPlan[position].date);
                 date1 = holder.headingView.text.toString()
             }
@@ -60,6 +63,7 @@ class DailyAdaper(
 
         holder.txtEvent.text = listOfDailyPlan[position].event_name
         holder.txtTime.text = listOfDailyPlan[position].to_time
+/*
         holder.imgEditCal.setOnClickListener({
             val sharedPreference =
                 context.getSharedPreferences("PREFERENCE_NAME", Context.MODE_PRIVATE)
@@ -82,6 +86,32 @@ class DailyAdaper(
             editor.apply()
             val intent = Intent(context, AddEventActivity::class.java)
             context.startActivity(intent)
+        })
+*/
+
+        holder.event_item_holder.setOnClickListener({
+            val sharedPreference =
+                context.getSharedPreferences("PREFERENCE_NAME", Context.MODE_PRIVATE)
+            val editor = sharedPreference.edit()
+            editor.putString("editOrNotDateTime", "editDateTime")
+            editor.putInt("id", listOfDailyPlan[position].id)
+            editor.putString("date", listOfDailyPlan[position].date)
+            editor.putString("toTime", listOfDailyPlan[position].to_time)
+            editor.putString("fromTime", listOfDailyPlan[position].from_time)
+            editor.putString("eventName", listOfDailyPlan[position].event_name)
+            editor.putString("eventDescription", listOfDailyPlan[position].event_description)
+            editor.putString(
+                "notificationDescription",
+                listOfDailyPlan[position].notification_description
+            )
+            editor.putInt("company", listOfDailyPlan[position].company)
+            editor.putInt("Priority", listOfDailyPlan[position].priority)
+
+            editor.putInt("repeat", listOfDailyPlan[position].repeat)
+            editor.apply()
+            val intent = Intent(context, AddEventActivity::class.java)
+            context.startActivity(intent)
+
         })
 /*
         holder.imgStatus.setOnClickListener({
@@ -107,12 +137,13 @@ class DailyAdaper(
 
 
     class viewholder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var imgEditCal: ImageView = itemView.findViewById(R.id.imgEditCal)
+        // var imgEditCal: ImageView = itemView.findViewById(R.id.imgEditCal)
         var txtTime: TextView = itemView.findViewById(R.id.txtTime)
         var txtEvent: TextView = itemView.findViewById(R.id.txtEvent)
-        var mainCardView: CardView = itemView.findViewById(R.id.mainCardView)
-        var LinearLayout: LinearLayout = itemView.findViewById(R.id.liner2)
-     //   var imgStatus: ImageView = itemView.findViewById(R.id.imgStatus)
+        var LinearLayout: LinearLayout = itemView.findViewById(R.id.linerMain)
+        var event_item_holder: ConstraintLayout = itemView.findViewById(R.id.event_item_holder)
+
+        //   var imgStatus: ImageView = itemView.findViewById(R.id.imgStatus)
         var headingView: TextView = itemView.findViewById(R.id.headingView)
         var lastDate: String? = ""
         var oneTimeCheck: Boolean = true

@@ -18,6 +18,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+<!--
             <LinearLayout
                 android:id="@+id/addevent_llHeader"
                 android:layout_width="match_parent"
@@ -47,7 +48,7 @@
                     android:textStyle="bold" />
 
 
-                <!--   <ImageView
+                &lt;!&ndash;   <ImageView
                        android:id="@+id/addevent_ivMenu"
                        android:layout_width="0dp"
                        android:layout_height="30dp"
@@ -55,15 +56,16 @@
                        android:gravity="center"
                        android:src="@drawable/three_dots"
                        android:contentDescription="@string/app_name" />
-           -->
+           &ndash;&gt;
             </LinearLayout>
+-->
 
             <View
                 android:id="@+id/addevent_line1"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/black"
-                app:layout_constraintTop_toBottomOf="@id/addevent_llHeader" />
+               />
 
             <LinearLayout
                 android:id="@+id/addevent_llName"
@@ -113,7 +115,7 @@
                 android:backgroundTint="@android:color/transparent"
                 android:gravity="top|start"
                 android:hint="@string/event_description"
-                android:imeOptions="actionNext"
+                android:imeOptions="actionDone"
                 android:maxLines="5"
                 android:padding="10dp"
                 android:textColor="@color/black"
@@ -239,7 +241,7 @@
                     android:layout_weight="0.9"
                     android:backgroundTint="@android:color/transparent"
                     android:hint="@string/notification_description"
-                    android:imeOptions="actionNext"
+                    android:imeOptions="actionDone"
                     android:singleLine="true"
                     android:textColor="@color/black"
                     android:textSize="20sp" />
@@ -380,9 +382,11 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:weightSum="1">
+                android:layout_gravity="center"
+                android:gravity="center"
+                >
 
-                <Button
+             <!--   <Button
                     android:id="@+id/btnSave"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -394,17 +398,18 @@
                     android:gravity="center"
                     android:layout_margin="20dp"
                     android:text="Save" />
-
+-->
                 <Button
                     android:id="@+id/btnTaskComplete"
-                    android:layout_width="0dp"
+                    android:layout_width="200dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginTop="16dp"
                     android:layout_marginBottom="15dp"
                     android:background="@color/red"
-                    android:layout_weight="0.5"
                     android:layout_margin="20dp"
+                    android:textColor="@color/white"
+                    android:visibility="gone"
                     android:gravity="center"
                     android:text="MARK COMPLETE" />
             </LinearLayout>

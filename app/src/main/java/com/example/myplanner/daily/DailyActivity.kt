@@ -1,8 +1,6 @@
 package com.example.myplanner.daily
 
 import android.annotation.SuppressLint
-import android.app.PendingIntent.getActivity
-import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Build
@@ -10,25 +8,15 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
-import android.widget.ImageView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.myplanner.AddEventActivity
 import com.example.myplanner.R
 import com.example.myplanner.db.DatabaseHandler
 import com.example.myplanner.pojo.DailyPlanner
-import com.roomorama.caldroid.CaldroidFragment
-import com.roomorama.caldroid.CaldroidListener
-import com.simplemobiletools.commons.extensions.applyColorFilter
-import com.simplemobiletools.commons.extensions.getProperTextColor
 import kotlinx.android.synthetic.main.activity_daily.*
-import kotlinx.android.synthetic.main.top_navigation.*
-import kotlinx.android.synthetic.main.top_navigation.view.*
 import java.text.DateFormatSymbols
-import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
@@ -64,16 +52,15 @@ class DailyActivity : AppCompatActivity() {
         Date = (strDay.toString() + " " + (strMonth) + ", " + strYear)
 
 
-        var strdate = Date
-        daily_tvDate.text = Date.toString()
+        val strdate = Date
         Log.d("Date", strdate.toString())
 
           daily_ivAdd.setOnClickListener {
 
             val sharedPreference = getSharedPreferences("PREFERENCE_NAME", Context.MODE_PRIVATE)
-            var editor = sharedPreference.edit()
+            val editor = sharedPreference.edit()
             editor.putString("editOrNotDateTime", "newDateTime")
-            editor.commit()
+            editor.apply()
 
             val intent = Intent(this@DailyActivity, AddEventActivity::class.java)
             startActivity(intent)
@@ -85,7 +72,7 @@ class DailyActivity : AppCompatActivity() {
 
     }
 
-    fun getMonthForInt(num: Int): String? {
+    fun getMonthForInt(num: Int): String {
         var month = "wrong"
         val dfs = DateFormatSymbols()
         val months: Array<String> = dfs.getMonths()
@@ -98,7 +85,7 @@ class DailyActivity : AppCompatActivity() {
     private fun setList() {
         val db = DatabaseHandler(this)
 
-        listOfDailyPlan = db.getTodayPlan("'" + Date.toString() + "'");
+        listOfDailyPlan = db.getTodayPlan("'" + Date.toString() + "'")
         Log.d("sizeOfPlan", listOfDailyPlan.size.toString())
         daily_rvList.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         daily_rvList.adapter = DailyAdaper(this, listOfDailyPlan, date1.toString())
@@ -109,10 +96,9 @@ class DailyActivity : AppCompatActivity() {
         return true
     }
 
-    fun showGoToDateDialog() {
-        // currentFragments.last().showGoToDateDialog()
+    override fun onBackPressed() {
+        return
     }
-
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         // Inflate the menu; this adds items to the action bar if it is
@@ -136,7 +122,7 @@ class DailyActivity : AppCompatActivity() {
             R.id.item2 -> {
 
                 val db = DatabaseHandler(this)
-                listOfDailyPlan = db.getAllPlan();
+                listOfDailyPlan = db.getAllPlan()
                 Log.d("sizeOfPlan", listOfDailyPlan.size.toString())
                 daily_rvList.layoutManager =
                     LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
@@ -147,7 +133,7 @@ class DailyActivity : AppCompatActivity() {
             R.id.item3 -> {
 
                 val db = DatabaseHandler(this)
-                listOfDailyPlan = db.getCompletedPlan();
+                listOfDailyPlan = db.getCompletedPlan()
                 Log.d("sizeOfPlan", listOfDailyPlan.size.toString())
                 daily_rvList.layoutManager =
                     LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)

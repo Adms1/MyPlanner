@@ -9,8 +9,8 @@
     <solid android:color="@color/black" />
 
     <corners
-        android:bottomLeftRadius="@dimen/activity_margin"
-        android:topLeftRadius="@dimen/activity_margin" />
+        android:topRightRadius="@dimen/activity_margin"
+        android:bottomRightRadius="@dimen/activity_margin" />
 
 </shape>
 

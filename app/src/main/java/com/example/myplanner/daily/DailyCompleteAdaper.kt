@@ -45,17 +45,6 @@ class DailyCompleteAdaper(
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: viewholder, position: Int) {
 
-        if (position % 2 == 0) {
-            holder.LinearLayout.setBackgroundColor(context.getResources().getColor(R.color.white));
-
-
-        } else {
-            holder.LinearLayout.setBackgroundColor(
-                context.getResources().getColor(R.color.white)
-            );
-
-
-        }
         val strDay = Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
         val strMonth = getMonthForInt(Calendar.getInstance().get(Calendar.MONTH))
         val strYear = Calendar.getInstance().get(Calendar.YEAR)
@@ -64,8 +53,12 @@ class DailyCompleteAdaper(
 
         if (listOfDailyPlan.get(position).date.equals(date1)) {
             holder.headingView.setVisibility(View.GONE);
+            holder.LinearLayout.setVisibility(View.GONE)
+
         } else {
             holder.headingView.setVisibility(View.VISIBLE);
+            holder.LinearLayout.setVisibility(View.VISIBLE)
+
             holder.headingView.setText(listOfDailyPlan[position].date);
             date1 = holder.headingView.text.toString()
             Log.d("date", date1.toString())
@@ -123,12 +116,14 @@ class DailyCompleteAdaper(
 
 
     class viewholder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-//        var imgEditCal: ImageView = itemView.findViewById(R.id.imgEditCal)
+        //        var imgEditCal: ImageView = itemView.findViewById(R.id.imgEditCal)
         var txtTime: TextView = itemView.findViewById(R.id.txtTime)
         var txtEvent: TextView = itemView.findViewById(R.id.txtEvent)
-        var mainCardView: CardView = itemView.findViewById(R.id.mainCardView)
-        var LinearLayout: LinearLayout = itemView.findViewById(R.id.liner2)
-     //   var imgStatus: ImageView = itemView.findViewById(R.id.imgStatus)
+
+        //   var mainCardView: CardView = itemView.findViewById(R.id.mainCardView)
+        var LinearLayout: LinearLayout = itemView.findViewById(R.id.linerMain)
+
+        //   var imgStatus: ImageView = itemView.findViewById(R.id.imgStatus)
         var headingView: TextView = itemView.findViewById(R.id.headingView)
         var lastDate: String? = ""
 

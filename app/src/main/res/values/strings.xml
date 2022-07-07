@@ -9,41 +9,15 @@
     <string name="selected_Company">Please Select Company</string>
     <string name="selected_Priority">Please Select Priority</string>
     <string name="selected_repeat">Please Select Repeat Or Not</string>
-    <string name="sun">sun</string>
-    <string name="mon">mon</string>
-    <string name="tue">tue</string>
-    <string name="wed">wed</string>
-    <string name="thu">thu</string>
-    <string name="fri">fri</string>
-    <string name="sat">sat</string>
-    <string name="updating">Update</string>
-    <string name="time12am">12am</string>
-    <string name="time1am">01am</string>
-    <string name="time2am">02am</string>
-    <string name="time3am">03am</string>
-    <string name="time4am">04am</string>
-    <string name="time5am">05am</string>
-    <string name="time6am">06am</string>
-    <string name="time7am">07am</string>
-    <string name="time8am">08am</string>
-    <string name="time9am">09am</string>
-    <string name="time10am">10am</string>
-    <string name="time11am">11am</string>
-    <string name="time12pm">12pm</string>
-    <string name="time1pm">01pm</string>
-    <string name="time2pm">02pm</string>
-    <string name="time3pm">03pm</string>
-    <string name="time4pm">04pm</string>
-    <string name="time5pm">05pm</string>
-    <string name="time6pm">06pm</string>
-    <string name="time7pm">07pm</string>
-    <string name="time8pm">08pm</string>
-    <string name="time9pm">09pm</string>
-    <string name="time10pm">10p,</string>
-    <string name="time11pm">11pm</string>
+
     <string name="all_day">all day</string>
     <string name="task">Task</string>
+    <string name="drag_me">Drag Me</string>
 
+    <string name="action_today">Today</string>
+    <string name="action_day_view">Day view</string>
+    <string name="action_three_day_view">3 day view</string>
+    <string name="action_week_view">Week view</string>
 
     <string-array name="Company">
         <item>Please Select Company</item>
@@ -52,7 +26,7 @@
         <item>SRPL</item>
         <item>ULTRA</item>
         <item>GALACTIC</item>
-        <item>PARAOTICS</item>
+        <item>PARCOTICS</item>
         <item>PERSONAL</item>
     </string-array>
 
