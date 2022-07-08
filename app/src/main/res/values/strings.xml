@@ -40,6 +40,7 @@
 
     <string-array name="Repeat">
         <item>Please Select Repeat Or Not</item>
+        <item>No Repetition</item>
         <item>Week</item>
         <item>Month</item>
         <item>Year</item>

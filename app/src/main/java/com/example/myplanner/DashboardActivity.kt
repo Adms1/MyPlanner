@@ -6,7 +6,6 @@ import com.example.myplanner.Utils.Companion.openDailyCal
 import com.example.myplanner.daily.DailyActivity
 import com.example.myplanner.db.DatabaseHandler
 import com.example.myplanner.month.MonthlyActivity
-import com.example.myplanner.week.WeekPlanActivity
 import kotlinx.android.synthetic.main.activity_dashboard.*
 
 
@@ -17,7 +16,7 @@ class DashboardActivity : AppCompatActivity() {
         var db= DatabaseHandler(getApplicationContext())
       //  db.deleteAllPlan()
         db_btnDaily.setOnClickListener { openDailyCal(this@DashboardActivity, DailyActivity::class.java) }
-        db_btnWeek.setOnClickListener { openDailyCal(this@DashboardActivity, WeekPlanActivity::class.java) }
+        db_btnWeek.setOnClickListener { openDailyCal(this@DashboardActivity, activity_weekly::class.java) }
         db_btnMonth.setOnClickListener { openDailyCal(this@DashboardActivity, MonthlyActivity::class.java) }
     }
 

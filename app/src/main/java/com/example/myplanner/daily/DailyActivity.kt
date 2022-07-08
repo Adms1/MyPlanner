@@ -12,6 +12,7 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.myplanner.AddEventActivity
+import com.example.myplanner.DashboardActivity
 import com.example.myplanner.R
 import com.example.myplanner.db.DatabaseHandler
 import com.example.myplanner.pojo.DailyPlanner
@@ -25,8 +26,8 @@ import java.util.*
 
 class DailyActivity : AppCompatActivity() {
     private var listOfDailyPlan: ArrayList<DailyPlanner> = ArrayList()
-    var Date: String? = null
-    var date1: String? = ""
+    private var date: String? = null
+    private var date1: String? = ""
 
 
     @SuppressLint("RestrictedApi")
@@ -49,13 +50,13 @@ class DailyActivity : AppCompatActivity() {
         val strDay = Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
         val strMonth = getMonthForInt(Calendar.getInstance().get(Calendar.MONTH))
         val strYear = Calendar.getInstance().get(Calendar.YEAR)
-        Date = (strDay.toString() + " " + (strMonth) + ", " + strYear)
+        date = ("$strDay $strMonth, $strYear")
 
 
-        val strdate = Date
+        val strdate = date
         Log.d("Date", strdate.toString())
 
-          daily_ivAdd.setOnClickListener {
+        daily_ivAdd.setOnClickListener {
 
             val sharedPreference = getSharedPreferences("PREFERENCE_NAME", Context.MODE_PRIVATE)
             val editor = sharedPreference.edit()
@@ -72,10 +73,10 @@ class DailyActivity : AppCompatActivity() {
 
     }
 
-    fun getMonthForInt(num: Int): String {
+    private fun getMonthForInt(num: Int): String {
         var month = "wrong"
         val dfs = DateFormatSymbols()
-        val months: Array<String> = dfs.getMonths()
+        val months: Array<String> = dfs.months
         if (num >= 0 && num <= 11) {
             month = months[num]
         }
@@ -85,14 +86,16 @@ class DailyActivity : AppCompatActivity() {
     private fun setList() {
         val db = DatabaseHandler(this)
 
-        listOfDailyPlan = db.getTodayPlan("'" + Date.toString() + "'")
+        listOfDailyPlan = db.getTodayPlan("'" + date.toString() + "'")
         Log.d("sizeOfPlan", listOfDailyPlan.size.toString())
         daily_rvList.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         daily_rvList.adapter = DailyAdaper(this, listOfDailyPlan, date1.toString())
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        finish()
+        val intent = Intent(this@DailyActivity, DashboardActivity::class.java)
+        startActivity(intent)
+
         return true
     }
 
@@ -108,11 +111,10 @@ class DailyActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        val id: Int = item.getItemId()
-        return when (id) {
+        return when (item.itemId) {
             R.id.item1 -> {
                 val db = DatabaseHandler(this)
-                listOfDailyPlan = db.getTodayPlan("'" + Date.toString() + "'")
+                listOfDailyPlan = db.getTodayPlan("'" + date.toString() + "'")
                 Log.d("sizeOfPlan", listOfDailyPlan.size.toString())
                 daily_rvList.layoutManager =
                     LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
@@ -122,7 +124,7 @@ class DailyActivity : AppCompatActivity() {
             R.id.item2 -> {
 
                 val db = DatabaseHandler(this)
-                listOfDailyPlan = db.getAllPlan()
+                listOfDailyPlan = db.allPlan
                 Log.d("sizeOfPlan", listOfDailyPlan.size.toString())
                 daily_rvList.layoutManager =
                     LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
@@ -133,7 +135,7 @@ class DailyActivity : AppCompatActivity() {
             R.id.item3 -> {
 
                 val db = DatabaseHandler(this)
-                listOfDailyPlan = db.getCompletedPlan()
+                listOfDailyPlan = db.completedPlan
                 Log.d("sizeOfPlan", listOfDailyPlan.size.toString())
                 daily_rvList.layoutManager =
                     LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)

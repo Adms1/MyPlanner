@@ -44,10 +44,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
-    /**
-     * @param context
-     * @return get databasehelper instance
-     */
     public static DatabaseHandler getInstance(Context context) {
         if (null == _instance) {
             _instance = new DatabaseHandler(context);
@@ -113,7 +109,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     public ArrayList<DailyPlanner> getTodayPlan(String date) {
         //   Log.d("Date",date.toString());
-        ArrayList<DailyPlanner> AllPlan = new ArrayList<DailyPlanner>();
+        ArrayList<DailyPlanner> AllPlan = new ArrayList<>();
         // Select All Query
         String selectQuery = "SELECT " + ID + "," + DATE + "," + To_TIME + "," + FROM_TIME + "," + EVENT_NAME + "," + EVENT_DESCRIPTION + "," + NOTIFICATION_DESCRIPTION + "," + COMPANY + "," + PRIORITY + "," + REPEAT + "," + STATUS + " FROM " + TABLE_DAILYPLANNER + " WHERE " + DATE + " = " + date + " AND " + STATUS + " = " + 0;
 
@@ -136,7 +132,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     public ArrayList<DailyPlanner> getAllPlan() {
         //   Log.d("Date",date.toString());
-        ArrayList<DailyPlanner> AllPlan = new ArrayList<DailyPlanner>();
+        ArrayList<DailyPlanner> AllPlan = new ArrayList<>();
         // Select All Query
         String selectQuery = "SELECT " + ID + "," + DATE + "," + To_TIME + "," + FROM_TIME + "," + EVENT_NAME + "," + EVENT_DESCRIPTION + "," + NOTIFICATION_DESCRIPTION + "," + COMPANY + "," + PRIORITY + "," + REPEAT + "," + STATUS + " FROM " + TABLE_DAILYPLANNER + " WHERE " + STATUS + " = " + 0 + " ORDER BY " + DATE + " ASC";
 
@@ -159,7 +155,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     public ArrayList<DailyPlanner> getCompletedPlan() {
         //   Log.d("Date",date.toString());
-        ArrayList<DailyPlanner> AllPlan = new ArrayList<DailyPlanner>();
+        ArrayList<DailyPlanner> AllPlan = new ArrayList<>();
         // Select All Query
         String selectQuery = "SELECT " + ID + "," + DATE + "," + To_TIME + "," + FROM_TIME + "," + EVENT_NAME + "," + EVENT_DESCRIPTION + "," + NOTIFICATION_DESCRIPTION + "," + COMPANY + "," + PRIORITY + "," + REPEAT + "," + STATUS + " FROM " + TABLE_DAILYPLANNER + " WHERE " + STATUS + " = " + 1 + " ORDER BY " + DATE + " ASC";
 

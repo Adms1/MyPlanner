@@ -5,7 +5,10 @@ import android.app.TimePickerDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
 import android.text.TextUtils.isEmpty
+import android.text.TextWatcher
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -24,21 +27,22 @@ import java.util.*
 
 
 class AddEventActivity : AppCompatActivity() {
-    val year = Calendar.getInstance().get(Calendar.YEAR)
-    val month = Calendar.getInstance().get(Calendar.MONTH)
-    val day = Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
-    val hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
-    val minute = Calendar.getInstance().get(Calendar.MINUTE)
-    var strEventName: String? = null
-    var strEventDescription: String? = null
-    var strDate: String? = null
-    var strToTime: String? = null
-    var strFromTime: String? = null
-    var strNotification: String? = null
+    private val year = Calendar.getInstance().get(Calendar.YEAR)
+    private val month = Calendar.getInstance().get(Calendar.MONTH)
+    private val day = Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
+    private val hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
+    private val minute = Calendar.getInstance().get(Calendar.MINUTE)
+    private var strEventName: String? = null
+    private var strEventDescription: String? = null
+    private var strDate: String? = null
+    private var strToTime: String? = null
+    private var strFromTime: String? = null
+    private var strNotification: String? = null
     var strRepeat: String? = null
     var strPriority: String? = null
     var strCompany: String? = null
-    var strDateTime: String? = null
+    private var strDateTime: String? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_event)
@@ -64,9 +68,9 @@ class AddEventActivity : AppCompatActivity() {
             val strRepeat = sharedPreference.getInt("repeat", 0)
             val strPriority = sharedPreference.getInt("Priority", 0)
 
-            spinnerCompany.setEnabled(false);
-            spinnerPriority.setEnabled(false);
-            spinnerRepeat.setEnabled(false);
+            spinnerCompany.isEnabled = false
+            spinnerPriority.isEnabled = false
+            spinnerRepeat.isEnabled = false
 
             val spnPriority = resources.getStringArray(R.array.Priority)
             val spnCompany = resources.getStringArray(R.array.Company)
@@ -92,8 +96,8 @@ class AddEventActivity : AppCompatActivity() {
                 spinnerRepeat.adapter = adapter
             }
 
-            spinnerRepeat.setSelection(strRepeat);
-            spinnerPriority.setSelection(strPriority);
+            spinnerRepeat.setSelection(strRepeat)
+            spinnerPriority.setSelection(strPriority)
             spinnerCompany.setSelection(strCompany)
 
             addevent_tvNotification.setTextColor(resources.getColor(R.color.darkgrey))
@@ -113,7 +117,7 @@ class AddEventActivity : AppCompatActivity() {
             addevent_tvEdesc.isFocusable = false
             addevent_tvNotification.isFocusable = false
 
-            btnTaskComplete.setVisibility(View.VISIBLE)
+            btnTaskComplete.visibility = View.VISIBLE
 
         } else {
             val spnCompany = resources.getStringArray(R.array.Company)
@@ -129,13 +133,8 @@ class AddEventActivity : AppCompatActivity() {
                     override fun onItemSelected(
                         parent: AdapterView<*>, view: View, position: Int, id: Long
                     ) {
-                        if (position.equals(0)) {
 
-                        } else {
-
-                        }
                         strCompany = spinnerCompany.selectedItemPosition.toString()
-
                     }
 
                     override fun onNothingSelected(parent: AdapterView<*>) {
@@ -156,11 +155,6 @@ class AddEventActivity : AppCompatActivity() {
                     parent: AdapterView<*>,
                     view: View, position: Int, id: Long
                 ) {
-                    if (position.equals(0)) {
-
-                    } else {
-
-                    }
 
                     strPriority = spinnerPriority.selectedItemPosition.toString()
 
@@ -187,14 +181,23 @@ class AddEventActivity : AppCompatActivity() {
                     parent: AdapterView<*>,
                     view: View, position: Int, id: Long
                 ) {
-                    if (position.equals(0)) {
-
-                    } else {
-
-                    }
 
                     strRepeat = spinnerRepeat.selectedItemPosition.toString()
+                    Log.d("repeatEvent :", strRepeat.toString())
+                    when (spinnerRepeat.selectedItemPosition) {
+                        2 -> {
+                            val calendar = Calendar.getInstance()
+                            calendar.add(Calendar.DAY_OF_MONTH, +7)
+                            val newDate = calendar.time
+                            Log.d("repeatEventDate :", newDate.toString())
+                        }
+                        3 -> {
 
+                        }
+                        else -> {
+
+                        }
+                    }
                 }
 
                 override fun onNothingSelected(parent: AdapterView<*>) {
@@ -205,6 +208,17 @@ class AddEventActivity : AppCompatActivity() {
 
         }
 
+        val watcher: TextWatcher = object : TextWatcher {
+            override fun afterTextChanged(s: Editable) {
+                addevent_tvNotification.text = addevent_tvEdesc.text
+
+            }
+
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
+        }
+
+        addevent_tvEdesc.addTextChangedListener(watcher)
         addevent_ivstime.setOnClickListener { openStartCalendar() }
         addevent_tvStime.setOnClickListener { openStartCalendar() }
         addevent_ivEtime.setOnClickListener { openEndCalendar() }
@@ -229,24 +243,22 @@ class AddEventActivity : AppCompatActivity() {
                 .show()
         }
 
-
-
-        btnTaskComplete.setOnClickListener({
+        btnTaskComplete.setOnClickListener {
             val db = DatabaseHandler(applicationContext)
             id?.let { it1 -> db.UpdateStatus(it1) }
             val intent = Intent(this@AddEventActivity, DailyActivity::class.java)
             startActivity(intent)
 
-        })
+        }
     }
 
     private fun openCalendar() {
         val picker = DatePickerDialog(
             this@AddEventActivity,
             { view, year, monthOfYear, dayOfMonth ->
-                val Date = (day.toString() + " " + (month + 1) + "," + year)
+                val date = (day.toString() + " " + (month + 1) + "," + year)
                 // set this date in TextView for Display
-                addevent_tvDate.setText(Date)
+                addevent_tvDate.text = date
 
                 updateLabel(dayOfMonth, monthOfYear + 1, year)
 
@@ -276,8 +288,8 @@ class AddEventActivity : AppCompatActivity() {
                     else -> am_pm = "AM"
                 }
                 if (addevent_tvStime != null) {
-                    val min = if (selectedMinute < 10) "0" + selectedMinute else selectedMinute
-                    val hour = if (hour < 10) "0" + hour else hour
+                    val min = if (selectedMinute < 10) "0$selectedMinute" else selectedMinute
+                    val hour = if (hour < 10) "0$hour" else hour
                     val msg = "$hour : $min $am_pm"
                     addevent_tvStime.text = msg
                 }
@@ -314,8 +326,8 @@ class AddEventActivity : AppCompatActivity() {
                     else -> am_pm = "AM"
                 }
                 if (addevent_tvEtime != null) {
-                    val min = if (selectedMinute < 10) "0" + selectedMinute else selectedMinute
-                    val hour = if (hour < 10) "0" + hour else hour
+                    val min = if (selectedMinute < 10) "0$selectedMinute" else selectedMinute
+                    val hour = if (hour < 10) "0$hour" else hour
 
                     val msg = "$hour : $min $am_pm"
                     addevent_tvEtime.text = msg
@@ -335,15 +347,15 @@ class AddEventActivity : AppCompatActivity() {
 
     private fun updateLabel(date: Int, month: Int, year: Int) {
         val monthName = getMonthForInt(month - 1)
-        val Date = (date.toString() + " " + (monthName) + ", " + year)
-        addevent_tvDate.text = Date
+        val date = ("$date $monthName, $year")
+        addevent_tvDate.text = date
     }
 
-    fun getMonthForInt(num: Int): String? {
+    private fun getMonthForInt(num: Int): String {
         var month = "wrong"
         val dfs = DateFormatSymbols()
-        val months: Array<String> = dfs.getMonths()
-        if (num >= 0 && num <= 11) {
+        val months: Array<String> = dfs.months
+        if (num in (0..11)) {
             month = months[num]
         }
         return month
@@ -353,43 +365,59 @@ class AddEventActivity : AppCompatActivity() {
         // TODO Auto-generated method stub
         var isValidData = true
         if (isEmpty(this.strEventName)) {
-            Toast.makeText(applicationContext, "Plese Enter Event Name", Toast.LENGTH_SHORT)
+            Toast.makeText(applicationContext, "Please Enter Event Name", Toast.LENGTH_SHORT)
                 .show()
             isValidData = false
         } else if (isEmpty(this.strEventDescription)) {
             Toast.makeText(
                 applicationContext,
-                "Plese Enter Event Description",
+                "Please Enter Event Description",
                 Toast.LENGTH_SHORT
             )
                 .show()
             isValidData = false
         } else if (isEmpty(this.strDate)) {
-            Toast.makeText(applicationContext, "Plese Select Date", Toast.LENGTH_SHORT).show()
+            Toast.makeText(applicationContext, "Please Select Date", Toast.LENGTH_SHORT).show()
             isValidData = false
         } else if (isEmpty(this.strToTime)) {
-            Toast.makeText(applicationContext, "Plese Select To Time", Toast.LENGTH_SHORT)
+            Toast.makeText(applicationContext, "Please Select To Time", Toast.LENGTH_SHORT)
                 .show()
             isValidData = false
         } else if (isEmpty(this.strFromTime)) {
-            Toast.makeText(applicationContext, "Plese Select From Time", Toast.LENGTH_SHORT)
+            Toast.makeText(applicationContext, "Please Select From Time", Toast.LENGTH_SHORT)
                 .show()
 
             isValidData = false
         } else if (isEmpty(this.strNotification)) {
-            Toast.makeText(applicationContext, "Plese Enter Notification", Toast.LENGTH_SHORT)
+            Toast.makeText(applicationContext, "Please Enter Notification", Toast.LENGTH_SHORT)
                 .show()
 
             isValidData = false
         } else if (isEmpty(this.strNotification)) {
-            Toast.makeText(applicationContext, "Plese Enter Event Location", Toast.LENGTH_SHORT)
+            Toast.makeText(applicationContext, "Please Enter Event Location", Toast.LENGTH_SHORT)
                 .show()
 
             isValidData = false
-        } else if (isEmpty(this.strToTime)) {
+        } else if (isEmpty(this.strCompany) || this.strCompany.equals("0")) {
             Toast.makeText(
                 applicationContext,
-                "Plese Enter Event Repeat Or Not",
+                "Please Select Any One Company",
+                Toast.LENGTH_SHORT
+            ).show()
+
+            isValidData = false
+        } else if (isEmpty(this.strPriority) || this.strPriority.equals("0")) {
+            Toast.makeText(
+                applicationContext,
+                "Please Select Priority",
+                Toast.LENGTH_SHORT
+            ).show()
+
+            isValidData = false
+        } else if (isEmpty(this.strRepeat) || this.strRepeat.equals("0")) {
+            Toast.makeText(
+                applicationContext,
+                "Please Select Event Repeat Or Not",
                 Toast.LENGTH_SHORT
             ).show()
 
@@ -404,8 +432,7 @@ class AddEventActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        val id: Int = item.getItemId()
-        return when (id) {
+        return when (val id: Int = item.itemId) {
 
             R.id.imgSave -> {
 
@@ -421,7 +448,7 @@ class AddEventActivity : AppCompatActivity() {
 
 
                     if (strDateTime.equals("editDateTime")) {
-                        id?.let { it1 -> db.updateDateTime(it1, strDate, strToTime, strFromTime) }
+                        id.let { it1 -> db.updateDateTime(it1, strDate, strToTime, strFromTime) }
 
                     } else {
                         val sharedPreference =
@@ -430,7 +457,7 @@ class AddEventActivity : AppCompatActivity() {
                         editor.putInt("spiCompanyId", spinnerCompany.selectedItemPosition)
                         editor.putInt("spiRepeatId", spinnerRepeat.selectedItemPosition)
                         editor.putInt("spiPriorityId", spinnerPriority.selectedItemPosition)
-
+                        editor.apply()
 
                         db.addDailyPlan(
                             strEventName,
@@ -459,7 +486,8 @@ class AddEventActivity : AppCompatActivity() {
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        finish()
+        val intent = Intent(this@AddEventActivity, DailyActivity::class.java)
+        startActivity(intent)
         return true
     }
 

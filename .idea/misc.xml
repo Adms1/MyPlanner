@@ -6,13 +6,19 @@
         <entry key="..\:/Khushbu Data/khushbu plannner/app/src/main/res/drawable-v24/event_list_color_bar.xml" value="0.175" />
         <entry key="..\:/Khushbu Data/khushbu plannner/app/src/main/res/drawable-v24/ic_task_vector.xml" value="0.175" />
         <entry key="..\:/Khushbu Data/khushbu plannner/app/src/main/res/drawable-v24/selector_rounded.xml" value="0.117" />
+        <entry key="..\:/Khushbu Data/khushbu plannner/app/src/main/res/drawable/buttonbg.xml" value="0.117" />
         <entry key="..\:/Khushbu Data/khushbu plannner/app/src/main/res/drawable/event_list_color_bar1.xml" value="0.117" />
         <entry key="..\:/Khushbu Data/khushbu plannner/app/src/main/res/drawable/ic_outline_check_box_24.xml" value="0.117" />
         <entry key="..\:/Khushbu Data/khushbu plannner/app/src/main/res/drawable/red_round.xml" value="0.117" />
         <entry key="..\:/Khushbu Data/khushbu plannner/app/src/main/res/layout/activity_add_event.xml" value="0.27291666666666664" />
         <entry key="..\:/Khushbu Data/khushbu plannner/app/src/main/res/layout/activity_daily.xml" value="0.26871794871794874" />
+        <entry key="..\:/Khushbu Data/khushbu plannner/app/src/main/res/layout/activity_dashboard.xml" value="0.27291666666666664" />
+        <entry key="..\:/Khushbu Data/khushbu plannner/app/src/main/res/layout/activity_habit_tracker.xml" value="0.27291666666666664" />
+        <entry key="..\:/Khushbu Data/khushbu plannner/app/src/main/res/layout/activity_main.xml" value="0.27291666666666664" />
         <entry key="..\:/Khushbu Data/khushbu plannner/app/src/main/res/layout/activity_weekly.xml" value="0.27291666666666664" />
+        <entry key="..\:/Khushbu Data/khushbu plannner/app/src/main/res/layout/activity_weekly_review.xml" value="0.27291666666666664" />
         <entry key="..\:/Khushbu Data/khushbu plannner/app/src/main/res/layout/calendar_zebra.xml" value="0.1" />
+        <entry key="..\:/Khushbu Data/khushbu plannner/app/src/main/res/layout/daily_item_header.xml" value="0.27291666666666664" />
         <entry key="..\:/Khushbu Data/khushbu plannner/app/src/main/res/layout/daily_item_list.xml" value="0.14056224899598393" />
         <entry key="..\:/Khushbu Data/khushbu plannner/app/src/main/res/layout/daily_item_list_complete.xml" value="0.27291666666666664" />
         <entry key="..\:/Khushbu Data/khushbu plannner/app/src/main/res/layout/weekly_item_list.xml" value="0.27291666666666664" />

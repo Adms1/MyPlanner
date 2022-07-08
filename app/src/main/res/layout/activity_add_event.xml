@@ -234,7 +234,7 @@
                     android:padding="2dp"
                     android:src="@drawable/alarm" />
 
-                <EditText
+                <TextView
                     android:id="@+id/addevent_tvNotification"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -243,6 +243,8 @@
                     android:hint="@string/notification_description"
                     android:imeOptions="actionDone"
                     android:singleLine="true"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
                     android:textColor="@color/black"
                     android:textSize="20sp" />
 

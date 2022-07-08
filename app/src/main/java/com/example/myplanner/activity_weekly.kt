@@ -1,6 +1,7 @@
-package me.jlurena.revolvingweekview.sample
+package com.example.myplanner
 
 import android.content.ClipData
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.RectF
 import android.os.Bundle
@@ -14,6 +15,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.ColorInt
 import androidx.appcompat.app.AppCompatActivity
+import com.example.myplanner.AddEventActivity
 import com.example.myplanner.R
 import me.jlurena.revolvingweekview.DayTime
 import me.jlurena.revolvingweekview.WeekView
@@ -49,7 +51,7 @@ class activity_weekly : AppCompatActivity(), EventClickListener, WeekViewLoader,
 
     protected override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_weekly)
         val draggableView: TextView = findViewById(R.id.draggable_view)
         draggableView.setOnLongClickListener(DragTapListener())
 
@@ -57,6 +59,11 @@ class activity_weekly : AppCompatActivity(), EventClickListener, WeekViewLoader,
         // Get a reference for the week view in the layout.
         mWeekView = findViewById(R.id.weekView)
 
+        mWeekView!!.setOnClickListener({
+            val intent = Intent(this@activity_weekly, AddEventActivity::class.java)
+            startActivity(intent)
+
+        })
         // Show a toast message about the touched event.
         mWeekView!!.setOnEventClickListener(this)
 
@@ -75,6 +82,7 @@ class activity_weekly : AppCompatActivity(), EventClickListener, WeekViewLoader,
 
         // Set AddEvent Click Listener
         mWeekView!!.addEventClickListener = this
+
 
         // Set Drag and Drop Listener
         mWeekView!!.setDropListener(this)
@@ -100,8 +108,7 @@ class activity_weekly : AppCompatActivity(), EventClickListener, WeekViewLoader,
     }
 
     override fun onEmptyViewClicked(day: DayTime) {
-        Toast.makeText(this, "Empty view" + " clicked: " + getEventTitle(day), Toast.LENGTH_SHORT)
-            .show()
+        Toast.makeText(this, "Empty view" + " clicked: " + getEventTitle(day), Toast.LENGTH_SHORT).show()
     }
 
     override fun onEmptyViewLongPress(time: DayTime) {
@@ -259,6 +266,7 @@ class activity_weekly : AppCompatActivity(), EventClickListener, WeekViewLoader,
         private const val TYPE_THREE_DAY_VIEW = 2
         private const val TYPE_WEEK_VIEW = 3
         private val random = Random()
+
         @ColorInt
         private fun randomColor(): Int {
             return Color.argb(255, random.nextInt(256), random.nextInt(256), random.nextInt(256))
