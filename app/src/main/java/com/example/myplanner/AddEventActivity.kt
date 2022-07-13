@@ -42,8 +42,15 @@ class AddEventActivity : AppCompatActivity() {
     var strPriority: String? = null
     var strCompany: String? = null
     private var strDateTime: String? = null
+    var startToTime: String? = null
+    var startTomin: String? = null
+    var endHours: String? = null
+    var endMin: String? = null
+    var day1: Int = 0
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+    override
+
+    fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_event)
 
@@ -268,6 +275,28 @@ class AddEventActivity : AppCompatActivity() {
         picker.getDatePicker().setMinDate(System.currentTimeMillis() - 1000); }
 
     private fun openStartCalendar() {
+        val cal = Calendar.getInstance()
+        val dialog = TimePickerDialog(
+            this,
+            TimePickerDialog.OnTimeSetListener { view, hourOfDay, minute ->
+                Log.e("Time :", "$hourOfDay:$minute")
+                if (addevent_tvStime != null) {
+                    val min = if (minute < 10) "0$minute" else minute
+                    val hour = if (hourOfDay < 10) "0$hourOfDay" else hourOfDay
+                    startToTime = "$hour"
+                    startTomin = "$min"
+                    addevent_tvStime.text = "$hour : $min"
+                }
+            },
+            cal.get(Calendar.HOUR_OF_DAY),
+            cal.get(Calendar.MINUTE),
+            true
+        ) //here pass true for 24hrs view else false for AM-PM(12hrs view)
+        dialog.setTitle("Select Time")
+        dialog.show()
+    }
+/*
+    private fun openStartCalendar() {
         val mTimePicker = TimePickerDialog(
             this@AddEventActivity,
             { timePicker, hour, selectedMinute ->
@@ -291,19 +320,45 @@ class AddEventActivity : AppCompatActivity() {
                     val min = if (selectedMinute < 10) "0$selectedMinute" else selectedMinute
                     val hour = if (hour < 10) "0$hour" else hour
                     val msg = "$hour : $min $am_pm"
+                    startToTime = "$hour"
+                    startTomin = "$min"
                     addevent_tvStime.text = msg
                 }
             },
             hour,
             minute,
-            false
+            true
         ) //Yes 24 hour time
         mTimePicker.setTitle("Select Time")
 
         mTimePicker.show()
 
     }
+*/
 
+    private fun openEndCalendar() {
+        val cal = Calendar.getInstance()
+        val dialog = TimePickerDialog(
+            this,
+            TimePickerDialog.OnTimeSetListener { view, hourOfDay, minute ->
+                Log.e("Time :", "$hourOfDay:$minute")
+                if (addevent_tvEtime != null) {
+                    val min = if (minute < 10) "0$minute" else minute
+                    val hour = if (hourOfDay < 10) "0$hourOfDay" else hourOfDay
+                    endHours = "$hour"
+                    endMin = "$min"
+                    addevent_tvEtime.text = "$hour : $min"
+                }
+            },
+            cal.get(Calendar.HOUR_OF_DAY),
+            cal.get(Calendar.MINUTE),
+            true
+        ) //here pass true for 24hrs view else false for AM-PM(12hrs view)
+        dialog.setTitle("Select Time")
+        dialog.show()
+    }
+
+/*
     private fun openEndCalendar() {
         val mTimePicker: TimePickerDialog
 
@@ -331,22 +386,28 @@ class AddEventActivity : AppCompatActivity() {
 
                     val msg = "$hour : $min $am_pm"
                     addevent_tvEtime.text = msg
+                    endHours = "$hour"
+                    endMin = "$min"
                 }
 
 
             },
             hour,
             minute,
-            false
+            true
         ) //Yes 24 hour time
 
         mTimePicker.setTitle("Select Time")
         mTimePicker.show()
 
     }
+*/
 
     private fun updateLabel(date: Int, month: Int, year: Int) {
+        //  val monthName = getMonthForInt(month - 1)
         val monthName = getMonthForInt(month - 1)
+
+        day1 = date
         val date = ("$date $monthName, $year")
         addevent_tvDate.text = date
     }
@@ -468,6 +529,11 @@ class AddEventActivity : AppCompatActivity() {
                             strNotification,
                             strCompany,
                             strPriority,
+                            Integer.parseInt(startToTime),
+                            Integer.parseInt(startTomin),
+                            day1,
+                            Integer.parseInt(endHours),
+                            Integer.parseInt(endMin),
                             strRepeat
                         )
                     }

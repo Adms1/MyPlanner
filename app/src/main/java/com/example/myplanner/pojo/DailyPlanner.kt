@@ -14,6 +14,11 @@ class DailyPlanner(
     var company: Int,
     var priority: Int,
     var repeat: Int,
+    var starthours: Int,
+    var startmin: Int,
+    var day: Int,
+    var endhours: Int,
+    var endmin: Int,
     var Status: String
 
 )
