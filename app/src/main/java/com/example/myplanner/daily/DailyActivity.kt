@@ -18,9 +18,7 @@ import com.example.myplanner.db.DatabaseHandler
 import com.example.myplanner.pojo.DailyPlanner
 import kotlinx.android.synthetic.main.activity_daily.*
 import java.text.DateFormatSymbols
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
-import java.time.format.FormatStyle
+import java.text.SimpleDateFormat
 import java.util.*
 
 
@@ -42,15 +40,19 @@ class DailyActivity : AppCompatActivity() {
         val actionBar = supportActionBar
         actionBar!!.title = "  Daily Plan  "
 
-        val dateTime = LocalDateTime.now()   // current date
-        val formatter =
-            DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)  // date time formatter
-        Log.d("Date:", "parssed date ${dateTime.format(formatter)}")
+        // val dateTime = LocalDateTime.now()   // current date
+        //  val formatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)  // date time formatter
+        //  Log.d("Date:", "parssed date ${dateTime.format(formatter)}")
 
-        val strDay = Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
-        val strMonth = getMonthForInt(Calendar.getInstance().get(Calendar.MONTH))
-        val strYear = Calendar.getInstance().get(Calendar.YEAR)
-        date = ("$strDay $strMonth, $strYear")
+        // val strDay = Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
+        // val strMonth = Calendar.getInstance().get(Calendar.MONTH)+1
+        // val strYear = Calendar.getInstance().get(Calendar.YEAR)
+
+        val c = Calendar.getInstance().time
+        println("Current time => $c")
+        val df = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+        val formattedDate = df.format(c)
+        date = (formattedDate)
 
 
         val strdate = date

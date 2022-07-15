@@ -8,14 +8,22 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.events.calendar.utils.EventsCalendarUtil
 import com.events.calendar.views.EventsCalendar
 import com.example.myplanner.AddEventActivity
+import com.example.myplanner.DashboardActivity
 import com.example.myplanner.R
+import com.example.myplanner.db.DatabaseHandler
+import com.example.myplanner.pojo.DailyPlanner
 import kotlinx.android.synthetic.main.activity_monthly.*
+import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 class MonthlyActivity : AppCompatActivity(), EventsCalendar.Callback {
 
     override fun onDayLongPressed(selectedDate: Calendar?) {
-        Log.e("LONG CLICKED", EventsCalendarUtil.getDateString(selectedDate, EventsCalendarUtil.DD_MM_YYYY))
+        Log.e(
+            "LONG CLICKED",
+            EventsCalendarUtil.getDateString(selectedDate, EventsCalendarUtil.DD_MM_YYYY)
+        )
     }
 
     override fun onMonthChanged(monthStartDate: Calendar?) {
@@ -23,15 +31,24 @@ class MonthlyActivity : AppCompatActivity(), EventsCalendar.Callback {
     }
 
     override fun onDaySelected(selectedDate: Calendar?) {
-        Log.e("CLICKED", EventsCalendarUtil.getDateString(selectedDate, EventsCalendarUtil.DD_MM_YYYY))
-//        selected.text = getDateString(selectedDate?.timeInMillis)
+        Log.e(
+            "CLICKED",
+            EventsCalendarUtil.getDateString(selectedDate, EventsCalendarUtil.DD_MM_YYYY)
+        )
+        Log.d("Date", EventsCalendarUtil.getDateString(selectedDate, EventsCalendarUtil.DD_MM_YYYY))
+
+        setList(EventsCalendarUtil.getDateString(selectedDate, EventsCalendarUtil.DD_MM_YYYY))
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_monthly)
 
-//        selected.text = getDateString(eventsCalendar.getCurrentSelectedDate()?.timeInMillis)
+        // selected.text = getDateString(eventsCalendar.getCurrentSelectedDate()?.timeInMillis)
+        assert(supportActionBar != null)
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+        val actionBar = supportActionBar
+        actionBar!!.title = "  Monthly Plan  "
 
         val today = Calendar.getInstance()
         val end = Calendar.getInstance()
@@ -65,13 +82,20 @@ class MonthlyActivity : AppCompatActivity(), EventsCalendar.Callback {
         val dc = Calendar.getInstance()
         dc.add(Calendar.DAY_OF_MONTH, 2)
 
-        setList()
+        val c1 = Calendar.getInstance().time
+        println("Current time => $c1")
+        val df = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+        val formattedDate = df.format(c1)
+        var date = (formattedDate)
+
+        setList(date)
         monthly_ivAdd.setOnClickListener {
             val intent = Intent(this@MonthlyActivity, AddEventActivity::class.java)
             startActivity(intent)
         }
     }
 
+/*
     private fun getDateString(time: Long?): String {
         if (time != null) {
             val cal = Calendar.getInstance()
@@ -94,13 +118,31 @@ class MonthlyActivity : AppCompatActivity(), EventsCalendar.Callback {
             return "$month ${cal[Calendar.DAY_OF_MONTH]}, ${cal[Calendar.YEAR]}"
         } else return ""
     }
+*/
 
-    private fun setList(){
-        monthly_rvList.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-        monthly_rvList.adapter = MonthlyEventListAdapter(this)
+    private fun setList(date: String) {
+        val db = DatabaseHandler(applicationContext)
+        val day = Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
+
+        val monthlyPalnning: ArrayList<DailyPlanner> = db.getMonthly("'" + date + "'")
+        monthly_rvList.layoutManager =
+            LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        monthly_rvList.adapter = MonthlyEventListAdapter(this, monthlyPalnning)
     }
 
-    private fun addEvent(){
+
+    override fun onSupportNavigateUp(): Boolean {
+        val intent = Intent(this@MonthlyActivity, DashboardActivity::class.java)
+        startActivity(intent)
+
+        return true
+    }
+
+    override fun onBackPressed() {
+        return
+    }
+
+    private fun addEvent() {
 
         monthly_ivAdd.setOnClickListener {
             val intent = Intent(this@MonthlyActivity, AddEventActivity::class.java)

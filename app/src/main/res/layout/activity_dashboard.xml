@@ -12,13 +12,13 @@
         android:layout_height="50dp"
         android:layout_margin="10dp"
         android:background="@drawable/buttonbg"
+        android:gravity="center"
         android:padding="10dp"
         android:text="Daily"
         android:textColor="@color/white"
         android:textSize="18sp"
         android:textStyle="bold"
-        android:gravity="center"
-        app:layout_constraintBottom_toTopOf="@id/db_btnWeek"/>
+        app:layout_constraintBottom_toTopOf="@id/db_btnWeek" />
 
     <TextView
         android:id="@+id/db_btnWeek"
@@ -26,14 +26,14 @@
         android:layout_height="50dp"
         android:layout_margin="10dp"
         android:background="@drawable/buttonbg"
+        android:gravity="center"
         android:padding="10dp"
         android:text="Weekly"
         android:textColor="@color/white"
         android:textSize="18sp"
         android:textStyle="bold"
-        android:gravity="center"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/db_btnMonth"
@@ -41,12 +41,12 @@
         android:layout_height="50dp"
         android:layout_margin="10dp"
         android:background="@drawable/buttonbg"
+        android:gravity="center"
         android:padding="10dp"
         android:text="Monthly"
         android:textColor="@color/white"
         android:textSize="18sp"
         android:textStyle="bold"
-        android:gravity="center"
         app:layout_constraintTop_toBottomOf="@+id/db_btnWeek" />
 
 

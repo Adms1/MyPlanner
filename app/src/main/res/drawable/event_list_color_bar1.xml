@@ -5,8 +5,8 @@
 
     <stroke
         android:width="2dp"
-        android:color="@color/black" />
-    <solid android:color="@color/black" />
+        android:color="?android:textColorPrimary" />
+    <solid android:color="?android:textColorPrimary" />
 
     <corners
         android:topRightRadius="@dimen/activity_margin"

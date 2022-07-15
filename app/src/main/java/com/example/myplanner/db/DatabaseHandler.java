@@ -44,6 +44,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
       private static final int YEAR = "year";*/
     private static final String ENDHOURS = "endhours";
     private static final String ENDMINUTE = "endmin";
+    private static final String MONTH = "month";
 
 
     // Database helper instance
@@ -68,7 +69,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 + ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + DATE + " TEXT," + To_TIME + " TEXT ," + FROM_TIME + " TEXT, " +
                 EVENT_NAME + " TEXT, " + EVENT_DESCRIPTION + " TEXT, " + NOTIFICATION_DESCRIPTION + " TEXT, " +
                 COMPANY + " TEXT ," + PRIORITY + " TEXT ," + REPEAT + " TEXT," + STATUS + " TEXT," +
-                STARTHOURS + " INTEGER," + STARTMINUTE + " INTEGER ," + DAY + " INTEGER," + ENDHOURS + " INTEGER," + ENDMINUTE + " INTEGER)";
+                STARTHOURS + " INTEGER," + STARTMINUTE + " INTEGER ," + DAY + " INTEGER," + ENDHOURS + " INTEGER," +
+                MONTH + " INTEGER, " + ENDMINUTE + " INTEGER)";
         db.execSQL(CREATE_TABLE_BRAND);
 
 
@@ -90,7 +92,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     //Dailyplanner Table all Opertations Start//
     // Adding new Dailyplan
-    public boolean addDailyPlan(String strEventName, String strEventDescription, String strDate, String strToTime, String strFromTime, String strNotification, String strCompany, String strPriority, int startHours, int startMin, int day, int endHours, int endMin, String strRepet) {
+    public boolean addDailyPlan(String strEventName, String strEventDescription, String strDate, String strToTime, String strFromTime, String strNotification, String strCompany, String strPriority, int startHours, int startMin, int day, int endHours, int endMin, String strRepet, int month) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -103,14 +105,13 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         values.put(COMPANY, strCompany);
         values.put(PRIORITY, strPriority);
         values.put(REPEAT, strRepet);
-
         values.put(String.valueOf(STARTHOURS), startHours);
         values.put(String.valueOf(STARTMINUTE), startMin);
         values.put(String.valueOf(DAY), day);
         values.put(String.valueOf(ENDHOURS), endHours);
         values.put(String.valueOf(ENDMINUTE), endMin);
-
         values.put(STATUS, 0);
+        values.put(String.valueOf(MONTH), month);
 
         // Inserting Row
         long iResult = db.insert(TABLE_DAILYPLANNER, null, values);
@@ -129,14 +130,14 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         //   Log.d("Date",date.toString());
         ArrayList<DailyPlanner> AllPlan = new ArrayList<>();
         // Select All Query
-        String selectQuery = "SELECT " + ID + "," + DATE + "," + To_TIME + "," + FROM_TIME + "," + EVENT_NAME + "," + EVENT_DESCRIPTION + "," + NOTIFICATION_DESCRIPTION + "," + COMPANY + "," + PRIORITY + "," + REPEAT + "," + STARTHOURS + "," + STARTMINUTE + "," + DAY + "," + ENDHOURS + "," + ENDMINUTE + "," + STATUS + " FROM " + TABLE_DAILYPLANNER + " WHERE " + DATE + " = " + date + " AND " + STATUS + " = " + 0;
+        String selectQuery = "SELECT " + ID + "," + DATE + "," + To_TIME + "," + FROM_TIME + "," + EVENT_NAME + "," + EVENT_DESCRIPTION + "," + NOTIFICATION_DESCRIPTION + "," + COMPANY + "," + PRIORITY + "," + REPEAT + "," + STARTHOURS + "," + STARTMINUTE + "," + DAY + "," + ENDHOURS + "," + ENDMINUTE + "," + STATUS + "," + MONTH + " FROM " + TABLE_DAILYPLANNER + " WHERE " + DATE + " = " + date + " AND " + STATUS + " = " + 0;
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
         // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
             do {
-                AllPlan.add(new DailyPlanner(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getInt(7), cursor.getInt(8), cursor.getInt(9), cursor.getInt(10), cursor.getInt(11), cursor.getInt(12), cursor.getInt(13), cursor.getInt(14), cursor.getString(15)));
+                AllPlan.add(new DailyPlanner(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getInt(7), cursor.getInt(8), cursor.getInt(9), cursor.getInt(10), cursor.getInt(11), cursor.getInt(12), cursor.getInt(13), cursor.getInt(14), cursor.getString(15), cursor.getInt(16)));
             } while (cursor.moveToNext());
         }
         // closing connection
@@ -152,14 +153,14 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         //   Log.d("Date",date.toString());
         ArrayList<DailyPlanner> AllPlan = new ArrayList<>();
         // Select All Query
-        String selectQuery = "SELECT " + ID + "," + DATE + "," + To_TIME + "," + FROM_TIME + "," + EVENT_NAME + "," + EVENT_DESCRIPTION + "," + NOTIFICATION_DESCRIPTION + "," + COMPANY + "," + PRIORITY + "," + REPEAT + "," + STARTHOURS + "," + STARTMINUTE + "," + DAY + "," + ENDHOURS + "," + ENDMINUTE + "," + STATUS + " FROM " + TABLE_DAILYPLANNER + " WHERE " + STATUS + " = " + 0;
+        String selectQuery = "SELECT " + ID + "," + DATE + "," + To_TIME + "," + FROM_TIME + "," + EVENT_NAME + "," + EVENT_DESCRIPTION + "," + NOTIFICATION_DESCRIPTION + "," + COMPANY + "," + PRIORITY + "," + REPEAT + "," + STARTHOURS + "," + STARTMINUTE + "," + DAY + "," + ENDHOURS + "," + ENDMINUTE + "," + STATUS + "," + MONTH + " FROM " + TABLE_DAILYPLANNER + " WHERE " + STATUS + " = " + 0;
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
         // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
             do {
-                AllPlan.add(new DailyPlanner(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getInt(7), cursor.getInt(8), cursor.getInt(9), cursor.getInt(10), cursor.getInt(11), cursor.getInt(12), cursor.getInt(13), cursor.getInt(14), cursor.getString(15)));
+                AllPlan.add(new DailyPlanner(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getInt(7), cursor.getInt(8), cursor.getInt(9), cursor.getInt(10), cursor.getInt(11), cursor.getInt(12), cursor.getInt(13), cursor.getInt(14), cursor.getString(15), cursor.getInt(16)));
             } while (cursor.moveToNext());
         }
         // closing connection
@@ -171,20 +172,20 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return AllPlan;
     }
 
-    public ArrayList<DailyPlanner> getWeeklyData(String startDate, String endDate) {
+    public ArrayList<DailyPlanner> getWeeklyData(/*String startDate, String endDate*/) {
         //   Log.d("Date",date.toString());
         ArrayList<DailyPlanner> AllPlan = new ArrayList<>();
         // Select All Query
         // String selectQuery = "SELECT " + ID + "," + DATE + "," + To_TIME + "," + FROM_TIME + "," + EVENT_NAME + "," + EVENT_DESCRIPTION + "," + NOTIFICATION_DESCRIPTION + "," + COMPANY + "," + PRIORITY + "," + REPEAT + "," + STATUS + " FROM " + TABLE_DAILYPLANNER + " WHERE " + DATE + " = " + 0;
 
-        String selectQuery = "SELECT " + ID + "," + DATE + "," + To_TIME + "," + FROM_TIME + "," + EVENT_NAME + "," + EVENT_DESCRIPTION + "," + NOTIFICATION_DESCRIPTION + "," + COMPANY + "," + PRIORITY + "," + REPEAT + "," + STARTHOURS + "," + STARTMINUTE + "," + DAY + "," + ENDHOURS + "," + ENDMINUTE + "," + STATUS + " FROM " + TABLE_DAILYPLANNER + " WHERE " + DATE + " BETWEEN " + startDate + " AND " + endDate;
+        String selectQuery = "SELECT " + ID + "," + DATE + "," + To_TIME + "," + FROM_TIME + "," + EVENT_NAME + "," + EVENT_DESCRIPTION + "," + NOTIFICATION_DESCRIPTION + "," + COMPANY + "," + PRIORITY + "," + REPEAT + "," + STARTHOURS + "," + STARTMINUTE + "," + DAY + "," + ENDHOURS + "," + ENDMINUTE + "," + STATUS + "," + MONTH + " FROM " + TABLE_DAILYPLANNER/* + " WHERE " + DATE + " BETWEEN " + startDate + " AND " + endDate*/;
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
         // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
             do {
-                AllPlan.add(new DailyPlanner(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getInt(7), cursor.getInt(8), cursor.getInt(9), cursor.getInt(10), cursor.getInt(11), cursor.getInt(12), cursor.getInt(13), cursor.getInt(14), cursor.getString(15)));
+                AllPlan.add(new DailyPlanner(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getInt(7), cursor.getInt(8), cursor.getInt(9), cursor.getInt(10), cursor.getInt(11), cursor.getInt(12), cursor.getInt(13), cursor.getInt(14), cursor.getString(15), cursor.getInt(16)));
             } while (cursor.moveToNext());
         }
         // closing connection
@@ -196,19 +197,42 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return AllPlan;
     }
 
-
-    public ArrayList<DailyPlanner> getAllPlan() {
+    public ArrayList<DailyPlanner> getMonthly( String date) {
         //   Log.d("Date",date.toString());
         ArrayList<DailyPlanner> AllPlan = new ArrayList<>();
         // Select All Query
-        String selectQuery = "SELECT " + ID + "," + DATE + "," + To_TIME + "," + FROM_TIME + "," + EVENT_NAME + "," + EVENT_DESCRIPTION + "," + NOTIFICATION_DESCRIPTION + "," + COMPANY + "," + PRIORITY + "," + REPEAT + "," + STARTHOURS + "," + STARTMINUTE + "," + DAY + "," + ENDHOURS + "," + ENDMINUTE + "," + STATUS + " FROM " + TABLE_DAILYPLANNER + " WHERE " + STATUS + " = " + 0 + " ORDER BY " + DATE + " ASC";
+
+        String selectQuery = "SELECT " + ID + "," + DATE + "," + To_TIME + "," + FROM_TIME + "," + EVENT_NAME + "," + EVENT_DESCRIPTION + "," + NOTIFICATION_DESCRIPTION + "," + COMPANY + "," + PRIORITY + "," + REPEAT + "," + STARTHOURS + "," + STARTMINUTE + "," + DAY + "," + ENDHOURS + "," + ENDMINUTE + "," + STATUS + "," + MONTH + " FROM " + TABLE_DAILYPLANNER + " WHERE " + DATE + "=" + date ;
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
         // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
             do {
-                AllPlan.add(new DailyPlanner(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getInt(7), cursor.getInt(8), cursor.getInt(9), cursor.getInt(10), cursor.getInt(11), cursor.getInt(12), cursor.getInt(13), cursor.getInt(14), cursor.getString(15)));
+                AllPlan.add(new DailyPlanner(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getInt(7), cursor.getInt(8), cursor.getInt(9), cursor.getInt(10), cursor.getInt(11), cursor.getInt(12), cursor.getInt(13), cursor.getInt(14), cursor.getString(15), cursor.getInt(16)));
+            } while (cursor.moveToNext());
+        }
+        // closing connection
+        cursor.close();
+        db.close();
+        // returning labels
+
+
+        return AllPlan;
+    }
+
+    public ArrayList<DailyPlanner> getAllPlan() {
+        //   Log.d("Date",date.toString());
+        ArrayList<DailyPlanner> AllPlan = new ArrayList<>();
+        // Select All Query
+        String selectQuery = "SELECT " + ID + "," + DATE + "," + To_TIME + "," + FROM_TIME + "," + EVENT_NAME + "," + EVENT_DESCRIPTION + "," + NOTIFICATION_DESCRIPTION + "," + COMPANY + "," + PRIORITY + "," + REPEAT + "," + STARTHOURS + "," + STARTMINUTE + "," + DAY + "," + ENDHOURS + "," + ENDMINUTE + "," + STATUS + "," + MONTH + " FROM " + TABLE_DAILYPLANNER + " WHERE " + STATUS + " = " + 0 + " ORDER BY " + DATE + " ASC";
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                AllPlan.add(new DailyPlanner(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getInt(7), cursor.getInt(8), cursor.getInt(9), cursor.getInt(10), cursor.getInt(11), cursor.getInt(12), cursor.getInt(13), cursor.getInt(14), cursor.getString(15), cursor.getInt(16)));
             } while (cursor.moveToNext());
         }
         // closing connection
@@ -224,14 +248,14 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         //   Log.d("Date",date.toString());
         ArrayList<DailyPlanner> AllPlan = new ArrayList<>();
         // Select All Query
-        String selectQuery = "SELECT " + ID + "," + DATE + "," + To_TIME + "," + FROM_TIME + "," + EVENT_NAME + "," + EVENT_DESCRIPTION + "," + NOTIFICATION_DESCRIPTION + "," + COMPANY + "," + PRIORITY + "," + REPEAT + "," + STARTHOURS + "," + STARTMINUTE + "," + DAY + "," + ENDHOURS + "," + ENDMINUTE + "," + STATUS + " FROM " + TABLE_DAILYPLANNER + " WHERE " + STATUS + " = " + 1 + " ORDER BY " + DATE + " ASC";
+        String selectQuery = "SELECT " + ID + "," + DATE + "," + To_TIME + "," + FROM_TIME + "," + EVENT_NAME + "," + EVENT_DESCRIPTION + "," + NOTIFICATION_DESCRIPTION + "," + COMPANY + "," + PRIORITY + "," + REPEAT + "," + STARTHOURS + "," + STARTMINUTE + "," + DAY + "," + ENDHOURS + "," + ENDMINUTE + "," + STATUS + "," + MONTH + " FROM " + TABLE_DAILYPLANNER + " WHERE " + STATUS + " = " + 1 + " ORDER BY " + DATE + " ASC";
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
         // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
             do {
-                AllPlan.add(new DailyPlanner(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getInt(7), cursor.getInt(8), cursor.getInt(9), cursor.getInt(10), cursor.getInt(11), cursor.getInt(12), cursor.getInt(13), cursor.getInt(14), cursor.getString(15)));
+                AllPlan.add(new DailyPlanner(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getInt(7), cursor.getInt(8), cursor.getInt(9), cursor.getInt(10), cursor.getInt(11), cursor.getInt(12), cursor.getInt(13), cursor.getInt(14), cursor.getString(15), cursor.getInt(16)));
             } while (cursor.moveToNext());
         }
         // closing connection
@@ -243,13 +267,18 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return AllPlan;
     }
 
-    public void updateDateTime(int id, String date, String ToTime, String FromTime) {
+    public void updateDateTime(int id, String date, String ToTime, String FromTime, int startHours, int startMin, int day, int endHours, int endMin, int month) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
         cv.put(DATE, date);
         cv.put(To_TIME, ToTime);
         cv.put(FROM_TIME, FromTime);
-
+        cv.put(STARTHOURS, startHours);
+        cv.put(STARTMINUTE, startMin);
+        cv.put(ENDHOURS, endHours);
+        cv.put(ENDMINUTE, endMin);
+        cv.put(MONTH, month);
+        cv.put(String.valueOf(DAY), day);
         db.update(TABLE_DAILYPLANNER, cv, ID + "=" + id, null);
         db.close();
     }

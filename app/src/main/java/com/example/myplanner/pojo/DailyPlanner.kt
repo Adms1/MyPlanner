@@ -19,6 +19,6 @@ class DailyPlanner(
     var day: Int,
     var endhours: Int,
     var endmin: Int,
-    var Status: String
-
+    var Status: String,
+    var month: Int,
 )

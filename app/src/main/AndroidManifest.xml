@@ -19,7 +19,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyPlanner">
         <activity
-            android:name=".activity_weekly"
+            android:name=".week.activity_weekly"
             android:exported="false" />
         <activity
             android:name=".week.HabitTrackerActivity"

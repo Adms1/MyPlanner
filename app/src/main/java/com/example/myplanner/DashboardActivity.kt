@@ -6,6 +6,7 @@ import com.example.myplanner.Utils.Companion.openDailyCal
 import com.example.myplanner.daily.DailyActivity
 import com.example.myplanner.db.DatabaseHandler
 import com.example.myplanner.month.MonthlyActivity
+import com.example.myplanner.week.activity_weekly
 import kotlinx.android.synthetic.main.activity_dashboard.*
 
 

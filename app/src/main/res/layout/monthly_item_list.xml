@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.6"
             android:text="Event 1"
-            android:textColor="@color/black"
+            android:textColor="?android:textColorPrimary"
             android:textSize="20sp"
             android:textStyle="bold" />
 
@@ -45,7 +45,7 @@
             android:layout_weight="0.25"
             android:gravity="center"
             android:text="03:30 PM"
-            android:textColor="@color/black"
+            android:textColor="?android:textColorPrimary"
             android:textSize="18sp" />
 
     </LinearLayout>

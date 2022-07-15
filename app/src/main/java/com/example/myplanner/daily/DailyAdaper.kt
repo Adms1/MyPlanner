@@ -23,6 +23,7 @@ class DailyAdaper(
 ) : RecyclerView.Adapter<DailyAdaper.Viewholder>() {
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): Viewholder {
         return Viewholder(
+
             LayoutInflater.from(context).inflate(R.layout.daily_item_list, p0, false)
         )
     }
@@ -73,6 +74,13 @@ class DailyAdaper(
             editor.putInt("Priority", listOfDailyPlan[position].priority)
 
             editor.putInt("repeat", listOfDailyPlan[position].repeat)
+
+            editor.putInt("StartHours", listOfDailyPlan[position].starthours)
+            editor.putInt("StartMin", listOfDailyPlan[position].startmin)
+            editor.putInt("EndHours", listOfDailyPlan[position].endhours)
+            editor.putInt("EndMin", listOfDailyPlan[position].endmin)
+            editor.putInt("Day", listOfDailyPlan[position].day)
+            editor.putInt("Month", listOfDailyPlan[position].month)
             editor.apply()
             val intent = Intent(context, AddEventActivity::class.java)
             context.startActivity(intent)

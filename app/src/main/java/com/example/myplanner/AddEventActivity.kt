@@ -23,13 +23,14 @@ import com.github.dhaval2404.colorpicker.model.ColorShape
 import com.github.dhaval2404.colorpicker.model.ColorSwatch
 import kotlinx.android.synthetic.main.activity_add_event.*
 import java.text.DateFormatSymbols
+import java.text.SimpleDateFormat
 import java.util.*
 
 
 class AddEventActivity : AppCompatActivity() {
     private val year = Calendar.getInstance().get(Calendar.YEAR)
-    private val month = Calendar.getInstance().get(Calendar.MONTH)
-    private val day = Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
+    private var month = Calendar.getInstance().get(Calendar.MONTH)
+    private var day = Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
     private val hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
     private val minute = Calendar.getInstance().get(Calendar.MINUTE)
     private var strEventName: String? = null
@@ -47,6 +48,9 @@ class AddEventActivity : AppCompatActivity() {
     var endHours: String? = null
     var endMin: String? = null
     var day1: Int = 0
+    var month1: Int = 0
+    var id1: Int? = null
+
 
     override
 
@@ -60,10 +64,9 @@ class AddEventActivity : AppCompatActivity() {
         actionBar!!.title = "Add Event"
 
         val sharedPreference = getSharedPreferences("PREFERENCE_NAME", Context.MODE_PRIVATE)
-        var id: Int? = null
         strDateTime = sharedPreference.getString("editOrNotDateTime", "")
         if (strDateTime.equals("editDateTime")) {
-            id = sharedPreference.getInt("id", 0)
+            id1 = sharedPreference.getInt("id", 0)
             val strDate = sharedPreference.getString("date", "")
             val strToTime = sharedPreference.getString("toTime", "")
             val strFromTime = sharedPreference.getString("fromTime", "")
@@ -71,9 +74,24 @@ class AddEventActivity : AppCompatActivity() {
             val strEventDescription = sharedPreference.getString("eventDescription", "")
             val strNotificationDescription =
                 sharedPreference.getString("notificationDescription", "")
-            val strCompany = sharedPreference.getInt("company", 0)
-            val strRepeat = sharedPreference.getInt("repeat", 0)
-            val strPriority = sharedPreference.getInt("Priority", 0)
+            var strCompany1 = sharedPreference.getInt("company", 0)
+            var strRepeat1 = sharedPreference.getInt("repeat", 0)
+            var strPriority1 = sharedPreference.getInt("Priority", 0)
+
+
+            val strStartHours = sharedPreference.getInt("StartHours", 0)
+            val strStartMin = sharedPreference.getInt("StartMin", 0)
+            val strEndHours = sharedPreference.getInt("EndHours", 0)
+            val strEndMin = sharedPreference.getInt("EndMin", 0)
+            val strDay = sharedPreference.getInt("Day", 0)
+            val strMonth = sharedPreference.getInt("Month", 0)
+
+            startToTime = strStartHours.toString()
+            startTomin = strStartMin.toString()
+            endHours = strEndHours.toString()
+            endMin = strEndMin.toString()
+            day1 = Integer.parseInt(strDay.toString())
+            month1 = Integer.parseInt(strMonth.toString())
 
             spinnerCompany.isEnabled = false
             spinnerPriority.isEnabled = false
@@ -103,9 +121,13 @@ class AddEventActivity : AppCompatActivity() {
                 spinnerRepeat.adapter = adapter
             }
 
-            spinnerRepeat.setSelection(strRepeat)
-            spinnerPriority.setSelection(strPriority)
-            spinnerCompany.setSelection(strCompany)
+            spinnerRepeat.setSelection(strRepeat1)
+            spinnerPriority.setSelection(strPriority1)
+            spinnerCompany.setSelection(strCompany1)
+
+            strCompany = strCompany1.toString()
+            strPriority = strPriority1.toString()
+            strRepeat = strRepeat1.toString()
 
             addevent_tvNotification.setTextColor(resources.getColor(R.color.darkgrey))
             addevent_tvEdesc.setTextColor(resources.getColor(R.color.darkgrey))
@@ -134,6 +156,7 @@ class AddEventActivity : AppCompatActivity() {
                     android.R.layout.simple_spinner_item, spnCompany
                 )
                 spinnerCompany.adapter = adapter
+
             }
             spinnerCompany.onItemSelectedListener =
                 object : AdapterView.OnItemSelectedListener {
@@ -193,10 +216,9 @@ class AddEventActivity : AppCompatActivity() {
                     Log.d("repeatEvent :", strRepeat.toString())
                     when (spinnerRepeat.selectedItemPosition) {
                         2 -> {
-                            val calendar = Calendar.getInstance()
-                            calendar.add(Calendar.DAY_OF_MONTH, +7)
-                            val newDate = calendar.time
-                            Log.d("repeatEventDate :", newDate.toString())
+                            //val DayAfterWeek = Calendar.getInstance().get(Calendar.DAY_OF_MONTH) + 7
+                            val calendar = Calendar.getInstance().get(Calendar.DAY_OF_MONTH) + 7
+                            Log.d("repeatEventDate :", calendar.toString())
                         }
                         3 -> {
 
@@ -252,7 +274,7 @@ class AddEventActivity : AppCompatActivity() {
 
         btnTaskComplete.setOnClickListener {
             val db = DatabaseHandler(applicationContext)
-            id?.let { it1 -> db.UpdateStatus(it1) }
+            id1?.let { it1 -> db.UpdateStatus(it1) }
             val intent = Intent(this@AddEventActivity, DailyActivity::class.java)
             startActivity(intent)
 
@@ -263,16 +285,45 @@ class AddEventActivity : AppCompatActivity() {
         val picker = DatePickerDialog(
             this@AddEventActivity,
             { view, year, monthOfYear, dayOfMonth ->
-                val date = (day.toString() + " " + (month + 1) + "," + year)
-                // set this date in TextView for Display
+                // set this date in TextView for Displ
+                val date = (day.toString() + "/" + (month + 1) + "/" + year)
+
                 addevent_tvDate.text = date
 
-                updateLabel(dayOfMonth, monthOfYear + 1, year)
+                updateLabel(dayOfMonth, monthOfYear, year)
 
             }, year, month, day
         )
         picker.show()
         picker.getDatePicker().setMinDate(System.currentTimeMillis() - 1000); }
+
+/*
+    private fun openStartCalendar(){
+        val c = Calendar.getInstance()
+
+        val mTimePicker = TimePickerDialog(this,
+            { timePicker, selectedHour, selectedMinute ->
+                val temp = Calendar.getInstance()
+                temp[Calendar.HOUR_OF_DAY] = selectedHour
+                temp[Calendar.MINUTE] = selectedMinute
+                if (temp.before(GregorianCalendar.getInstance())) {
+                    Toast.makeText(this, "Cannot select a future time", Toast.LENGTH_SHORT)
+                        .show()
+                } else {
+                    val datetime = Calendar.getInstance()
+                    datetime[Calendar.HOUR_OF_DAY] = selectedHour
+                    datetime[Calendar.MINUTE] = selectedMinute
+                    val mSDF = SimpleDateFormat("hh:mm")
+                    addevent_tvStime.setText(mSDF.format(datetime.time)) // make sure this is accessible
+                }
+            }, c.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE), true
+        )
+// Ensure that c is established
+// Ensure that c is established
+        mTimePicker.updateTime(c.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE))
+        mTimePicker.show()
+    }
+*/
 
     private fun openStartCalendar() {
         val cal = Calendar.getInstance()
@@ -295,46 +346,6 @@ class AddEventActivity : AppCompatActivity() {
         dialog.setTitle("Select Time")
         dialog.show()
     }
-/*
-    private fun openStartCalendar() {
-        val mTimePicker = TimePickerDialog(
-            this@AddEventActivity,
-            { timePicker, hour, selectedMinute ->
-                var hour = hour
-                var am_pm = ""
-                // AM_PM decider logic
-                when {
-
-                    hour == 0 -> {
-                        hour += 12
-                        am_pm = "AM"
-                    }
-                    hour == 12 -> am_pm = "PM"
-                    hour > 12 -> {
-                        hour -= 12
-                        am_pm = "PM"
-                    }
-                    else -> am_pm = "AM"
-                }
-                if (addevent_tvStime != null) {
-                    val min = if (selectedMinute < 10) "0$selectedMinute" else selectedMinute
-                    val hour = if (hour < 10) "0$hour" else hour
-                    val msg = "$hour : $min $am_pm"
-                    startToTime = "$hour"
-                    startTomin = "$min"
-                    addevent_tvStime.text = msg
-                }
-            },
-            hour,
-            minute,
-            true
-        ) //Yes 24 hour time
-        mTimePicker.setTitle("Select Time")
-
-        mTimePicker.show()
-
-    }
-*/
 
     private fun openEndCalendar() {
         val cal = Calendar.getInstance()
@@ -342,12 +353,14 @@ class AddEventActivity : AppCompatActivity() {
             this,
             TimePickerDialog.OnTimeSetListener { view, hourOfDay, minute ->
                 Log.e("Time :", "$hourOfDay:$minute")
+
                 if (addevent_tvEtime != null) {
                     val min = if (minute < 10) "0$minute" else minute
                     val hour = if (hourOfDay < 10) "0$hourOfDay" else hourOfDay
                     endHours = "$hour"
                     endMin = "$min"
                     addevent_tvEtime.text = "$hour : $min"
+
                 }
             },
             cal.get(Calendar.HOUR_OF_DAY),
@@ -358,58 +371,18 @@ class AddEventActivity : AppCompatActivity() {
         dialog.show()
     }
 
-/*
-    private fun openEndCalendar() {
-        val mTimePicker: TimePickerDialog
-
-        mTimePicker = TimePickerDialog(
-            this,
-            { timePicker, hour, selectedMinute ->
-                var hour = hour
-                var am_pm = ""
-                when {
-
-                    hour == 0 -> {
-                        hour += 12
-                        am_pm = "AM"
-                    }
-                    hour == 12 -> am_pm = "PM"
-                    hour > 12 -> {
-                        hour -= 12
-                        am_pm = "PM"
-                    }
-                    else -> am_pm = "AM"
-                }
-                if (addevent_tvEtime != null) {
-                    val min = if (selectedMinute < 10) "0$selectedMinute" else selectedMinute
-                    val hour = if (hour < 10) "0$hour" else hour
-
-                    val msg = "$hour : $min $am_pm"
-                    addevent_tvEtime.text = msg
-                    endHours = "$hour"
-                    endMin = "$min"
-                }
-
-
-            },
-            hour,
-            minute,
-            true
-        ) //Yes 24 hour time
-
-        mTimePicker.setTitle("Select Time")
-        mTimePicker.show()
-
-    }
-*/
-
     private fun updateLabel(date: Int, month: Int, year: Int) {
         //  val monthName = getMonthForInt(month - 1)
-        val monthName = getMonthForInt(month - 1)
 
+        val calendar = Calendar.getInstance()
+        calendar[year, month] = day
+
+        val dateFormat = SimpleDateFormat("dd/MM/yyyy")
+
+        val dateString: String = dateFormat.format(calendar.time)
+        month1 = month
         day1 = date
-        val date = ("$date $monthName, $year")
-        addevent_tvDate.text = date
+        addevent_tvDate.text = dateString.toString()
     }
 
     private fun getMonthForInt(num: Int): String {
@@ -509,33 +482,48 @@ class AddEventActivity : AppCompatActivity() {
 
 
                     if (strDateTime.equals("editDateTime")) {
-                        id.let { it1 -> db.updateDateTime(it1, strDate, strToTime, strFromTime) }
+                        id1?.let {
+                            db.updateDateTime(
+                                it, strDate, strToTime, strFromTime, Integer.parseInt(startToTime),
+                                Integer.parseInt(startTomin),
+                                day1,
+                                Integer.parseInt(endHours),
+                                Integer.parseInt(endMin),
+                                Integer.parseInt(month1.toString())
+                            )
+                        }
 
                     } else {
-                        val sharedPreference =
-                            getSharedPreferences("PREFERENCE_NAME", Context.MODE_PRIVATE)
-                        val editor = sharedPreference.edit()
-                        editor.putInt("spiCompanyId", spinnerCompany.selectedItemPosition)
-                        editor.putInt("spiRepeatId", spinnerRepeat.selectedItemPosition)
-                        editor.putInt("spiPriorityId", spinnerPriority.selectedItemPosition)
-                        editor.apply()
+                        try {
+                            val sharedPreference =
+                                getSharedPreferences("PREFERENCE_NAME", Context.MODE_PRIVATE)
+                            val editor = sharedPreference.edit()
+                            editor.putInt("spiCompanyId", spinnerCompany.selectedItemPosition)
+                            editor.putInt("spiRepeatId", spinnerRepeat.selectedItemPosition)
+                            editor.putInt("spiPriorityId", spinnerPriority.selectedItemPosition)
+                            editor.apply()
 
-                        db.addDailyPlan(
-                            strEventName,
-                            strEventDescription,
-                            strDate,
-                            strToTime,
-                            strFromTime,
-                            strNotification,
-                            strCompany,
-                            strPriority,
-                            Integer.parseInt(startToTime),
-                            Integer.parseInt(startTomin),
-                            day1,
-                            Integer.parseInt(endHours),
-                            Integer.parseInt(endMin),
-                            strRepeat
-                        )
+                            db.addDailyPlan(
+                                strEventName,
+                                strEventDescription,
+                                strDate,
+                                strToTime,
+                                strFromTime,
+                                strNotification,
+                                strCompany,
+                                strPriority,
+                                Integer.parseInt(startToTime),
+                                Integer.parseInt(startTomin),
+                                day1,
+                                Integer.parseInt(endHours),
+                                Integer.parseInt(endMin),
+                                strRepeat,
+                                Integer.parseInt(month1.toString())
+                            )
+                        } catch (e: Exception) {
+                            Toast.makeText(applicationContext, e.toString(), Toast.LENGTH_SHORT)
+                                .show()
+                        }
                     }
                     val intent = Intent(this@AddEventActivity, DailyActivity::class.java)
                     startActivity(intent)
