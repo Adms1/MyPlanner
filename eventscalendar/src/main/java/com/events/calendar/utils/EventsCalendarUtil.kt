@@ -249,7 +249,9 @@ object EventsCalendarUtil {
                 DD_MM_YYYY -> {
                     buffer.append(calendar.get(Calendar.DATE))
                     buffer.append("/")
-                    buffer.append(calendar.get(Calendar.MONTH) + 1)
+                    val month = calendar.get(Calendar.MONTH) + 1
+                    if (month < 10) buffer.append("0")
+                    buffer.append(month)
                     buffer.append("/")
                     buffer.append(calendar.get(Calendar.YEAR))
                     return buffer.toString()

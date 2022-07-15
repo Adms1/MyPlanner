@@ -211,22 +211,10 @@ class AddEventActivity : AppCompatActivity() {
                     parent: AdapterView<*>,
                     view: View, position: Int, id: Long
                 ) {
-
+                    strDate = addevent_tvDate.text.toString()
                     strRepeat = spinnerRepeat.selectedItemPosition.toString()
                     Log.d("repeatEvent :", strRepeat.toString())
-                    when (spinnerRepeat.selectedItemPosition) {
-                        2 -> {
-                            //val DayAfterWeek = Calendar.getInstance().get(Calendar.DAY_OF_MONTH) + 7
-                            val calendar = Calendar.getInstance().get(Calendar.DAY_OF_MONTH) + 7
-                            Log.d("repeatEventDate :", calendar.toString())
-                        }
-                        3 -> {
 
-                        }
-                        else -> {
-
-                        }
-                    }
                 }
 
                 override fun onNothingSelected(parent: AdapterView<*>) {
@@ -502,6 +490,89 @@ class AddEventActivity : AppCompatActivity() {
                             editor.putInt("spiRepeatId", spinnerRepeat.selectedItemPosition)
                             editor.putInt("spiPriorityId", spinnerPriority.selectedItemPosition)
                             editor.apply()
+
+                            when (spinnerRepeat.selectedItemPosition) {
+                                2 -> {
+                                    var dt = strDate // Start date
+                                    val sdf = SimpleDateFormat("dd/MM/yyyy")
+                                    val c = Calendar.getInstance()
+                                    // c.time = sdf.parse(dt)
+                                    c.add(Calendar.DATE, 7) // number of days to add
+                                    dt = sdf.format(c.time)
+                                    Log.d("weekly", dt)
+                                    db.addDailyPlan(
+                                        strEventName,
+                                        strEventDescription,
+                                        dt,
+                                        strToTime,
+                                        strFromTime,
+                                        strNotification,
+                                        strCompany,
+                                        strPriority,
+                                        Integer.parseInt(startToTime),
+                                        Integer.parseInt(startTomin),
+                                        day1,
+                                        Integer.parseInt(endHours),
+                                        Integer.parseInt(endMin),
+                                        strRepeat,
+                                        Integer.parseInt(month1.toString())
+                                    )
+                                }
+                                3 -> {
+                                    var dt = strDate // Start date
+                                    val sdf = SimpleDateFormat("dd/MM/yyyy")
+                                    val c = Calendar.getInstance()
+                                    c.add(Calendar.MONTH,1)
+                                    dt = sdf.format(c.time)
+                                    Log.d("Monthly", dt)
+                                    db.addDailyPlan(
+                                        strEventName,
+                                        strEventDescription,
+                                        dt,
+                                        strToTime,
+                                        strFromTime,
+                                        strNotification,
+                                        strCompany,
+                                        strPriority,
+                                        Integer.parseInt(startToTime),
+                                        Integer.parseInt(startTomin),
+                                        day1,
+                                        Integer.parseInt(endHours),
+                                        Integer.parseInt(endMin),
+                                        strRepeat,
+                                        Integer.parseInt(month1.toString())
+                                    )
+
+                                }
+                                else -> {
+                                    var dt = strDate // Start date
+                                    val sdf = SimpleDateFormat("dd/MM/yyyy")
+                                    val c = Calendar.getInstance()
+                                    c.add(Calendar.YEAR, 1) // number of days to add
+                                    dt = sdf.format(c.time)
+                                    Log.d("Yearly", dt)
+                                    db.addDailyPlan(
+                                        strEventName,
+                                        strEventDescription,
+                                        dt,
+                                        strToTime,
+                                        strFromTime,
+                                        strNotification,
+                                        strCompany,
+                                        strPriority,
+                                        Integer.parseInt(startToTime),
+                                        Integer.parseInt(startTomin),
+                                        day1,
+                                        Integer.parseInt(endHours),
+                                        Integer.parseInt(endMin),
+                                        strRepeat,
+                                        Integer.parseInt(month1.toString())
+                                    )
+
+                                }
+                            }
+
+
 
                             db.addDailyPlan(
                                 strEventName,

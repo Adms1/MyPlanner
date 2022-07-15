@@ -1,9 +1,9 @@
 package com.example.myplanner.month
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.events.calendar.utils.EventsCalendarUtil
 import com.events.calendar.views.EventsCalendar
@@ -15,7 +15,6 @@ import com.example.myplanner.pojo.DailyPlanner
 import kotlinx.android.synthetic.main.activity_monthly.*
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 
 class MonthlyActivity : AppCompatActivity(), EventsCalendar.Callback {
 
@@ -32,11 +31,8 @@ class MonthlyActivity : AppCompatActivity(), EventsCalendar.Callback {
 
     override fun onDaySelected(selectedDate: Calendar?) {
         Log.e(
-            "CLICKED",
-            EventsCalendarUtil.getDateString(selectedDate, EventsCalendarUtil.DD_MM_YYYY)
+            "CLICKED", EventsCalendarUtil.getDateString(selectedDate, EventsCalendarUtil.DD_MM_YYYY)
         )
-        Log.d("Date", EventsCalendarUtil.getDateString(selectedDate, EventsCalendarUtil.DD_MM_YYYY))
-
         setList(EventsCalendarUtil.getDateString(selectedDate, EventsCalendarUtil.DD_MM_YYYY))
     }
 
