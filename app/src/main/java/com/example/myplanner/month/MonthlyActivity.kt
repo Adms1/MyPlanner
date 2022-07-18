@@ -49,14 +49,15 @@ class MonthlyActivity : AppCompatActivity(), EventsCalendar.Callback {
         val today = Calendar.getInstance()
         val end = Calendar.getInstance()
         end.add(Calendar.YEAR, 2)
-        eventsCalendar.setSelectionMode(eventsCalendar.MULTIPLE_SELECTION)
+        eventsCalendar.setSelectionMode(eventsCalendar.SINGLE_SELECTION)
             .setToday(today)
             .setMonthRange(today, end)
             .setWeekStartDay(Calendar.MONDAY, false)
             .setIsBoldTextOnSelectionEnabled(true)
-//            .setDatesTypeface(FontsManager.getTypeface(FontsManager.OPENSANS_REGULAR, this))
-//            .setMonthTitleTypeface(FontsManager.getTypeface(FontsManager.OPENSANS_SEMIBOLD, this))
-//            .setWeekHeaderTypeface(FontsManager.getTypeface(FontsManager.OPENSANS_SEMIBOLD, this))
+            .setEventDotColor(R.color.red)
+            //  .setDatesTypeface(FontsManager.getTypeface(FontsManager.OPENSANS_REGULAR, this))
+            //  .setMonthTitleTypeface(FontsManager.getTypeface(FontsManager.OPENSANS_SEMIBOLD, this))
+            //   .setWeekHeaderTypeface(FontsManager.getTypeface(FontsManager.OPENSANS_SEMIBOLD, this))
             .setCallback(this)
             .build()
 
@@ -116,11 +117,11 @@ class MonthlyActivity : AppCompatActivity(), EventsCalendar.Callback {
     }
 */
 
-    private fun setList(date: String) {
+    private fun  setList(date: String) {
         val db = DatabaseHandler(applicationContext)
         val day = Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
-
         val monthlyPalnning: ArrayList<DailyPlanner> = db.getMonthly("'" + date + "'")
+        eventsCalendar.setEventDotColor(R.color.red)
         monthly_rvList.layoutManager =
             LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         monthly_rvList.adapter = MonthlyEventListAdapter(this, monthlyPalnning)
@@ -130,13 +131,12 @@ class MonthlyActivity : AppCompatActivity(), EventsCalendar.Callback {
     override fun onSupportNavigateUp(): Boolean {
         val intent = Intent(this@MonthlyActivity, DashboardActivity::class.java)
         startActivity(intent)
-
         return true
     }
 
-    override fun onBackPressed() {
+    /*override fun onBackPressed() {
         return
-    }
+    }*/
 
     private fun addEvent() {
 

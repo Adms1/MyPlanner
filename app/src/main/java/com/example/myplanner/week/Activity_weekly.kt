@@ -4,6 +4,7 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.RectF
 import android.os.Bundle
+import android.util.Log
 import android.util.TypedValue
 import android.view.Menu
 import android.view.MenuItem
@@ -67,9 +68,9 @@ class activity_weekly : AppCompatActivity(),
         return true
     }
 
-    override fun onBackPressed() {
-        return
-    }
+    /* override fun onBackPressed() {
+         return
+     }*/
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.main, menu)
@@ -136,6 +137,7 @@ class activity_weekly : AppCompatActivity(),
                         ).toInt()
                 }
                 return true
+
             }
             R.id.action_week_view -> {
                 if (mWeekViewType != TYPE_WEEK_VIEW) {
@@ -190,12 +192,7 @@ class activity_weekly : AppCompatActivity(),
 
     protected fun getEventTitle(eventName: String, time: Calendar): String {
         return String.format(
-            "$eventName %02d:%02d %s/%d",
-            time[Calendar.HOUR_OF_DAY],
-            time[Calendar.MINUTE],
-            time[Calendar.MONTH],
-            time[Calendar.DAY_OF_MONTH]
-
+            "$eventName"
         )
     }
 
@@ -232,38 +229,42 @@ class activity_weekly : AppCompatActivity(),
 
 
         for (cn in weeklyPalnning) {
+
             startTime = Calendar.getInstance()
             startTime[Calendar.HOUR_OF_DAY] = cn.starthours
             startTime[Calendar.MINUTE] = cn.startmin
             startTime[Calendar.DAY_OF_MONTH] = cn.day
-            startTime[Calendar.MONTH] = cn.month
-            startTime[Calendar.YEAR] = newYear
+            startTime[Calendar.MONTH] = Integer.parseInt(cn.month) - 1
+            Log.d("testMonth", cn.month)
+            startTime[Calendar.YEAR] = cn.year
             endTime = startTime.clone() as Calendar
             endTime[Calendar.HOUR_OF_DAY] = cn.endhours
             endTime[Calendar.MINUTE] = cn.endmin
             val eventName = cn.event_name
-            event = WeekViewEvent(5, getEventTitle(eventName, startTime), startTime, endTime)
+            event = WeekViewEvent(0, getEventTitle(eventName, startTime), startTime, endTime)
             event.color = getRandomColor()
             events.add(event)
 
-            weekView!!.setMonthChangeListener({ newYear, newMonth -> // Populate the week view with some events.
-
+            weekView!!.setMonthChangeListener { newYear, newMonth -> // Populate the week view with some events.
                 // Return only the events that matches newYear and newMonth.
                 val matchedEvents: MutableList<WeekViewEvent> = ArrayList()
                 for (event in events) {
-                    if (eventMatches(event, newYear, newMonth)) {
+                    if (eventMatches(event, cn.year, Integer.parseInt(cn.month) - 1)) {
                         matchedEvents.add(event)
                     }
                 }
                 matchedEvents
-            })
+            }
         }
 
         return events
     }
 
     private fun eventMatches(event: WeekViewEvent, year: Int, month: Int): Boolean {
-        return event.startTime[Calendar.YEAR] == year && event.startTime[Calendar.MONTH] == month - 1 || event.endTime[Calendar.YEAR] == year && event.endTime[Calendar.MONTH] == month - 1
+        return event.startTime[Calendar.YEAR] == year &&
+                event.startTime[Calendar.MONTH] == month - 1 ||
+                event.endTime[Calendar.YEAR] == year &&
+                event.endTime[Calendar.MONTH] == month - 1
     }
 
     fun getRandomColor(): Int {

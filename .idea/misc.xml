@@ -37,13 +37,19 @@
         <entry key="..\:/Khushbu Data/new/app/src/main/res/layout/activity_add_event.xml" value="0.27291666666666664" />
         <entry key="..\:/Khushbu Data/new/app/src/main/res/layout/activity_daily.xml" value="0.27291666666666664" />
         <entry key="..\:/Khushbu Data/new/app/src/main/res/layout/activity_dashboard.xml" value="0.2601851851851852" />
-        <entry key="..\:/Khushbu Data/new/app/src/main/res/layout/activity_monthly.xml" value="0.27291666666666664" />
+        <entry key="..\:/Khushbu Data/new/app/src/main/res/layout/activity_monthly.xml" value="0.11904761904761904" />
+        <entry key="..\:/Khushbu Data/new/app/src/main/res/layout/activity_task.xml" value="0.27291666666666664" />
         <entry key="..\:/Khushbu Data/new/app/src/main/res/layout/activity_weekly.xml" value="0.27291666666666664" />
         <entry key="..\:/Khushbu Data/new/app/src/main/res/layout/daily_item_list.xml" value="0.27291666666666664" />
         <entry key="..\:/Khushbu Data/new/app/src/main/res/layout/daily_item_list_complete.xml" value="0.27291666666666664" />
         <entry key="..\:/Khushbu Data/new/app/src/main/res/layout/monthly_item_list.xml" value="0.27291666666666664" />
+        <entry key="..\:/Khushbu Data/new/app/src/main/res/layout/spinnercompany.xml" value="0.271875" />
+        <entry key="..\:/Khushbu Data/new/app/src/main/res/menu/main.xml" value="0.27291666666666664" />
         <entry key="..\:/Khushbu Data/new/app/src/main/res/menu/menu.xml" value="0.27291666666666664" />
         <entry key="..\:/Khushbu Data/new/app/src/main/res/menu/menuforaddevent.xml" value="0.27291666666666664" />
+        <entry key="..\:/Khushbu Data/new/eventscalendar/src/main/res/layout/layout_selected_date.xml" value="0.27291666666666664" />
+        <entry key="..\:/Khushbu Data/new/eventscalendar/src/main/res/layout/zmail_layout_month_title.xml" value="0.27291666666666664" />
+        <entry key="..\:/Khushbu Data/new/eventscalendar/src/main/res/layout/zmail_layout_weekday_header.xml" value="0.27291666666666664" />
         <entry key="..\:/new/app/src/main/res/layout/activity_monthly.xml" value="0.20416666666666666" />
         <entry key="..\:/new/app/src/main/res/layout/activity_weekly.xml" value="0.1" />
         <entry key="..\:/new/app/src/main/res/layout/weekly_item_list.xml" value="0.20416666666666666" />

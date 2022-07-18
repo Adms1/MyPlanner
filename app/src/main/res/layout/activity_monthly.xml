@@ -12,12 +12,11 @@
         android:foregroundGravity="center"
         android:overScrollMode="never"
         app:datesTextSize="16sp"
-        app:eventDotColor="@color/pista"
         app:isBoldTextOnSelectionEnabled="true"
         app:layout_constraintTop_toTopOf="parent"
         app:monthTitleColor="@color/white"
         app:monthTitleTextSize="24sp"
-        app:primaryTextColor="@color/red"
+        app:primaryTextColor="?android:textColorPrimary"
         app:secondaryTextColor="@color/grey"
         app:selectedTextColor="@color/white"
         app:selectionColor="@color/red"
@@ -28,8 +27,8 @@
         android:id="@+id/monthly_line"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/red"
-        app:layout_constraintTop_toBottomOf="@id/eventsCalendar"/>
+        android:background="@color/lightBlue"
+        app:layout_constraintTop_toBottomOf="@id/eventsCalendar" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/monthly_rvList"

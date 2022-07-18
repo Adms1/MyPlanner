@@ -40,14 +40,6 @@ class DailyActivity : AppCompatActivity() {
         val actionBar = supportActionBar
         actionBar!!.title = "  Daily Plan  "
 
-        // val dateTime = LocalDateTime.now()   // current date
-        //  val formatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)  // date time formatter
-        //  Log.d("Date:", "parssed date ${dateTime.format(formatter)}")
-
-        // val strDay = Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
-        // val strMonth = Calendar.getInstance().get(Calendar.MONTH)+1
-        // val strYear = Calendar.getInstance().get(Calendar.YEAR)
-
         val c = Calendar.getInstance().time
         println("Current time => $c")
         val df = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
@@ -69,10 +61,7 @@ class DailyActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-
-        //   setupButtons()
         setList()
-
     }
 
     private fun getMonthForInt(num: Int): String {
@@ -101,9 +90,9 @@ class DailyActivity : AppCompatActivity() {
         return true
     }
 
-    override fun onBackPressed() {
+   /* override fun onBackPressed() {
         return
-    }
+    }*/
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         // Inflate the menu; this adds items to the action bar if it is

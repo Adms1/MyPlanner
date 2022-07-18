@@ -16,6 +16,8 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.myplanner.Company.CompanyAdapter
+import com.example.myplanner.Company.CompanyModel
 import com.example.myplanner.daily.DailyActivity
 import com.example.myplanner.db.DatabaseHandler
 import com.github.dhaval2404.colorpicker.MaterialColorPickerDialog
@@ -40,6 +42,7 @@ class AddEventActivity : AppCompatActivity() {
     private var strFromTime: String? = null
     private var strNotification: String? = null
     var strRepeat: String? = null
+    var strYear: String? = null
     var strPriority: String? = null
     var strCompany: String? = null
     private var strDateTime: String? = null
@@ -48,8 +51,10 @@ class AddEventActivity : AppCompatActivity() {
     var endHours: String? = null
     var endMin: String? = null
     var day1: Int = 0
-    var month1: Int = 0
+    var month1: String? = null
     var id1: Int? = null
+
+    private var spinnerCompanyList: ArrayList<CompanyModel>? = null
 
 
     override
@@ -63,6 +68,7 @@ class AddEventActivity : AppCompatActivity() {
         val actionBar = supportActionBar
         actionBar!!.title = "Add Event"
 
+        companyList();
         val sharedPreference = getSharedPreferences("PREFERENCE_NAME", Context.MODE_PRIVATE)
         strDateTime = sharedPreference.getString("editOrNotDateTime", "")
         if (strDateTime.equals("editDateTime")) {
@@ -84,14 +90,17 @@ class AddEventActivity : AppCompatActivity() {
             val strEndHours = sharedPreference.getInt("EndHours", 0)
             val strEndMin = sharedPreference.getInt("EndMin", 0)
             val strDay = sharedPreference.getInt("Day", 0)
-            val strMonth = sharedPreference.getInt("Month", 0)
+            val strMonth = sharedPreference.getString("Month", "")
+            var strYear = sharedPreference.getInt("Year", 0)
+
 
             startToTime = strStartHours.toString()
             startTomin = strStartMin.toString()
             endHours = strEndHours.toString()
             endMin = strEndMin.toString()
             day1 = Integer.parseInt(strDay.toString())
-            month1 = Integer.parseInt(strMonth.toString())
+            month1 = strMonth.toString()
+            strYear = Integer.parseInt(strYear.toString())
 
             spinnerCompany.isEnabled = false
             spinnerPriority.isEnabled = false
@@ -151,11 +160,8 @@ class AddEventActivity : AppCompatActivity() {
         } else {
             val spnCompany = resources.getStringArray(R.array.Company)
             if (spinnerCompany != null) {
-                val adapter = ArrayAdapter(
-                    this,
-                    android.R.layout.simple_spinner_item, spnCompany
-                )
-                spinnerCompany.adapter = adapter
+             //   val adapter = spinnerCompanyList?.let { CompanyAdapter(this, it) }
+             //   spinnerCompany.adapter = adapter
 
             }
             spinnerCompany.onItemSelectedListener =
@@ -163,7 +169,6 @@ class AddEventActivity : AppCompatActivity() {
                     override fun onItemSelected(
                         parent: AdapterView<*>, view: View, position: Int, id: Long
                     ) {
-
                         strCompany = spinnerCompany.selectedItemPosition.toString()
                     }
 
@@ -213,6 +218,10 @@ class AddEventActivity : AppCompatActivity() {
                 ) {
                     strDate = addevent_tvDate.text.toString()
                     strRepeat = spinnerRepeat.selectedItemPosition.toString()
+                    /*Toast.makeText(applicationContext, "Cooming Soon", Toast.LENGTH_SHORT)
+                        .show()
+*/
+
                     Log.d("repeatEvent :", strRepeat.toString())
 
                 }
@@ -269,6 +278,21 @@ class AddEventActivity : AppCompatActivity() {
         }
     }
 
+
+    private fun companyList() {
+        spinnerCompanyList = ArrayList()
+        spinnerCompanyList!!.add(CompanyModel("Please Select Company"))
+        spinnerCompanyList!!.add(CompanyModel("ADM"))
+        spinnerCompanyList!!.add(CompanyModel("ASL"))
+        spinnerCompanyList!!.add(CompanyModel("SRPL"))
+        spinnerCompanyList!!.add(CompanyModel("ULTRA"))
+        spinnerCompanyList!!.add(CompanyModel("GALACTIC"))
+        spinnerCompanyList!!.add(CompanyModel("PARCOTICS"))
+        spinnerCompanyList!!.add(CompanyModel("PERSONAL"))
+
+
+    }
+
     private fun openCalendar() {
         val picker = DatePickerDialog(
             this@AddEventActivity,
@@ -280,38 +304,12 @@ class AddEventActivity : AppCompatActivity() {
 
                 updateLabel(dayOfMonth, monthOfYear, year)
 
+
             }, year, month, day
         )
         picker.show()
         picker.getDatePicker().setMinDate(System.currentTimeMillis() - 1000); }
 
-/*
-    private fun openStartCalendar(){
-        val c = Calendar.getInstance()
-
-        val mTimePicker = TimePickerDialog(this,
-            { timePicker, selectedHour, selectedMinute ->
-                val temp = Calendar.getInstance()
-                temp[Calendar.HOUR_OF_DAY] = selectedHour
-                temp[Calendar.MINUTE] = selectedMinute
-                if (temp.before(GregorianCalendar.getInstance())) {
-                    Toast.makeText(this, "Cannot select a future time", Toast.LENGTH_SHORT)
-                        .show()
-                } else {
-                    val datetime = Calendar.getInstance()
-                    datetime[Calendar.HOUR_OF_DAY] = selectedHour
-                    datetime[Calendar.MINUTE] = selectedMinute
-                    val mSDF = SimpleDateFormat("hh:mm")
-                    addevent_tvStime.setText(mSDF.format(datetime.time)) // make sure this is accessible
-                }
-            }, c.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE), true
-        )
-// Ensure that c is established
-// Ensure that c is established
-        mTimePicker.updateTime(c.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE))
-        mTimePicker.show()
-    }
-*/
 
     private fun openStartCalendar() {
         val cal = Calendar.getInstance()
@@ -361,14 +359,16 @@ class AddEventActivity : AppCompatActivity() {
 
     private fun updateLabel(date: Int, month: Int, year: Int) {
         //  val monthName = getMonthForInt(month - 1)
-
         val calendar = Calendar.getInstance()
-        calendar[year, month] = day
-
+        calendar[Calendar.DAY_OF_MONTH] = date
+        calendar[Calendar.MONTH] = month
+        calendar[Calendar.YEAR] = year
         val dateFormat = SimpleDateFormat("dd/MM/yyyy")
-
         val dateString: String = dateFormat.format(calendar.time)
-        month1 = month
+        val dateFormat1 = SimpleDateFormat("MM")
+        val dateString1: String = dateFormat1.format(calendar.time)
+        month1 = dateString1
+        strYear = year.toString()
         day1 = date
         addevent_tvDate.text = dateString.toString()
     }
@@ -477,8 +477,9 @@ class AddEventActivity : AppCompatActivity() {
                                 day1,
                                 Integer.parseInt(endHours),
                                 Integer.parseInt(endMin),
-                                Integer.parseInt(month1.toString())
+                                month1.toString()
                             )
+                            // Integer.parseInt(strYear.toString()))
                         }
 
                     } else {
@@ -496,10 +497,12 @@ class AddEventActivity : AppCompatActivity() {
                                     var dt = strDate // Start date
                                     val sdf = SimpleDateFormat("dd/MM/yyyy")
                                     val c = Calendar.getInstance()
-                                    // c.time = sdf.parse(dt)
-                                    c.add(Calendar.DATE, 7) // number of days to add
+                                    c.add(Calendar.DATE, 7)
                                     dt = sdf.format(c.time)
-                                    Log.d("weekly", dt)
+                                    val dateFormat1 = SimpleDateFormat("dd")
+                                    val dateString1: String = dateFormat1.format(c.time)
+
+
                                     db.addDailyPlan(
                                         strEventName,
                                         strEventDescription,
@@ -511,20 +514,26 @@ class AddEventActivity : AppCompatActivity() {
                                         strPriority,
                                         Integer.parseInt(startToTime),
                                         Integer.parseInt(startTomin),
-                                        day1,
+                                        Integer.parseInt(dateString1),
                                         Integer.parseInt(endHours),
                                         Integer.parseInt(endMin),
                                         strRepeat,
-                                        Integer.parseInt(month1.toString())
+                                        month1.toString(),
+                                        Integer.parseInt(strYear.toString())
                                     )
                                 }
                                 3 -> {
                                     var dt = strDate // Start date
                                     val sdf = SimpleDateFormat("dd/MM/yyyy")
                                     val c = Calendar.getInstance()
-                                    c.add(Calendar.MONTH,1)
+                                    c.add(Calendar.MONTH, 1)
                                     dt = sdf.format(c.time)
+                                    val dateFormat1 = SimpleDateFormat("MM")
+                                    val dateString1: String = dateFormat1.format(c.time)
+
                                     Log.d("Monthly", dt)
+                                    Log.d("MonthMonthly", dateString1)
+
                                     db.addDailyPlan(
                                         strEventName,
                                         strEventDescription,
@@ -540,16 +549,20 @@ class AddEventActivity : AppCompatActivity() {
                                         Integer.parseInt(endHours),
                                         Integer.parseInt(endMin),
                                         strRepeat,
-                                        Integer.parseInt(month1.toString())
+                                        dateString1,
+                                        Integer.parseInt(strYear.toString())
                                     )
 
                                 }
-                                else -> {
+                                4 -> {
                                     var dt = strDate // Start date
                                     val sdf = SimpleDateFormat("dd/MM/yyyy")
                                     val c = Calendar.getInstance()
                                     c.add(Calendar.YEAR, 1) // number of days to add
                                     dt = sdf.format(c.time)
+                                    val dateFormat1 = SimpleDateFormat("yyyy")
+                                    val dateString1: String = dateFormat1.format(c.time)
+
                                     Log.d("Yearly", dt)
                                     db.addDailyPlan(
                                         strEventName,
@@ -566,14 +579,12 @@ class AddEventActivity : AppCompatActivity() {
                                         Integer.parseInt(endHours),
                                         Integer.parseInt(endMin),
                                         strRepeat,
-                                        Integer.parseInt(month1.toString())
+                                        month1.toString(),
+                                        Integer.parseInt(dateString1)
                                     )
 
                                 }
                             }
-
-
-
                             db.addDailyPlan(
                                 strEventName,
                                 strEventDescription,
@@ -589,8 +600,10 @@ class AddEventActivity : AppCompatActivity() {
                                 Integer.parseInt(endHours),
                                 Integer.parseInt(endMin),
                                 strRepeat,
-                                Integer.parseInt(month1.toString())
+                                month1.toString(),
+                                Integer.parseInt(strYear.toString())
                             )
+
                         } catch (e: Exception) {
                             Toast.makeText(applicationContext, e.toString(), Toast.LENGTH_SHORT)
                                 .show()
@@ -606,15 +619,6 @@ class AddEventActivity : AppCompatActivity() {
         }
     }
 
-    override fun onBackPressed() {
-        return
-    }
-
-    override fun onSupportNavigateUp(): Boolean {
-        val intent = Intent(this@AddEventActivity, DailyActivity::class.java)
-        startActivity(intent)
-        return true
-    }
 
 }
 

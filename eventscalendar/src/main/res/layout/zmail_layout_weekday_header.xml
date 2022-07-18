@@ -1,66 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="@dimen/height_week_day_header"
-    android:paddingTop="2dp"
+    android:background="#528AAE"
+    android:layoutDirection="ltr"
     android:orientation="horizontal"
-    android:background="#FF0000"
-    android:layoutDirection="ltr">
+    android:paddingTop="2dp">
+
     <TextView
         android:id="@+id/first_day"
         android:layout_width="0dp"
         android:layout_height="@dimen/height_week_day_header"
         android:layout_weight="1"
-        android:textSize="@dimen/text_week_day_header"
         android:gravity="center"
-        />
+        android:textSize="@dimen/text_week_day_header" />
+
     <TextView
         android:id="@+id/second_day"
         android:layout_width="0dp"
         android:layout_height="@dimen/height_week_day_header"
         android:layout_weight="1"
-        android:textSize="@dimen/text_week_day_header"
         android:gravity="center"
-        />
+        android:textSize="@dimen/text_week_day_header" />
+
     <TextView
         android:id="@+id/third_day"
         android:layout_width="0dp"
         android:layout_height="@dimen/height_week_day_header"
         android:layout_weight="1"
-        android:textSize="@dimen/text_week_day_header"
         android:gravity="center"
-        />
+        android:textSize="@dimen/text_week_day_header" />
+
     <TextView
         android:id="@+id/fourth_day"
         android:layout_width="0dp"
         android:layout_height="@dimen/height_week_day_header"
         android:layout_weight="1"
-        android:textSize="@dimen/text_week_day_header"
         android:gravity="center"
-        />
+        android:textSize="@dimen/text_week_day_header" />
+
     <TextView
         android:id="@+id/fifth_day"
         android:layout_width="0dp"
         android:layout_height="@dimen/height_week_day_header"
         android:layout_weight="1"
-        android:textSize="@dimen/text_week_day_header"
         android:gravity="center"
-        />
+        android:textSize="@dimen/text_week_day_header" />
+
     <TextView
         android:id="@+id/sixth_day"
         android:layout_width="0dp"
         android:layout_height="@dimen/height_week_day_header"
         android:layout_weight="1"
-        android:textSize="@dimen/text_week_day_header"
         android:gravity="center"
-        />
+        android:textSize="@dimen/text_week_day_header" />
+
     <TextView
         android:id="@+id/seventh_day"
         android:layout_width="0dp"
         android:layout_height="@dimen/height_week_day_header"
         android:layout_weight="1"
-        android:textSize="@dimen/text_week_day_header"
         android:gravity="center"
-        />
+        android:textSize="@dimen/text_week_day_header" />
 </LinearLayout><!-- $Id$ -->

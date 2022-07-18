@@ -24,7 +24,7 @@
             android:layout_weight="0.15"
             android:gravity="center"
             android:text="23"
-            android:textColor="@color/pista"
+            android:textColor="#528AAE"
             android:textSize="18sp"
             android:textStyle="bold" />
 
