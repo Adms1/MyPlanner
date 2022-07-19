@@ -1,5 +1,6 @@
 package com.example.myplanner.week
 
+import android.app.Dialog
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.RectF
@@ -8,6 +9,9 @@ import android.util.Log
 import android.util.TypedValue
 import android.view.Menu
 import android.view.MenuItem
+import android.view.Window
+import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.alamkanak.weekview.DateTimeInterpreter
@@ -19,6 +23,7 @@ import com.example.myplanner.db.DatabaseHandler
 import com.example.myplanner.pojo.DailyPlanner
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 class activity_weekly : AppCompatActivity(),
@@ -28,6 +33,8 @@ class activity_weekly : AppCompatActivity(),
     private var mWeekViewType = TYPE_THREE_DAY_VIEW
     var weekView: com.alamkanak.weekview.WeekView? = null
         private set
+    var position: Int = 0
+    var weeklyData = ArrayList<DailyPlanner>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -199,6 +206,47 @@ class activity_weekly : AppCompatActivity(),
     override fun onEventClick(event: WeekViewEvent, eventRect: RectF) {
         Toast.makeText(this, "Clicked " + event.name, Toast.LENGTH_SHORT).show()
 
+        val dialog = Dialog(this)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(false)
+        dialog.setContentView(R.layout.activity_add_event)
+
+        var db = DatabaseHandler(applicationContext)
+        weeklyData.addAll(db.getWeeklyClickEvent(event.id.toInt()))
+
+        val addevent_tvEname: EditText = dialog.findViewById(R.id.addevent_tvEname) as EditText
+        val addevent_tvEdesc: EditText = dialog.findViewById(R.id.addevent_tvEdesc) as EditText
+        val addevent_tvDate: TextView = dialog.findViewById(R.id.addevent_tvDate) as TextView
+        val addevent_tvStime: TextView = dialog.findViewById(R.id.addevent_tvStime) as TextView
+        val addevent_tvEtime: TextView = dialog.findViewById(R.id.addevent_tvEtime) as TextView
+        val addevent_tvNotification: TextView =
+            dialog.findViewById(R.id.addevent_tvNotification) as TextView
+
+        addevent_tvEname.setText(weeklyData.get(0).event_name)
+        addevent_tvEdesc.setText(weeklyData.get(position).event_description)
+        addevent_tvDate.setText(weeklyData.get(position).date)
+        addevent_tvStime.setText(weeklyData.get(position).to_time)
+        addevent_tvEtime.setText(weeklyData.get(position).from_time)
+        addevent_tvNotification.setText(weeklyData.get(position).notification_description)
+
+        addevent_tvEname.isCursorVisible=false
+        addevent_tvEdesc.isCursorVisible=false
+        addevent_tvDate.isCursorVisible=false
+        addevent_tvStime.isCursorVisible=false
+        addevent_tvEtime.isCursorVisible=false
+        addevent_tvNotification.isCursorVisible=false
+
+
+
+
+
+
+
+
+
+        dialog.show()
+
+
     }
 
     override fun onEventLongPress(event: WeekViewEvent, eventRect: RectF) {
@@ -241,7 +289,12 @@ class activity_weekly : AppCompatActivity(),
             endTime[Calendar.HOUR_OF_DAY] = cn.endhours
             endTime[Calendar.MINUTE] = cn.endmin
             val eventName = cn.event_name
-            event = WeekViewEvent(0, getEventTitle(eventName, startTime), startTime, endTime)
+            event = WeekViewEvent(
+                cn.id.toLong(),
+                getEventTitle(eventName, startTime),
+                startTime,
+                endTime
+            )
             event.color = getRandomColor()
             events.add(event)
 

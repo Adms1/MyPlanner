@@ -101,6 +101,21 @@
             tools:ignore="RtlSymmetry"
             tools:text="Event title" />
 
+        <ImageView
+            android:id="@+id/imgRepeat"
+            android:layout_width="30dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="296dp"
+            android:contentDescription="@string/task"
+            android:paddingTop="@dimen/small_margin"
+            android:paddingBottom="@dimen/small_margin"
+            android:src="@drawable/repeat"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/txtEvent"
+            app:layout_constraintStart_toEndOf="@+id/event_item_color_bar"
+            app:layout_constraintTop_toTopOf="@+id/txtEvent"
+            app:layout_constraintVertical_bias="0.0" />
+
         <android.widget.TextView
             android:id="@+id/txtTime"
             android:layout_width="0dp"
@@ -116,6 +131,7 @@
             app:layout_constraintStart_toEndOf="@+id/event_item_color_bar"
             app:layout_constraintTop_toBottomOf="@+id/txtEvent"
             tools:text="13:00" />
+
         <ImageView
             android:id="@+id/event_item_color_bar1"
             android:layout_width="@dimen/event_color_bar_width"

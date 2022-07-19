@@ -11,18 +11,31 @@
         android:orientation="horizontal"
         android:weightSum="1">
 
-        <ImageView
-            android:id="@+id/txtColor"
+        <TextView
+            android:id="@+id/imgText"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_gravity="center_vertical"
             android:layout_weight="0.1"
             android:background="@color/white"
             android:visibility="gone"
+            android:gravity="center"
+            android:text="!!!"
             android:contentDescription="@string/app_name" />
 
+        <ImageView
+            android:id="@+id/imgSign"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="0.1"
+            android:background="@color/white"
+            android:contentDescription="@string/app_name"
+            android:tooltipText="!!!"
+            android:visibility="gone" />
+
         <TextView
-            android:id="@+id/txtCompany"
+            android:id="@+id/txtPriority"
             style="?android:attr/spinnerItemStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

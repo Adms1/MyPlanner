@@ -22,5 +22,5 @@ class DailyPlanner(
     var Status: String,
     var month: String,
     var year: Int,
-
+    var RepeatOrNot: String,
     )

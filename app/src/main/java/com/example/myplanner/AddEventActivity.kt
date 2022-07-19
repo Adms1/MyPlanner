@@ -16,8 +16,9 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.myplanner.Company.CompanyAdapter
 import com.example.myplanner.Company.CompanyModel
+import com.example.myplanner.Company.PriorityAdapter
+import com.example.myplanner.Company.companyAdapter1
 import com.example.myplanner.daily.DailyActivity
 import com.example.myplanner.db.DatabaseHandler
 import com.github.dhaval2404.colorpicker.MaterialColorPickerDialog
@@ -53,8 +54,10 @@ class AddEventActivity : AppCompatActivity() {
     var day1: Int = 0
     var month1: String? = null
     var id1: Int? = null
+    var repeatornot: Boolean = false
 
     private var spinnerCompanyList: ArrayList<CompanyModel>? = null
+    private var spinnerPriorityList: ArrayList<CompanyModel>? = null
 
 
     override
@@ -69,6 +72,7 @@ class AddEventActivity : AppCompatActivity() {
         actionBar!!.title = "Add Event"
 
         companyList();
+        priorityList()
         val sharedPreference = getSharedPreferences("PREFERENCE_NAME", Context.MODE_PRIVATE)
         strDateTime = sharedPreference.getString("editOrNotDateTime", "")
         if (strDateTime.equals("editDateTime")) {
@@ -160,27 +164,34 @@ class AddEventActivity : AppCompatActivity() {
         } else {
             val spnCompany = resources.getStringArray(R.array.Company)
             if (spinnerCompany != null) {
-             //   val adapter = spinnerCompanyList?.let { CompanyAdapter(this, it) }
-             //   spinnerCompany.adapter = adapter
+                val adapter = companyAdapter1(
+                    this, spinnerCompanyList
+                )
+                spinnerCompany.adapter = adapter
+            }
+            spinnerCompany.onItemSelectedListener = object :
+                AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>,
+                    view: View, position: Int, id: Long
+                ) {
+
+                    strCompany = spinnerCompany.selectedItemPosition.toString()
+
+                }
+
+                override fun onNothingSelected(parent: AdapterView<*>) {
+                    // write code to perform some action
+                }
 
             }
-            spinnerCompany.onItemSelectedListener =
-                object : AdapterView.OnItemSelectedListener {
-                    override fun onItemSelected(
-                        parent: AdapterView<*>, view: View, position: Int, id: Long
-                    ) {
-                        strCompany = spinnerCompany.selectedItemPosition.toString()
-                    }
 
-                    override fun onNothingSelected(parent: AdapterView<*>) {
-                        // write code to perform some action
-                    }
-                }
+
             val spnPriority = resources.getStringArray(R.array.Priority)
             if (spinnerPriority != null) {
-                val adapter = ArrayAdapter(
+                val adapter = PriorityAdapter(
                     this,
-                    android.R.layout.simple_spinner_item, spnPriority
+                    spinnerPriorityList
                 )
                 spinnerPriority.adapter = adapter
             }
@@ -220,7 +231,7 @@ class AddEventActivity : AppCompatActivity() {
                     strRepeat = spinnerRepeat.selectedItemPosition.toString()
                     /*Toast.makeText(applicationContext, "Cooming Soon", Toast.LENGTH_SHORT)
                         .show()
-*/
+                 */
 
                     Log.d("repeatEvent :", strRepeat.toString())
 
@@ -236,7 +247,7 @@ class AddEventActivity : AppCompatActivity() {
 
         val watcher: TextWatcher = object : TextWatcher {
             override fun afterTextChanged(s: Editable) {
-                addevent_tvNotification.text = addevent_tvEdesc.text
+                addevent_tvNotification.text = addevent_tvEname.text
 
             }
 
@@ -255,6 +266,7 @@ class AddEventActivity : AppCompatActivity() {
             openCalendar()
         }
 
+/*
         addevent_ivColor.setOnClickListener {
             MaterialColorPickerDialog
                 .Builder(this)                            // Pass Activity Instance
@@ -268,6 +280,7 @@ class AddEventActivity : AppCompatActivity() {
                 }
                 .show()
         }
+*/
 
         btnTaskComplete.setOnClickListener {
             val db = DatabaseHandler(applicationContext)
@@ -276,6 +289,15 @@ class AddEventActivity : AppCompatActivity() {
             startActivity(intent)
 
         }
+    }
+
+    private fun priorityList() {
+        spinnerPriorityList = ArrayList()
+        spinnerPriorityList!!.add(CompanyModel("Please Select Priority"))
+        spinnerPriorityList!!.add(CompanyModel("Urgent"))
+        spinnerPriorityList!!.add(CompanyModel("High"))
+        spinnerPriorityList!!.add(CompanyModel("Medium"))
+        spinnerPriorityList!!.add(CompanyModel("Low"))
     }
 
 
@@ -290,14 +312,13 @@ class AddEventActivity : AppCompatActivity() {
         spinnerCompanyList!!.add(CompanyModel("PARCOTICS"))
         spinnerCompanyList!!.add(CompanyModel("PERSONAL"))
 
-
     }
 
     private fun openCalendar() {
         val picker = DatePickerDialog(
             this@AddEventActivity,
             { view, year, monthOfYear, dayOfMonth ->
-                // set this date in TextView for Displ
+// set this date in TextView for Displ
                 val date = (day.toString() + "/" + (month + 1) + "/" + year)
 
                 addevent_tvDate.text = date
@@ -358,7 +379,7 @@ class AddEventActivity : AppCompatActivity() {
     }
 
     private fun updateLabel(date: Int, month: Int, year: Int) {
-        //  val monthName = getMonthForInt(month - 1)
+//  val monthName = getMonthForInt(month - 1)
         val calendar = Calendar.getInstance()
         calendar[Calendar.DAY_OF_MONTH] = date
         calendar[Calendar.MONTH] = month
@@ -384,7 +405,7 @@ class AddEventActivity : AppCompatActivity() {
     }
 
     private fun validateInput(): Boolean {
-        // TODO Auto-generated method stub
+// TODO Auto-generated method stub
         var isValidData = true
         if (isEmpty(this.strEventName)) {
             Toast.makeText(applicationContext, "Please Enter Event Name", Toast.LENGTH_SHORT)
@@ -494,6 +515,7 @@ class AddEventActivity : AppCompatActivity() {
 
                             when (spinnerRepeat.selectedItemPosition) {
                                 2 -> {
+                                    repeatornot = true
                                     var dt = strDate // Start date
                                     val sdf = SimpleDateFormat("dd/MM/yyyy")
                                     val c = Calendar.getInstance()
@@ -519,10 +541,14 @@ class AddEventActivity : AppCompatActivity() {
                                         Integer.parseInt(endMin),
                                         strRepeat,
                                         month1.toString(),
-                                        Integer.parseInt(strYear.toString())
+                                        Integer.parseInt(strYear.toString()),
+                                        repeatornot.toString()
+
                                     )
                                 }
                                 3 -> {
+                                    repeatornot = true
+
                                     var dt = strDate // Start date
                                     val sdf = SimpleDateFormat("dd/MM/yyyy")
                                     val c = Calendar.getInstance()
@@ -550,11 +576,15 @@ class AddEventActivity : AppCompatActivity() {
                                         Integer.parseInt(endMin),
                                         strRepeat,
                                         dateString1,
-                                        Integer.parseInt(strYear.toString())
+                                        Integer.parseInt(strYear.toString()),
+                                        repeatornot.toString()
+
                                     )
 
                                 }
                                 4 -> {
+                                    repeatornot = true
+
                                     var dt = strDate // Start date
                                     val sdf = SimpleDateFormat("dd/MM/yyyy")
                                     val c = Calendar.getInstance()
@@ -580,7 +610,9 @@ class AddEventActivity : AppCompatActivity() {
                                         Integer.parseInt(endMin),
                                         strRepeat,
                                         month1.toString(),
-                                        Integer.parseInt(dateString1)
+                                        Integer.parseInt(dateString1),
+                                        repeatornot.toString()
+
                                     )
 
                                 }
@@ -601,7 +633,9 @@ class AddEventActivity : AppCompatActivity() {
                                 Integer.parseInt(endMin),
                                 strRepeat,
                                 month1.toString(),
-                                Integer.parseInt(strYear.toString())
+                                Integer.parseInt(strYear.toString()),
+                                repeatornot.toString()
+
                             )
 
                         } catch (e: Exception) {

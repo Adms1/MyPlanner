@@ -6,6 +6,7 @@ import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.annotation.RequiresApi
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.myplanner.AddEventActivity
 import com.example.myplanner.R
 import com.example.myplanner.pojo.DailyPlanner
+import com.github.dhaval2404.colorpicker.util.setVisibility
 import java.util.*
 
 class DailyAdaper(
@@ -49,7 +51,36 @@ class DailyAdaper(
                 date1 = holder.headingView.text.toString()
             }
         }
+        if (listOfDailyPlan[position].RepeatOrNot.equals("true")) {
+            holder.imgRepeat.visibility = View.VISIBLE
 
+        } else {
+            holder.imgRepeat.visibility = View.GONE
+
+        }
+        if (listOfDailyPlan[position].company.equals(2)) {
+            holder.event_item_color_bar.setBackgroundColor(context.resources.getColor(R.color.teal_A400))
+            holder.event_item_color_bar1.setBackgroundColor(context.resources.getColor(R.color.teal_A400))
+
+        } else if (listOfDailyPlan[position].company.equals(3)) {
+            holder.event_item_color_bar.setBackgroundColor(context.resources.getColor(R.color.green_400))
+            holder.event_item_color_bar1.setBackgroundColor(context.resources.getColor(R.color.green_400))
+        } else if (listOfDailyPlan[position].company.equals(4)) {
+            holder.event_item_color_bar.setBackgroundColor(context.resources.getColor(R.color.yellow_900))
+            holder.event_item_color_bar1.setBackgroundColor(context.resources.getColor(R.color.yellow_900))
+        } else if (listOfDailyPlan[position].company.equals(5)) {
+            holder.event_item_color_bar.setBackgroundColor(context.resources.getColor(R.color.black))
+            holder.event_item_color_bar1.setBackgroundColor(context.resources.getColor(R.color.black))
+        } else if (listOfDailyPlan[position].company.equals(6)) {
+            holder.event_item_color_bar.setBackgroundColor(context.resources.getColor(R.color.darkBlue))
+            holder.event_item_color_bar1.setBackgroundColor(context.resources.getColor(R.color.darkBlue))
+        } else if (listOfDailyPlan[position].company.equals(7)) {
+            holder.event_item_color_bar.setBackgroundColor(context.resources.getColor(R.color.red))
+            holder.event_item_color_bar1.setBackgroundColor(context.resources.getColor(R.color.red))
+        } else if (listOfDailyPlan[position].company.equals(8)) {
+            holder.event_item_color_bar.setBackgroundColor(context.resources.getColor(R.color.pista))
+            holder.event_item_color_bar1.setBackgroundColor(context.resources.getColor(R.color.pista))
+        }
 
 
         holder.txtEvent.text = listOfDailyPlan[position].event_name
@@ -85,7 +116,6 @@ class DailyAdaper(
             editor.apply()
             val intent = Intent(context, AddEventActivity::class.java)
             context.startActivity(intent)
-
         }
         holder.lastDate = holder.headingView.text.toString()
     }
@@ -93,10 +123,15 @@ class DailyAdaper(
     class Viewholder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var txtTime: TextView = itemView.findViewById(R.id.txtTime)
         var txtEvent: TextView = itemView.findViewById(R.id.txtEvent)
+        var imgRepeat: ImageView = itemView.findViewById(R.id.imgRepeat)
         var linearLayout: LinearLayout = itemView.findViewById(R.id.linerMain)
         var eventItemHolder: ConstraintLayout = itemView.findViewById(R.id.event_item_holder)
         var headingView: TextView = itemView.findViewById(R.id.headingView)
         var lastDate: String? = ""
         var oneTimeCheck: Boolean = true
+
+        var event_item_color_bar: ImageView = itemView.findViewById(R.id.event_item_color_bar)
+        var event_item_color_bar1: ImageView = itemView.findViewById(R.id.event_item_color_bar1)
+
     }
 }

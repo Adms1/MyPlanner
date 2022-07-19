@@ -1,5 +1,6 @@
 package com.example.myplanner.month
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -34,6 +35,7 @@ class MonthlyActivity : AppCompatActivity(), EventsCalendar.Callback {
             "CLICKED", EventsCalendarUtil.getDateString(selectedDate, EventsCalendarUtil.DD_MM_YYYY)
         )
         setList(EventsCalendarUtil.getDateString(selectedDate, EventsCalendarUtil.DD_MM_YYYY))
+
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,12 +51,12 @@ class MonthlyActivity : AppCompatActivity(), EventsCalendar.Callback {
         val today = Calendar.getInstance()
         val end = Calendar.getInstance()
         end.add(Calendar.YEAR, 2)
-        eventsCalendar.setSelectionMode(eventsCalendar.SINGLE_SELECTION)
+        eventsCalendar.setSelectionMode(eventsCalendar.MULTIPLE_SELECTION)
             .setToday(today)
             .setMonthRange(today, end)
             .setWeekStartDay(Calendar.MONDAY, false)
             .setIsBoldTextOnSelectionEnabled(true)
-            .setEventDotColor(R.color.red)
+
             //  .setDatesTypeface(FontsManager.getTypeface(FontsManager.OPENSANS_REGULAR, this))
             //  .setMonthTitleTypeface(FontsManager.getTypeface(FontsManager.OPENSANS_SEMIBOLD, this))
             //   .setWeekHeaderTypeface(FontsManager.getTypeface(FontsManager.OPENSANS_SEMIBOLD, this))
@@ -90,9 +92,9 @@ class MonthlyActivity : AppCompatActivity(), EventsCalendar.Callback {
             val intent = Intent(this@MonthlyActivity, AddEventActivity::class.java)
             startActivity(intent)
         }
+
     }
 
-/*
     private fun getDateString(time: Long?): String {
         if (time != null) {
             val cal = Calendar.getInstance()
@@ -115,7 +117,6 @@ class MonthlyActivity : AppCompatActivity(), EventsCalendar.Callback {
             return "$month ${cal[Calendar.DAY_OF_MONTH]}, ${cal[Calendar.YEAR]}"
         } else return ""
     }
-*/
 
     private fun  setList(date: String) {
         val db = DatabaseHandler(applicationContext)
