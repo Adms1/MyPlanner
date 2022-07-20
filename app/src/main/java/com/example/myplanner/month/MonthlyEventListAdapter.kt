@@ -31,8 +31,8 @@ class MonthlyEventListAdapter(val context: Context,
     override fun onBindViewHolder(holder: Viewholder, position: Int) {
 
         holder.txtDate.text = monthlyPlannig[position].day.toString()
-        holder.txtEvent.text = monthlyPlannig[position].event_name.toString()
-        holder.txtTime.text = monthlyPlannig[position].to_time.toString()
+        holder.txtEvent.text = monthlyPlannig[position].event_name
+        holder.txtTime.text = monthlyPlannig[position].to_time
     }
 
     class Viewholder(itemView: View) : RecyclerView.ViewHolder(itemView) {

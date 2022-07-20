@@ -59,6 +59,9 @@
         <activity
             android:name=".month.MonthlyActivity"
             android:exported="true" />
+        <activity
+            android:name=".month.MonthWeekViewActivity"
+            android:exported="true" />
     </application>
 
 </manifest>

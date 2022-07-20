@@ -1,29 +1,30 @@
 package com.example.myplanner.week
 
 import android.app.Dialog
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.RectF
 import android.os.Bundle
-import android.util.Log
 import android.util.TypedValue
 import android.view.Menu
 import android.view.MenuItem
 import android.view.Window
-import android.widget.EditText
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.alamkanak.weekview.DateTimeInterpreter
 import com.alamkanak.weekview.MonthLoader
 import com.alamkanak.weekview.WeekViewEvent
+import com.example.myplanner.AddEventActivity
+import com.example.myplanner.Company.CompanyModel
+import com.example.myplanner.Company.PriorityAdapter
+import com.example.myplanner.Company.companyAdapter1
 import com.example.myplanner.DashboardActivity
 import com.example.myplanner.R
 import com.example.myplanner.db.DatabaseHandler
 import com.example.myplanner.pojo.DailyPlanner
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 
 
 class activity_weekly : AppCompatActivity(),
@@ -35,7 +36,8 @@ class activity_weekly : AppCompatActivity(),
         private set
     var position: Int = 0
     var weeklyData = ArrayList<DailyPlanner>()
-
+    private var spinnerCompanyList: java.util.ArrayList<CompanyModel>? = null
+    private var spinnerPriorityList: java.util.ArrayList<CompanyModel>? = null
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
@@ -44,6 +46,9 @@ class activity_weekly : AppCompatActivity(),
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         val actionBar = supportActionBar
         actionBar!!.title = "  Weekly Plan  "
+
+        priorityList()
+        companyList()
 
         // Get a reference for the week view in the layout.
         weekView = findViewById(R.id.weekView) as com.alamkanak.weekview.WeekView
@@ -203,17 +208,25 @@ class activity_weekly : AppCompatActivity(),
         )
     }
 
+    protected fun onAddEventClicked(startTime: Int, endTime: Int) {
+        Toast.makeText(this, "Add event clicked.", Toast.LENGTH_SHORT).show()
+    }
+
     override fun onEventClick(event: WeekViewEvent, eventRect: RectF) {
-        Toast.makeText(this, "Clicked " + event.name, Toast.LENGTH_SHORT).show()
+        //    Toast.makeText(this, "Clicked " + event.name, Toast.LENGTH_SHORT).show()
 
         val dialog = Dialog(this)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setCancelable(false)
-        dialog.setContentView(R.layout.activity_add_event)
-
+        dialog.setContentView(R.layout.dialogweekly)
+        // dialog.setTitle(weeklyData.get(0).event_name).toString()
         var db = DatabaseHandler(applicationContext)
         weeklyData.addAll(db.getWeeklyClickEvent(event.id.toInt()))
+        val btnClose: ImageButton = dialog.findViewById(R.id.btnClose) as ImageButton
 
+        btnClose.setOnClickListener {
+            dialog.dismiss()
+        }
         val addevent_tvEname: EditText = dialog.findViewById(R.id.addevent_tvEname) as EditText
         val addevent_tvEdesc: EditText = dialog.findViewById(R.id.addevent_tvEdesc) as EditText
         val addevent_tvDate: TextView = dialog.findViewById(R.id.addevent_tvDate) as TextView
@@ -221,6 +234,9 @@ class activity_weekly : AppCompatActivity(),
         val addevent_tvEtime: TextView = dialog.findViewById(R.id.addevent_tvEtime) as TextView
         val addevent_tvNotification: TextView =
             dialog.findViewById(R.id.addevent_tvNotification) as TextView
+        val spinnerCompany: Spinner = dialog.findViewById(R.id.spinnerCompany) as Spinner
+        val spinnerPriority: Spinner = dialog.findViewById(R.id.spinnerPriority) as Spinner
+        val spinnerRepeat: Spinner = dialog.findViewById(R.id.spinnerRepeat) as Spinner
 
         addevent_tvEname.setText(weeklyData.get(0).event_name)
         addevent_tvEdesc.setText(weeklyData.get(position).event_description)
@@ -229,32 +245,56 @@ class activity_weekly : AppCompatActivity(),
         addevent_tvEtime.setText(weeklyData.get(position).from_time)
         addevent_tvNotification.setText(weeklyData.get(position).notification_description)
 
-        addevent_tvEname.isCursorVisible=false
-        addevent_tvEdesc.isCursorVisible=false
-        addevent_tvDate.isCursorVisible=false
-        addevent_tvStime.isCursorVisible=false
-        addevent_tvEtime.isCursorVisible=false
-        addevent_tvNotification.isCursorVisible=false
+        addevent_tvEname.isCursorVisible = false
+        addevent_tvEdesc.isCursorVisible = false
+        addevent_tvDate.isCursorVisible = false
+        addevent_tvStime.isCursorVisible = false
+        addevent_tvEtime.isCursorVisible = false
+        addevent_tvNotification.isCursorVisible = false
 
+        val spnRepeat = resources.getStringArray(R.array.Repeat)
+        if (spinnerCompany != null) {
+            val adapter = companyAdapter1(this, spinnerCompanyList)
+            spinnerCompany.adapter = adapter
+        }
+        if (spinnerPriority != null) {
+            val adapter = PriorityAdapter(
+                this, spinnerPriorityList
+            )
+            spinnerPriority.adapter = adapter
+        }
 
+        if (spinnerRepeat != null) {
+            val adapter = ArrayAdapter(
+                this, android.R.layout.simple_spinner_item, spnRepeat
+            )
+            spinnerRepeat.adapter = adapter
+        }
 
+        spinnerRepeat.setSelection(weeklyData.get(position).repeat)
+        spinnerPriority.setSelection(weeklyData.get(position).priority)
+        spinnerCompany.setSelection(weeklyData.get(position).company)
 
-
-
-
-
-
+        dialog.setCanceledOnTouchOutside(true);
         dialog.show()
 
 
     }
 
     override fun onEventLongPress(event: WeekViewEvent, eventRect: RectF) {
+        onAddEventClicked(12, 1)
         //  Toast.makeText(this, "Long pressed event: " + event.name, Toast.LENGTH_SHORT).show()
     }
 
     override fun onEmptyViewLongPress(time: Calendar) {
-        //  Toast.makeText(this, "Empty view long pressed: " + getEventTitle(time), Toast.LENGTH_SHORT) .show()
+        // Toast.makeText(this, "Empty view long pressed: " + getEventTitle("",time), Toast.LENGTH_SHORT) .show()
+        val sharedPreference = getSharedPreferences("PREFERENCE_NAME", Context.MODE_PRIVATE)
+        val editor = sharedPreference.edit()
+        editor.putString("editOrNotDateTime", "newDateTime")
+        editor.apply()
+
+        val intent = Intent(this, AddEventActivity::class.java)
+        startActivity(intent)
     }
 
     companion object {
@@ -267,8 +307,6 @@ class activity_weekly : AppCompatActivity(),
         val events: MutableList<WeekViewEvent> = ArrayList()
 
         var startTime = Calendar.getInstance()
-        val today = Calendar.getInstance().get(Calendar.DAY_OF_MONTH).toString()
-        val DayAfterWeek = Calendar.getInstance().get(Calendar.DAY_OF_MONTH) + 7
         var endTime = startTime.clone() as Calendar
         var event: WeekViewEvent
         val db = DatabaseHandler(applicationContext)
@@ -283,7 +321,6 @@ class activity_weekly : AppCompatActivity(),
             startTime[Calendar.MINUTE] = cn.startmin
             startTime[Calendar.DAY_OF_MONTH] = cn.day
             startTime[Calendar.MONTH] = Integer.parseInt(cn.month) - 1
-            Log.d("testMonth", cn.month)
             startTime[Calendar.YEAR] = cn.year
             endTime = startTime.clone() as Calendar
             endTime[Calendar.HOUR_OF_DAY] = cn.endhours
@@ -302,7 +339,7 @@ class activity_weekly : AppCompatActivity(),
                 // Return only the events that matches newYear and newMonth.
                 val matchedEvents: MutableList<WeekViewEvent> = ArrayList()
                 for (event in events) {
-                    if (eventMatches(event, cn.year, Integer.parseInt(cn.month) - 1)) {
+                    if (eventMatches(event, cn.year - 1, Integer.parseInt(cn.month) - 1)) {
                         matchedEvents.add(event)
                     }
                 }
@@ -323,6 +360,29 @@ class activity_weekly : AppCompatActivity(),
     fun getRandomColor(): Int {
         val rnd = Random()
         return Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256))
+    }
+
+    private fun priorityList() {
+        spinnerPriorityList = java.util.ArrayList()
+        spinnerPriorityList!!.add(CompanyModel("Please Select Priority"))
+        spinnerPriorityList!!.add(CompanyModel("Urgent"))
+        spinnerPriorityList!!.add(CompanyModel("High"))
+        spinnerPriorityList!!.add(CompanyModel("Medium"))
+        spinnerPriorityList!!.add(CompanyModel("Low"))
+    }
+
+
+    private fun companyList() {
+        spinnerCompanyList = java.util.ArrayList()
+        spinnerCompanyList!!.add(CompanyModel("Please Select Company"))
+        spinnerCompanyList!!.add(CompanyModel("ADM"))
+        spinnerCompanyList!!.add(CompanyModel("ASL"))
+        spinnerCompanyList!!.add(CompanyModel("SRPL"))
+        spinnerCompanyList!!.add(CompanyModel("ULTRA"))
+        spinnerCompanyList!!.add(CompanyModel("GALACTIC"))
+        spinnerCompanyList!!.add(CompanyModel("PARCOTICS"))
+        spinnerCompanyList!!.add(CompanyModel("PERSONAL"))
+
     }
 
 }

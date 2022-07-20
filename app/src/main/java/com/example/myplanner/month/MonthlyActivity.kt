@@ -1,25 +1,16 @@
 package com.example.myplanner.month
 
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
-import android.util.Log
+import android.view.View
+import android.widget.CalendarView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.events.calendar.utils.EventsCalendarUtil
-import com.events.calendar.views.EventsCalendar
-import com.example.myplanner.AddEventActivity
-import com.example.myplanner.DashboardActivity
 import com.example.myplanner.R
-import com.example.myplanner.db.DatabaseHandler
-import com.example.myplanner.pojo.DailyPlanner
 import kotlinx.android.synthetic.main.activity_monthly.*
-import java.text.SimpleDateFormat
 import java.util.*
 
-class MonthlyActivity : AppCompatActivity(), EventsCalendar.Callback {
+class MonthlyActivity : AppCompatActivity()/*, EventsCalendar.Callback*/ {
 
-    override fun onDayLongPressed(selectedDate: Calendar?) {
+    /*  override fun onDayLongPressed(selectedDate: Calendar?) {
         Log.e(
             "LONG CLICKED",
             EventsCalendarUtil.getDateString(selectedDate, EventsCalendarUtil.DD_MM_YYYY)
@@ -37,8 +28,9 @@ class MonthlyActivity : AppCompatActivity(), EventsCalendar.Callback {
         setList(EventsCalendarUtil.getDateString(selectedDate, EventsCalendarUtil.DD_MM_YYYY))
 
     }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
+*/
+    override fun onCreate(savedInstanceState: Bundle?)
+    {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_monthly)
 
@@ -48,7 +40,10 @@ class MonthlyActivity : AppCompatActivity(), EventsCalendar.Callback {
         val actionBar = supportActionBar
         actionBar!!.title = "  Monthly Plan  "
 
-        val today = Calendar.getInstance()
+
+
+
+        /*  val today = Calendar.getInstance()
         val end = Calendar.getInstance()
         end.add(Calendar.YEAR, 2)
         eventsCalendar.setSelectionMode(eventsCalendar.MULTIPLE_SELECTION)
@@ -135,9 +130,9 @@ class MonthlyActivity : AppCompatActivity(), EventsCalendar.Callback {
         return true
     }
 
-    /*override fun onBackPressed() {
+    *//*override fun onBackPressed() {
         return
-    }*/
+    }*//*
 
     private fun addEvent() {
 
@@ -146,5 +141,10 @@ class MonthlyActivity : AppCompatActivity(), EventsCalendar.Callback {
             startActivity(intent)
         }
     }
+*/
+    }
 
+    fun nextWeekAction(view: View) {}
+    fun previousWeekAction(view: View) {}
+    fun newEventAction(view: View) {}
 }

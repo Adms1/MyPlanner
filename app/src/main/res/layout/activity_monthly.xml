@@ -1,51 +1,204 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".month.MonthWeekViewActivity">
 
-    <com.events.calendar.views.EventsCalendar
-        android:id="@+id/eventsCalendar"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:foregroundGravity="center"
-        android:overScrollMode="never"
-        app:datesTextSize="16sp"
-        app:isBoldTextOnSelectionEnabled="true"
-        app:layout_constraintTop_toTopOf="parent"
-        app:monthTitleColor="@color/white"
-        app:monthTitleTextSize="24sp"
-        app:primaryTextColor="?android:textColorPrimary"
-        app:secondaryTextColor="@color/grey"
-        app:selectedTextColor="@color/white"
-        app:selectionColor="@color/red"
-        app:weekHeaderColor="@color/white"
-        app:weekHeaderTextSize="15sp" />
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@null"
+            android:onClick="previousWeekAction"
+            android:text="@string/back"
+            android:textColor="@color/darkBlue"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/monthYearTV"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:text="Feb 2021"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@null"
+            android:onClick="nextWeekAction"
+            android:text="@string/forward"
+            android:textColor="@color/darkBlue"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="SUN"
+            android:textAlignment="center"
+            android:textColor="@color/lightBlue"
+            android:textSize="16sp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="MON"
+            android:textAlignment="center"
+            android:textColor="@color/lightBlue"
+            android:textSize="16sp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="TUE"
+            android:textAlignment="center"
+            android:textColor="@color/lightBlue"
+            android:textSize="16sp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="WED"
+            android:textAlignment="center"
+            android:textColor="@color/lightBlue"
+            android:textSize="16sp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="THUR"
+            android:textAlignment="center"
+            android:textColor="@color/lightBlue"
+            android:textSize="16sp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="FRI"
+            android:textAlignment="center"
+            android:textColor="@color/lightBlue"
+            android:textSize="16sp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="SAT"
+            android:textAlignment="center"
+            android:textColor="@color/lightBlue"
+            android:textSize="16sp" />
+
+
+    </LinearLayout>
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/calendarRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight=".5" />
 
     <View
-        android:id="@+id/monthly_line"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/lightBlue"
-        app:layout_constraintTop_toBottomOf="@id/eventsCalendar" />
+        android:background="@color/darkBlue"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/monthly_rvList"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/monthly_line" />
+        android:layout_marginTop="2dp"
+        android:layout_weight="5" />
 
-    <ImageView
-        android:id="@+id/monthly_ivAdd"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginBottom="20dp"
-        android:src="@drawable/plus"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout><!--
+    <?xml version="1.0" encoding="utf-8"?>
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.events.calendar.views.EventsCalendar
+            android:id="@+id/eventsCalendar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:foregroundGravity="center"
+            android:overScrollMode="never"
+            app:datesTextSize="16sp"
+            app:isBoldTextOnSelectionEnabled="true"
+            app:layout_constraintTop_toTopOf="parent"
+            app:monthTitleColor="@color/white"
+            app:monthTitleTextSize="24sp"
+            app:primaryTextColor="?android:textColorPrimary"
+            app:secondaryTextColor="@color/grey"
+            app:selectedTextColor="@color/white"
+            app:selectionColor="@color/red"
+            app:weekHeaderColor="@color/white"
+            app:weekHeaderTextSize="15sp" />
+
+        <View
+            android:id="@+id/monthly_line"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/lightBlue"
+            app:layout_constraintTop_toBottomOf="@id/eventsCalendar" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/monthly_rvList"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/monthly_line" />
+
+        <ImageView
+            android:id="@+id/monthly_ivAdd"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="20dp"
+            android:src="@drawable/plus"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>-->
+
+
+
+
+
+
+
+
+
+
+

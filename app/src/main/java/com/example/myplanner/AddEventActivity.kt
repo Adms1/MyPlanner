@@ -185,8 +185,6 @@ class AddEventActivity : AppCompatActivity() {
                 }
 
             }
-
-
             val spnPriority = resources.getStringArray(R.array.Priority)
             if (spinnerPriority != null) {
                 val adapter = PriorityAdapter(

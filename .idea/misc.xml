@@ -38,15 +38,21 @@
         <entry key="..\:/Khushbu Data/new/app/src/main/res/layout/activity_add_event.xml" value="0.27291666666666664" />
         <entry key="..\:/Khushbu Data/new/app/src/main/res/layout/activity_daily.xml" value="0.27291666666666664" />
         <entry key="..\:/Khushbu Data/new/app/src/main/res/layout/activity_dashboard.xml" value="0.2601851851851852" />
-        <entry key="..\:/Khushbu Data/new/app/src/main/res/layout/activity_monthly.xml" value="0.11904761904761904" />
+        <entry key="..\:/Khushbu Data/new/app/src/main/res/layout/activity_monthly.xml" value="0.22" />
         <entry key="..\:/Khushbu Data/new/app/src/main/res/layout/activity_task.xml" value="0.27291666666666664" />
         <entry key="..\:/Khushbu Data/new/app/src/main/res/layout/activity_weekly.xml" value="0.27291666666666664" />
+        <entry key="..\:/Khushbu Data/new/app/src/main/res/layout/calendar_cell.xml" value="0.2601851851851852" />
         <entry key="..\:/Khushbu Data/new/app/src/main/res/layout/daily_item_list.xml" value="0.27291666666666664" />
         <entry key="..\:/Khushbu Data/new/app/src/main/res/layout/daily_item_list_complete.xml" value="0.27291666666666664" />
+        <entry key="..\:/Khushbu Data/new/app/src/main/res/layout/dialogweekly.xml" value="0.2601851851851852" />
+        <entry key="..\:/Khushbu Data/new/app/src/main/res/layout/event_cell.xml" value="0.27291666666666664" />
+        <entry key="..\:/Khushbu Data/new/app/src/main/res/layout/example_7_calendar_day.xml" value="0.2601851851851852" />
+        <entry key="..\:/Khushbu Data/new/app/src/main/res/layout/monthly_fragment.xml" value="0.27291666666666664" />
         <entry key="..\:/Khushbu Data/new/app/src/main/res/layout/monthly_item_list.xml" value="0.27291666666666664" />
         <entry key="..\:/Khushbu Data/new/app/src/main/res/layout/prioritycompany.xml" value="0.2601851851851852" />
         <entry key="..\:/Khushbu Data/new/app/src/main/res/layout/spinnercompany.xml" value="0.271875" />
         <entry key="..\:/Khushbu Data/new/app/src/main/res/layout/spinnerpriority.xml" value="0.27291666666666664" />
+        <entry key="..\:/Khushbu Data/new/app/src/main/res/layout/tset.xml" value="0.2601851851851852" />
         <entry key="..\:/Khushbu Data/new/app/src/main/res/menu/main.xml" value="0.27291666666666664" />
         <entry key="..\:/Khushbu Data/new/app/src/main/res/menu/menu.xml" value="0.27291666666666664" />
         <entry key="..\:/Khushbu Data/new/app/src/main/res/menu/menuforaddevent.xml" value="0.27291666666666664" />
