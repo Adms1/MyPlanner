@@ -1,6 +1,8 @@
 package com.example.myplanner
 
+import android.app.AlarmManager
 import android.app.DatePickerDialog
+import android.app.PendingIntent
 import android.app.TimePickerDialog
 import android.content.Context
 import android.content.Intent
@@ -21,11 +23,10 @@ import com.example.myplanner.Company.PriorityAdapter
 import com.example.myplanner.Company.companyAdapter1
 import com.example.myplanner.daily.DailyActivity
 import com.example.myplanner.db.DatabaseHandler
-import com.github.dhaval2404.colorpicker.MaterialColorPickerDialog
-import com.github.dhaval2404.colorpicker.model.ColorShape
-import com.github.dhaval2404.colorpicker.model.ColorSwatch
 import kotlinx.android.synthetic.main.activity_add_event.*
+import java.text.DateFormat
 import java.text.DateFormatSymbols
+import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -246,14 +247,13 @@ class AddEventActivity : AppCompatActivity() {
         val watcher: TextWatcher = object : TextWatcher {
             override fun afterTextChanged(s: Editable) {
                 addevent_tvNotification.text = addevent_tvEname.text
-
             }
 
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
         }
 
-        addevent_tvEdesc.addTextChangedListener(watcher)
+        addevent_tvEname.addTextChangedListener(watcher)
         addevent_ivstime.setOnClickListener { openStartCalendar() }
         addevent_tvStime.setOnClickListener { openStartCalendar() }
         addevent_ivEtime.setOnClickListener { openEndCalendar() }
@@ -341,7 +341,7 @@ class AddEventActivity : AppCompatActivity() {
                     val hour = if (hourOfDay < 10) "0$hourOfDay" else hourOfDay
                     startToTime = "$hour"
                     startTomin = "$min"
-                    addevent_tvStime.text = "$hour : $min"
+                    addevent_tvStime.text = "$hour:$min"
                 }
             },
             cal.get(Calendar.HOUR_OF_DAY),
@@ -615,6 +615,7 @@ class AddEventActivity : AppCompatActivity() {
 
                                 }
                             }
+                            setAlarm(strNotification!!, strDate!!, strToTime!!)
                             db.addDailyPlan(
                                 strEventName,
                                 strEventDescription,
@@ -652,6 +653,25 @@ class AddEventActivity : AppCompatActivity() {
     }
 
 
+    private fun setAlarm(strNotification: String, strDate: String, strToTime: String) {
+        val am = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val intent = Intent(applicationContext, AlarmBrodcast::class.java)
+
+        intent.putExtra("event", strNotification)
+        intent.putExtra("time", strDate)
+        intent.putExtra("date", strToTime)
+        val pendingIntent = PendingIntent.getBroadcast(applicationContext, 0, intent, PendingIntent.FLAG_ONE_SHOT)
+        val dateandtime = "$strDate $strToTime"
+        val formatter: DateFormat = SimpleDateFormat("dd/mm/yyyy hh:mm")
+        try {
+            val date1 = formatter.parse(dateandtime)
+           // am[AlarmManager.RTC_WAKEUP, date1.time] = pendingIntent
+            am.set(AlarmManager.RTC_WAKEUP, date1.time, pendingIntent);
+        } catch (e: ParseException) {
+            e.printStackTrace()
+        }
+        finish()
+    }
 }
 
 

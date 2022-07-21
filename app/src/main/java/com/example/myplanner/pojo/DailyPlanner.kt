@@ -1,7 +1,5 @@
 package com.example.myplanner.pojo
 
-import java.util.*
-
 
 class DailyPlanner(
     var id: Int,
@@ -23,4 +21,6 @@ class DailyPlanner(
     var month: String,
     var year: Int,
     var RepeatOrNot: String,
-    )
+)
+
+fun DailyPlanner() {}

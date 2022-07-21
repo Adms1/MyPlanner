@@ -215,18 +215,16 @@ class activity_weekly : AppCompatActivity(),
     override fun onEventClick(event: WeekViewEvent, eventRect: RectF) {
         //    Toast.makeText(this, "Clicked " + event.name, Toast.LENGTH_SHORT).show()
 
+
         val dialog = Dialog(this)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setCancelable(false)
         dialog.setContentView(R.layout.dialogweekly)
-        // dialog.setTitle(weeklyData.get(0).event_name).toString()
-        var db = DatabaseHandler(applicationContext)
-        weeklyData.addAll(db.getWeeklyClickEvent(event.id.toInt()))
+        val db = DatabaseHandler(applicationContext)
+        //  weeklyData.addAll(db.getWeeklyClickEvent(event.id.toInt()))
         val btnClose: ImageButton = dialog.findViewById(R.id.btnClose) as ImageButton
 
-        btnClose.setOnClickListener {
-            dialog.dismiss()
-        }
+        val dailyPlanner: DailyPlanner = db.getWeeklyClickEvent(event.id.toInt())
         val addevent_tvEname: EditText = dialog.findViewById(R.id.addevent_tvEname) as EditText
         val addevent_tvEdesc: EditText = dialog.findViewById(R.id.addevent_tvEdesc) as EditText
         val addevent_tvDate: TextView = dialog.findViewById(R.id.addevent_tvDate) as TextView
@@ -238,12 +236,18 @@ class activity_weekly : AppCompatActivity(),
         val spinnerPriority: Spinner = dialog.findViewById(R.id.spinnerPriority) as Spinner
         val spinnerRepeat: Spinner = dialog.findViewById(R.id.spinnerRepeat) as Spinner
 
-        addevent_tvEname.setText(weeklyData.get(0).event_name)
-        addevent_tvEdesc.setText(weeklyData.get(position).event_description)
-        addevent_tvDate.setText(weeklyData.get(position).date)
-        addevent_tvStime.setText(weeklyData.get(position).to_time)
-        addevent_tvEtime.setText(weeklyData.get(position).from_time)
-        addevent_tvNotification.setText(weeklyData.get(position).notification_description)
+
+        btnClose.setOnClickListener {
+            dialog.dismiss()
+            addevent_tvEname.setText("")
+            addevent_tvEdesc.setText("")
+        }
+        addevent_tvEname.setText(dailyPlanner.event_name)
+        addevent_tvEdesc.setText(dailyPlanner.event_description)
+        addevent_tvDate.setText(dailyPlanner.date)
+        addevent_tvStime.setText(dailyPlanner.to_time)
+        addevent_tvEtime.setText(dailyPlanner.from_time)
+        addevent_tvNotification.setText(dailyPlanner.notification_description)
 
         addevent_tvEname.isCursorVisible = false
         addevent_tvEdesc.isCursorVisible = false
@@ -251,6 +255,16 @@ class activity_weekly : AppCompatActivity(),
         addevent_tvStime.isCursorVisible = false
         addevent_tvEtime.isCursorVisible = false
         addevent_tvNotification.isCursorVisible = false
+
+        addevent_tvDate.isFocusable = false
+        addevent_tvEname.isFocusable = false
+        addevent_tvEdesc.isFocusable = false
+        addevent_tvStime.isFocusable = false
+        addevent_tvEtime.isFocusable = false
+        addevent_tvNotification.isFocusable = false
+        spinnerPriority.isEnabled = false
+        spinnerCompany.isEnabled = false
+        spinnerRepeat.isEnabled = false
 
         val spnRepeat = resources.getStringArray(R.array.Repeat)
         if (spinnerCompany != null) {
@@ -271,9 +285,9 @@ class activity_weekly : AppCompatActivity(),
             spinnerRepeat.adapter = adapter
         }
 
-        spinnerRepeat.setSelection(weeklyData.get(position).repeat)
-        spinnerPriority.setSelection(weeklyData.get(position).priority)
-        spinnerCompany.setSelection(weeklyData.get(position).company)
+        spinnerRepeat.setSelection(dailyPlanner.repeat)
+        spinnerPriority.setSelection(dailyPlanner.priority)
+        spinnerCompany.setSelection(dailyPlanner.company)
 
         dialog.setCanceledOnTouchOutside(true);
         dialog.show()
@@ -371,7 +385,6 @@ class activity_weekly : AppCompatActivity(),
         spinnerPriorityList!!.add(CompanyModel("Low"))
     }
 
-
     private fun companyList() {
         spinnerCompanyList = java.util.ArrayList()
         spinnerCompanyList!!.add(CompanyModel("Please Select Company"))
@@ -383,7 +396,9 @@ class activity_weekly : AppCompatActivity(),
         spinnerCompanyList!!.add(CompanyModel("PARCOTICS"))
         spinnerCompanyList!!.add(CompanyModel("PERSONAL"))
 
+
     }
+
 
 }
 

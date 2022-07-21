@@ -710,6 +710,7 @@
     android:layout_height="match_parent"
     android:background="#fff">
 
+<!--
     <com.alamkanak.weekview.WeekView
         android:id="@+id/weekView"
         android:layout_width="match_parent"
@@ -732,14 +733,32 @@
         app:timeColumnResolution="60"
         app:todayBackgroundColor="#1848adff"
         app:todayHeaderTextColor="@color/accent" />
+-->
+
+    <com.alamkanak.weekview.WeekView
+        android:id="@+id/weekView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:eventTextColor="@android:color/white"
+        app:textSize="12sp"
+        app:hourHeight="60dp"
+        app:headerColumnPadding="8dp"
+        app:headerColumnTextColor="#8f000000"
+        app:headerRowPadding="12dp"
+        app:columnGap="8dp"
+        app:noOfVisibleDays="3"
+        app:headerRowBackgroundColor="#ffefefef"
+        app:dayBackgroundColor="#05000000"
+        app:todayBackgroundColor="#1848adff"
+        app:headerColumnBackground="#ffffffff"/>
 
     <TextView
         android:id="@+id/draggable_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@android:color/white"
         android:background="#ffff0000"
         android:padding="3dp"
-        android:text="@string/drag_me" />
+        android:text="@string/drag_me"
+        android:textColor="@android:color/white" />
 
 </RelativeLayout>
