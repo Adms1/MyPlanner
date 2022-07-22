@@ -17,7 +17,16 @@
     <color name="toolbar_text">#8f000000</color>
     <color name="accent">#2789e4</color>
     <color name="lightBlue">#528AAE</color>
+
     <color name="darkBlue">#2E5984</color>
+    <color name="orange">#FFA500</color>
+    <color name="cyan">#00FFFF</color>
+    <color name="grayorgray">#808080</color>
+    <color name="green">#008000</color>
+    <color name="olive">#808000</color>
+    <color name="brown">#A52A2A</color>
+
+
 
 
 </resources>

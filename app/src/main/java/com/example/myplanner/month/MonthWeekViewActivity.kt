@@ -1,5 +1,6 @@
 package com.example.myplanner.month
 
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.view.View
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myplanner.CalendarUtils
+import com.example.myplanner.DashboardActivity
 import com.example.myplanner.R
 import com.example.myplanner.Utils
 import com.example.myplanner.db.DatabaseHandler
@@ -30,6 +32,7 @@ class MonthWeekViewActivity : AppCompatActivity(), OnItemListener {
         initWidgets()
         CalendarUtils.selectedDate = LocalDate.now()
         setWeekView()
+
     }
 
     private fun initWidgets() {
@@ -40,12 +43,26 @@ class MonthWeekViewActivity : AppCompatActivity(), OnItemListener {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     private fun setWeekView() {
+        assert(supportActionBar != null)
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+        val actionBar = supportActionBar
+        actionBar!!.title = "  Monthly Plan  "
+
+        val dailyEvents = CalendarUtils.selectedDate
+        val Date = Utils.parseDateToddMMyyyy(dailyEvents.toString())
+        val db = DatabaseHandler(applicationContext)
+        val monthlyPalnning: ArrayList<DailyPlanner> = db.getMonthly("'" + Date + "'")
+
+
         monthYearText!!.setText(CalendarUtils.monthYearFromDate(CalendarUtils.selectedDate))
         val days = CalendarUtils.daysInWeekArray(CalendarUtils.selectedDate)
-        val calendarAdapter = CalendarAdapter(days, this)
-        val layoutManager: RecyclerView.LayoutManager = GridLayoutManager(
-            applicationContext, 7
-        )
+        val calendarAdapter = CalendarAdapter(days, this, monthlyPalnning)
+        var layoutManager: RecyclerView.LayoutManager = GridLayoutManager(applicationContext, 7)
+        /* layoutManager = object : GridLayoutManager(this, 7) {
+             override fun canScrollVertically(): Boolean {
+                 return true
+             }
+         }*/
         calendarRecyclerView!!.layoutManager = layoutManager
         calendarRecyclerView!!.adapter = calendarAdapter
         setEventAdpater()
@@ -86,5 +103,16 @@ class MonthWeekViewActivity : AppCompatActivity(), OnItemListener {
     override fun onItemClick(position: Int, date: LocalDate?) {
         CalendarUtils.selectedDate = date
         setWeekView()
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        val intent = Intent(this, DashboardActivity::class.java)
+        startActivity(intent)
+        return true
+    }
+
+    override fun onBackPressed() {
+        finish()
+        return
     }
 }

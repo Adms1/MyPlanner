@@ -20,6 +20,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.myplanner.Company.CompanyModel
 import com.example.myplanner.Company.PriorityAdapter
+import com.example.myplanner.Company.RepeatAdapter
 import com.example.myplanner.Company.companyAdapter1
 import com.example.myplanner.daily.DailyActivity
 import com.example.myplanner.db.DatabaseHandler
@@ -59,6 +60,7 @@ class AddEventActivity : AppCompatActivity() {
 
     private var spinnerCompanyList: ArrayList<CompanyModel>? = null
     private var spinnerPriorityList: ArrayList<CompanyModel>? = null
+    private var spinnerRepeatList: ArrayList<CompanyModel>? = null
 
 
     override
@@ -72,8 +74,9 @@ class AddEventActivity : AppCompatActivity() {
         val actionBar = supportActionBar
         actionBar!!.title = "Add Event"
 
-        companyList();
+        companyList()
         priorityList()
+        repeatList()
         val sharedPreference = getSharedPreferences("PREFERENCE_NAME", Context.MODE_PRIVATE)
         strDateTime = sharedPreference.getString("editOrNotDateTime", "")
         if (strDateTime.equals("editDateTime")) {
@@ -85,9 +88,9 @@ class AddEventActivity : AppCompatActivity() {
             val strEventDescription = sharedPreference.getString("eventDescription", "")
             val strNotificationDescription =
                 sharedPreference.getString("notificationDescription", "")
-            var strCompany1 = sharedPreference.getInt("company", 0)
-            var strRepeat1 = sharedPreference.getInt("repeat", 0)
-            var strPriority1 = sharedPreference.getInt("Priority", 0)
+            val strCompany1 = sharedPreference.getInt("company", 0)
+            val strRepeat1 = sharedPreference.getInt("repeat", 0)
+            val strPriority1 = sharedPreference.getInt("Priority", 0)
 
 
             val strStartHours = sharedPreference.getInt("StartHours", 0)
@@ -116,22 +119,15 @@ class AddEventActivity : AppCompatActivity() {
             val spnRepeat = resources.getStringArray(R.array.Repeat)
 
             if (spinnerCompany != null) {
-                val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, spnCompany)
+                val adapter = companyAdapter1(this, spinnerCompanyList)
                 spinnerCompany.adapter = adapter
             }
             if (spinnerPriority != null) {
-                val adapter = ArrayAdapter(
-                    this,
-                    android.R.layout.simple_spinner_item, spnPriority
-                )
+                val adapter = PriorityAdapter(this, spinnerPriorityList)
                 spinnerPriority.adapter = adapter
             }
-
             if (spinnerRepeat != null) {
-                val adapter = ArrayAdapter(
-                    this,
-                    android.R.layout.simple_spinner_item, spnRepeat
-                )
+                val adapter = RepeatAdapter(this, spinnerRepeatList)
                 spinnerRepeat.adapter = adapter
             }
 
@@ -214,9 +210,8 @@ class AddEventActivity : AppCompatActivity() {
 
             val spnRepeat = resources.getStringArray(R.array.Repeat)
             if (spinnerRepeat != null) {
-                val adapter = ArrayAdapter(
-                    this,
-                    android.R.layout.simple_spinner_item, spnRepeat
+                val adapter = RepeatAdapter(
+                    this, spinnerRepeatList
                 )
                 spinnerRepeat.adapter = adapter
             }
@@ -296,6 +291,15 @@ class AddEventActivity : AppCompatActivity() {
         spinnerPriorityList!!.add(CompanyModel("High"))
         spinnerPriorityList!!.add(CompanyModel("Medium"))
         spinnerPriorityList!!.add(CompanyModel("Low"))
+    }
+
+    private fun repeatList() {
+        spinnerRepeatList = ArrayList()
+        spinnerRepeatList!!.add(CompanyModel("Please Select Repeat Or Not"))
+        spinnerRepeatList!!.add(CompanyModel("No Repetition"))
+        spinnerRepeatList!!.add(CompanyModel("Week"))
+        spinnerRepeatList!!.add(CompanyModel("Month"))
+        spinnerRepeatList!!.add(CompanyModel("Year"))
     }
 
 
@@ -615,7 +619,7 @@ class AddEventActivity : AppCompatActivity() {
 
                                 }
                             }
-                            setAlarm(strNotification!!, strDate!!, strToTime!!)
+                            // setAlarm(strNotification!!, strDate!!, strToTime!!)
                             db.addDailyPlan(
                                 strEventName,
                                 strEventDescription,
@@ -644,14 +648,27 @@ class AddEventActivity : AppCompatActivity() {
                     }
                     val intent = Intent(this@AddEventActivity, DailyActivity::class.java)
                     startActivity(intent)
+                    finish()
                 }
                 true
+
             }
 
             else -> super.onOptionsItemSelected(item)
         }
     }
 
+    override fun onSupportNavigateUp(): Boolean {
+        val intent = Intent(this, DailyActivity::class.java)
+        startActivity(intent)
+
+        return true
+    }
+
+    override fun onBackPressed() {
+        finish()
+        return
+    }
 
     private fun setAlarm(strNotification: String, strDate: String, strToTime: String) {
         val am = getSystemService(Context.ALARM_SERVICE) as AlarmManager
@@ -660,12 +677,13 @@ class AddEventActivity : AppCompatActivity() {
         intent.putExtra("event", strNotification)
         intent.putExtra("time", strDate)
         intent.putExtra("date", strToTime)
-        val pendingIntent = PendingIntent.getBroadcast(applicationContext, 0, intent, PendingIntent.FLAG_ONE_SHOT)
+        val pendingIntent =
+            PendingIntent.getBroadcast(applicationContext, 0, intent, PendingIntent.FLAG_ONE_SHOT)
         val dateandtime = "$strDate $strToTime"
         val formatter: DateFormat = SimpleDateFormat("dd/mm/yyyy hh:mm")
         try {
             val date1 = formatter.parse(dateandtime)
-           // am[AlarmManager.RTC_WAKEUP, date1.time] = pendingIntent
+            // am[AlarmManager.RTC_WAKEUP, date1.time] = pendingIntent
             am.set(AlarmManager.RTC_WAKEUP, date1.time, pendingIntent);
         } catch (e: ParseException) {
             e.printStackTrace()

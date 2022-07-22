@@ -38,41 +38,48 @@ public class companyAdapter1 extends ArrayAdapter<CompanyModel> {
 
         ImageView txtColor = convertView.findViewById(R.id.txtColor);
         TextView txtCompany = convertView.findViewById(R.id.txtCompany);
-
+        View addevent_line1 = convertView.findViewById(R.id.addevent_line1);
         CompanyModel currentItem = getItem(position);
 
         if (currentItem != null) {
             txtCompany.setText(currentItem.getText());
 
             if (txtCompany.getText().toString().equals("ADM")) {
-                txtColor.setBackgroundColor(getContext().getResources().getColor(R.color.teal_A400));
-                txtColor.setVisibility(View.VISIBLE);
-
-            } else if (txtCompany.getText().toString().equals("ASL")) {
-                txtColor.setBackgroundColor(getContext().getResources().getColor(R.color.green_400));
-                txtColor.setVisibility(View.VISIBLE);
-
-            } else if (txtCompany.getText().toString().equals("SRPL")) {
-                txtColor.setBackgroundColor(getContext().getResources().getColor(R.color.yellow_900));
-                txtColor.setVisibility(View.VISIBLE);
-
-            } else if (txtCompany.getText().toString().equals("ULTRA")) {
-                txtColor.setBackgroundColor(getContext().getResources().getColor(R.color.black));
-                txtColor.setVisibility(View.VISIBLE);
-
-            } else if (txtCompany.getText().toString().equals("GALACTIC")) {
                 txtColor.setBackgroundColor(getContext().getResources().getColor(R.color.darkBlue));
                 txtColor.setVisibility(View.VISIBLE);
+                addevent_line1.setVisibility(View.VISIBLE);
+
+            } else if (txtCompany.getText().toString().equals("ASL")) {
+                txtColor.setBackgroundColor(getContext().getResources().getColor(R.color.orange));
+                txtColor.setVisibility(View.VISIBLE);
+                addevent_line1.setVisibility(View.VISIBLE);
+
+            } else if (txtCompany.getText().toString().equals("SRPL")) {
+                txtColor.setBackgroundColor(getContext().getResources().getColor(R.color.cyan));
+                txtColor.setVisibility(View.VISIBLE);
+                addevent_line1.setVisibility(View.VISIBLE);
+
+            } else if (txtCompany.getText().toString().equals("ULTRA")) {
+                txtColor.setBackgroundColor(getContext().getResources().getColor(R.color.grayorgray));
+                txtColor.setVisibility(View.VISIBLE);
+                addevent_line1.setVisibility(View.VISIBLE);
+
+            } else if (txtCompany.getText().toString().equals("GALACTIC")) {
+                txtColor.setBackgroundColor(getContext().getResources().getColor(R.color.green));
+                txtColor.setVisibility(View.VISIBLE);
+                addevent_line1.setVisibility(View.VISIBLE);
 
             } else if (txtCompany.getText().toString().equals("PARCOTICS")) {
-                txtColor.setBackgroundColor(getContext().getResources().getColor(R.color.red));
+                txtColor.setBackgroundColor(getContext().getResources().getColor(R.color.olive));
                 txtColor.setVisibility(View.VISIBLE);
+                addevent_line1.setVisibility(View.VISIBLE);
 
             } else if (txtCompany.getText().toString().equals("PERSONAL")) {
-                txtColor.setBackgroundColor(getContext().getResources().getColor(R.color.pista));
+                txtColor.setBackgroundColor(getContext().getResources().getColor(R.color.brown));
                 txtColor.setVisibility(View.VISIBLE);
-
+                addevent_line1.setVisibility(View.VISIBLE);
             }
+
         }
 
         return convertView;

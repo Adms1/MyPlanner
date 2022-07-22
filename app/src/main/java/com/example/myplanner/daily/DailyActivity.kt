@@ -90,9 +90,12 @@ class DailyActivity : AppCompatActivity() {
         return true
     }
 
-   /* override fun onBackPressed() {
+    override fun onBackPressed() {
+        val intent = Intent(this@DailyActivity, DashboardActivity::class.java)
+        startActivity(intent)
+        finish()
         return
-    }*/
+    }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         // Inflate the menu; this adds items to the action bar if it is

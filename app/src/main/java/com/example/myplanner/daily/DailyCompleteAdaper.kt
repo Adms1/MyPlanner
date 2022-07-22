@@ -50,28 +50,29 @@ class DailyCompleteAdaper(
             date1 = holder.headingView.text.toString()
             Log.d("date", date1.toString())
         }
-        if (listOfDailyPlan[position].company.equals(2)) {
-            holder.event_item_color_bar.setBackgroundColor(context.resources.getColor(R.color.teal_A400))
-            holder.event_item_color_bar1.setBackgroundColor(context.resources.getColor(R.color.teal_A400))
 
-        } else if (listOfDailyPlan[position].company.equals(3)) {
-            holder.event_item_color_bar.setBackgroundColor(context.resources.getColor(R.color.green_400))
-            holder.event_item_color_bar1.setBackgroundColor(context.resources.getColor(R.color.green_400))
-        } else if (listOfDailyPlan[position].company.equals(4)) {
-            holder.event_item_color_bar.setBackgroundColor(context.resources.getColor(R.color.yellow_900))
-            holder.event_item_color_bar1.setBackgroundColor(context.resources.getColor(R.color.yellow_900))
-        } else if (listOfDailyPlan[position].company.equals(5)) {
-            holder.event_item_color_bar.setBackgroundColor(context.resources.getColor(R.color.black))
-            holder.event_item_color_bar1.setBackgroundColor(context.resources.getColor(R.color.black))
-        } else if (listOfDailyPlan[position].company.equals(6)) {
+        if (listOfDailyPlan[position].company.equals(1)) {
             holder.event_item_color_bar.setBackgroundColor(context.resources.getColor(R.color.darkBlue))
             holder.event_item_color_bar1.setBackgroundColor(context.resources.getColor(R.color.darkBlue))
+
+        } else if (listOfDailyPlan[position].company.equals(2)) {
+            holder.event_item_color_bar.setBackgroundColor(context.resources.getColor(R.color.orange))
+            holder.event_item_color_bar1.setBackgroundColor(context.resources.getColor(R.color.orange))
+        } else if (listOfDailyPlan[position].company.equals(3)) {
+            holder.event_item_color_bar.setBackgroundColor(context.resources.getColor(R.color.cyan))
+            holder.event_item_color_bar1.setBackgroundColor(context.resources.getColor(R.color.cyan))
+        } else if (listOfDailyPlan[position].company.equals(4)) {
+            holder.event_item_color_bar.setBackgroundColor(context.resources.getColor(R.color.grayorgray))
+            holder.event_item_color_bar1.setBackgroundColor(context.resources.getColor(R.color.grayorgray))
+        } else if (listOfDailyPlan[position].company.equals(5)) {
+            holder.event_item_color_bar.setBackgroundColor(context.resources.getColor(R.color.green))
+            holder.event_item_color_bar1.setBackgroundColor(context.resources.getColor(R.color.green))
+        } else if (listOfDailyPlan[position].company.equals(6)) {
+            holder.event_item_color_bar.setBackgroundColor(context.resources.getColor(R.color.olive))
+            holder.event_item_color_bar1.setBackgroundColor(context.resources.getColor(R.color.olive))
         } else if (listOfDailyPlan[position].company.equals(7)) {
-            holder.event_item_color_bar.setBackgroundColor(context.resources.getColor(R.color.red))
-            holder.event_item_color_bar1.setBackgroundColor(context.resources.getColor(R.color.red))
-        } else if (listOfDailyPlan[position].company.equals(8)) {
-            holder.event_item_color_bar.setBackgroundColor(context.resources.getColor(R.color.pista))
-            holder.event_item_color_bar1.setBackgroundColor(context.resources.getColor(R.color.pista))
+            holder.event_item_color_bar.setBackgroundColor(context.resources.getColor(R.color.brown))
+            holder.event_item_color_bar1.setBackgroundColor(context.resources.getColor(R.color.brown))
         }
 
         holder.txtEvent.text = listOfDailyPlan[position].event_name
