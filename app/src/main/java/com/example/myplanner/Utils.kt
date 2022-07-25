@@ -21,7 +21,7 @@ class Utils {
 
         fun parseDateToddMMyyyy(time: String?): String? {
             val inputPattern = "yyyy-MM-dd"
-            val outputPattern = "dd/MM/yyyy"
+            val outputPattern = "yyyy/MM/dd"
             val inputFormat = SimpleDateFormat(inputPattern)
             val outputFormat = SimpleDateFormat(outputPattern)
             var date: Date? = null

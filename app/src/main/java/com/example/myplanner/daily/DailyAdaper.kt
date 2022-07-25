@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.myplanner.AddEventActivity
 import com.example.myplanner.R
 import com.example.myplanner.pojo.DailyPlanner
-import com.github.dhaval2404.colorpicker.util.setVisibility
+import java.text.SimpleDateFormat
 import java.util.*
 
 class DailyAdaper(
@@ -41,14 +41,27 @@ class DailyAdaper(
 
         if (holder.oneTimeCheck) {
             holder.oneTimeCheck = false
-            if (listOfDailyPlan[position].date == date1) {
+            val strCurrentDate = listOfDailyPlan[position].date
+            var format = SimpleDateFormat("yyyy/MM/dd")
+            val newDate: Date = format.parse(strCurrentDate)
+            format = SimpleDateFormat("dd/MM/yyyy")
+            val date: String = format.format(newDate)
+            var dateFormat = date
+            if (dateFormat == date1) {
                 holder.headingView.visibility = View.GONE
                 holder.linearLayout.visibility = View.GONE
             } else {
+
                 holder.headingView.visibility = View.VISIBLE
                 holder.linearLayout.visibility = View.VISIBLE
-                holder.headingView.text = listOfDailyPlan[position].date
-                date1 = holder.headingView.text.toString()
+
+                val strCurrentDate = listOfDailyPlan[position].date
+                var format = SimpleDateFormat("yyyy/MM/dd")
+                val newDate: Date = format.parse(strCurrentDate)
+                format = SimpleDateFormat("dd/MM/yyyy")
+                val date: String = format.format(newDate)
+                date1 = date
+                holder.headingView.text = date1
             }
         }
         if (listOfDailyPlan[position].RepeatOrNot.equals("true")) {
@@ -56,6 +69,23 @@ class DailyAdaper(
 
         } else {
             holder.imgRepeat.visibility = View.GONE
+
+        }
+        if (listOfDailyPlan[position].priority.equals(1)) {
+            holder.txtPriority.setVisibility(View.VISIBLE)
+            holder.imgpriority.setVisibility(View.GONE)
+
+        } else if (listOfDailyPlan[position].priority.equals(2)) {
+            holder.imgpriority.setImageDrawable(context.getDrawable(R.drawable.ic_baseline_arrow_upward_24))
+            holder.txtPriority.setVisibility(View.GONE)
+
+        } else if (listOfDailyPlan[position].priority.equals(3)) {
+            holder.imgpriority.setImageDrawable(context.getDrawable(R.drawable.ic_baseline_notes_24))
+            holder.txtPriority.setVisibility(View.GONE)
+
+        } else if (listOfDailyPlan[position].priority.equals(4)) {
+            holder.imgpriority.setImageDrawable(context.getDrawable(R.drawable.ic_baseline_arrow_downward_24))
+            holder.txtPriority.setVisibility(View.GONE)
 
         }
         if (listOfDailyPlan[position].company.equals(1)) {
@@ -92,7 +122,12 @@ class DailyAdaper(
             val editor = sharedPreference.edit()
             editor.putString("editOrNotDateTime", "editDateTime")
             editor.putInt("id", listOfDailyPlan[position].id)
-            editor.putString("date", listOfDailyPlan[position].date)
+            val Date = listOfDailyPlan[position].date
+            var format = SimpleDateFormat("yyyy/MM/dd")
+            val newDate: Date = format.parse(Date)
+            format = SimpleDateFormat("dd/MM/yyyy")
+            val date: String = format.format(newDate)
+            editor.putString("date", date)
             editor.putString("toTime", listOfDailyPlan[position].to_time)
             editor.putString("fromTime", listOfDailyPlan[position].from_time)
             editor.putString("eventName", listOfDailyPlan[position].event_name)
@@ -117,13 +152,16 @@ class DailyAdaper(
             val intent = Intent(context, AddEventActivity::class.java)
             context.startActivity(intent)
         }
-        holder.lastDate = holder.headingView.text.toString()
+        val strCurrentDate = holder.headingView.text.toString()
+
     }
 
     class Viewholder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var txtTime: TextView = itemView.findViewById(R.id.txtTime)
         var txtEvent: TextView = itemView.findViewById(R.id.txtEvent)
         var imgRepeat: ImageView = itemView.findViewById(R.id.imgRepeat)
+        var imgpriority: ImageView = itemView.findViewById(R.id.imgPriority)
+        var txtPriority: TextView = itemView.findViewById(R.id.txtPriority)
         var linearLayout: LinearLayout = itemView.findViewById(R.id.linerMain)
         var eventItemHolder: ConstraintLayout = itemView.findViewById(R.id.event_item_holder)
         var headingView: TextView = itemView.findViewById(R.id.headingView)

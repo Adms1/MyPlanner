@@ -28,7 +28,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String TABLE_DAILYPLANNER = "dailyplanner";
 
 
-    // Brand Table Columns names
     private static final String ID = "id";
     private static final String DATE = "date";
     private static final String To_TIME = "to_time";
@@ -71,15 +70,13 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
 
-        String CREATE_TABLE_BRAND = "CREATE TABLE " + TABLE_DAILYPLANNER + "("
+        String CREATE_TABLE_PLANNER = "CREATE TABLE " + TABLE_DAILYPLANNER + "("
                 + ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + DATE + " TEXT," + To_TIME + " TEXT ," + FROM_TIME + " TEXT, " +
                 EVENT_NAME + " TEXT, " + EVENT_DESCRIPTION + " TEXT, " + NOTIFICATION_DESCRIPTION + " TEXT, " +
                 COMPANY + " TEXT ," + PRIORITY + " TEXT ," + REPEAT + " TEXT," + STATUS + " TEXT," +
                 STARTHOURS + " INTEGER," + STARTMINUTE + " INTEGER ," + DAY + " INTEGER," + ENDHOURS + " INTEGER," +
                 MONTH + " TEXT, " + YEAR + " INTEGER, " + REPEATORNOT + " TEXT, " + ENDMINUTE + " INTEGER)";
-        db.execSQL(CREATE_TABLE_BRAND);
-
-
+        db.execSQL(CREATE_TABLE_PLANNER);
     }
 
     // Upgrading database
@@ -133,12 +130,13 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return blnResult;
     }
 
-
     public ArrayList<DailyPlanner> getTodayPlan(String date) {
         //   Log.d("Date",date.toString());
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
         ArrayList<DailyPlanner> AllPlan = new ArrayList<>();
         // Select All Query
-        String selectQuery = "SELECT " + ID + "," + DATE + "," + To_TIME + "," + FROM_TIME + "," + EVENT_NAME + "," + EVENT_DESCRIPTION + "," + NOTIFICATION_DESCRIPTION + "," + COMPANY + "," + PRIORITY + "," + REPEAT + "," + STARTHOURS + "," + STARTMINUTE + "," + DAY + "," + ENDHOURS + "," + ENDMINUTE + "," + STATUS + "," + MONTH + "," + YEAR + "," + REPEATORNOT + " FROM " + TABLE_DAILYPLANNER + " WHERE " + DATE + " = " + date + " AND " + STATUS + " = " + 0 + " ORDER BY " + DATE + " ASC";
+        String selectQuery = "SELECT " + ID + "," + DATE + "," + To_TIME + "," + FROM_TIME + "," + EVENT_NAME + "," + EVENT_DESCRIPTION + "," + NOTIFICATION_DESCRIPTION + "," + COMPANY + "," + PRIORITY + "," + REPEAT + "," + STARTHOURS + "," + STARTMINUTE + "," + DAY + "," + ENDHOURS + "," + ENDMINUTE + "," + STATUS + "," + MONTH + "," + YEAR + "," + REPEATORNOT + " FROM " + TABLE_DAILYPLANNER + " WHERE " + DATE + " = " + date + " AND " + STATUS + " = " + 0 + " AND " + YEAR + " = " + year + " ORDER BY " + DATE + " ASC" + "," + To_TIME + " ASC";
 
 
         SQLiteDatabase db = this.getReadableDatabase();
@@ -153,14 +151,14 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         cursor.close();
         db.close();
         // returning labels
-
-
         return AllPlan;
     }
 
     public DailyPlanner getWeeklyClickEvent(int id) {
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
         DailyPlanner um = new DailyPlanner(0, "", "", "", "", "", "", 0, 0, 0, 0, 0, 0, 0, 0, "", "", 0, "");
-        String selectQuery = "SELECT " + ID + "," + DATE + "," + To_TIME + "," + FROM_TIME + "," + EVENT_NAME + "," + EVENT_DESCRIPTION + "," + NOTIFICATION_DESCRIPTION + "," + COMPANY + "," + PRIORITY + "," + REPEAT + "," + STARTHOURS + "," + STARTMINUTE + "," + DAY + "," + ENDHOURS + "," + ENDMINUTE + "," + STATUS + "," + MONTH + "," + YEAR + "," + REPEATORNOT + " FROM " + TABLE_DAILYPLANNER + " WHERE " + ID + " = " + id;
+        String selectQuery = "SELECT " + ID + "," + DATE + "," + To_TIME + "," + FROM_TIME + "," + EVENT_NAME + "," + EVENT_DESCRIPTION + "," + NOTIFICATION_DESCRIPTION + "," + COMPANY + "," + PRIORITY + "," + REPEAT + "," + STARTHOURS + "," + STARTMINUTE + "," + DAY + "," + ENDHOURS + "," + ENDMINUTE + "," + STATUS + "," + MONTH + "," + YEAR + "," + REPEATORNOT + " FROM " + TABLE_DAILYPLANNER + " WHERE " + ID + " = " + id + " AND " + YEAR + " = " + year;
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
         // looping through all rows and adding to list
@@ -176,14 +174,15 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return um;
     }
 
-
     public ArrayList<DailyPlanner> getWeeklyData(/*String startDate, String endDate*/) {
         //   Log.d("Date",date.toString());
         ArrayList<DailyPlanner> AllPlan = new ArrayList<>();
         // Select All Query
         // String selectQuery = "SELECT " + ID + "," + DATE + "," + To_TIME + "," + FROM_TIME + "," + EVENT_NAME + "," + EVENT_DESCRIPTION + "," + NOTIFICATION_DESCRIPTION + "," + COMPANY + "," + PRIORITY + "," + REPEAT + "," + STATUS + " FROM " + TABLE_DAILYPLANNER + " WHERE " + DATE + " = " + 0;
-
-        String selectQuery = "SELECT " + ID + "," + DATE + "," + To_TIME + "," + FROM_TIME + "," + EVENT_NAME + "," + EVENT_DESCRIPTION + "," + NOTIFICATION_DESCRIPTION + "," + COMPANY + "," + PRIORITY + "," + REPEAT + "," + STARTHOURS + "," + STARTMINUTE + "," + DAY + "," + ENDHOURS + "," + ENDMINUTE + "," + STATUS + "," + MONTH + "," + YEAR + "," + REPEATORNOT + " FROM " + TABLE_DAILYPLANNER/* + " WHERE " + DATE + " BETWEEN " + startDate + " AND " + endDate*/;
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        String selectQuery = "SELECT " + ID + "," + DATE + "," + To_TIME + "," + FROM_TIME + "," + EVENT_NAME + "," + EVENT_DESCRIPTION + "," + NOTIFICATION_DESCRIPTION + "," + COMPANY + "," + PRIORITY + "," + REPEAT + "," + STARTHOURS + "," + STARTMINUTE + "," + DAY + "," + ENDHOURS + "," + ENDMINUTE + "," + STATUS + "," + MONTH + "," + YEAR + "," + REPEATORNOT + " FROM " + TABLE_DAILYPLANNER + " WHERE " + YEAR + " = " + year; /*+ DATE + " BETWEEN " + startDate + " AND " + endDate*/
+        ;
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
@@ -206,8 +205,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         //   Log.d("Date",date.toString());
         ArrayList<DailyPlanner> AllPlan = new ArrayList<>();
         // Select All Query
-
-        String selectQuery = "SELECT " + ID + "," + DATE + "," + To_TIME + "," + FROM_TIME + "," + EVENT_NAME + "," + EVENT_DESCRIPTION + "," + NOTIFICATION_DESCRIPTION + "," + COMPANY + "," + PRIORITY + "," + REPEAT + "," + STARTHOURS + "," + STARTMINUTE + "," + DAY + "," + ENDHOURS + "," + ENDMINUTE + "," + STATUS + "," + MONTH + "," + YEAR + "," + REPEATORNOT + " FROM " + TABLE_DAILYPLANNER + " WHERE " + DATE + "=" + date + " ORDER BY " + To_TIME + " ASC";
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        String selectQuery = "SELECT " + ID + "," + DATE + "," + To_TIME + "," + FROM_TIME + "," + EVENT_NAME + "," + EVENT_DESCRIPTION + "," + NOTIFICATION_DESCRIPTION + "," + COMPANY + "," + PRIORITY + "," + REPEAT + "," + STARTHOURS + "," + STARTMINUTE + "," + DAY + "," + ENDHOURS + "," + ENDMINUTE + "," + STATUS + "," + MONTH + "," + YEAR + "," + REPEATORNOT + " FROM " + TABLE_DAILYPLANNER + " WHERE " + DATE + "=" + date + " AND " + YEAR + " = " + year + " ORDER BY " + To_TIME + " ASC";
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
@@ -228,9 +228,11 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     public ArrayList<DailyPlanner> getAllPlan() {
         //   Log.d("Date",date.toString());
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
         ArrayList<DailyPlanner> AllPlan = new ArrayList<>();
         // Select All Query
-        String selectQuery = "SELECT " + ID + "," + DATE + "," + To_TIME + "," + FROM_TIME + "," + EVENT_NAME + "," + EVENT_DESCRIPTION + "," + NOTIFICATION_DESCRIPTION + "," + COMPANY + "," + PRIORITY + "," + REPEAT + "," + STARTHOURS + "," + STARTMINUTE + "," + DAY + "," + ENDHOURS + "," + ENDMINUTE + "," + STATUS + "," + MONTH + "," + YEAR + "," + REPEATORNOT + " FROM " + TABLE_DAILYPLANNER + " WHERE " + STATUS + " = " + 0 + " ORDER BY " +/* YEAR + "," +*/ DATE + " ASC";
+        String selectQuery = "SELECT " + ID + "," + DATE + "," + To_TIME + "," + FROM_TIME + "," + EVENT_NAME + "," + EVENT_DESCRIPTION + "," + NOTIFICATION_DESCRIPTION + "," + COMPANY + "," + PRIORITY + "," + REPEAT + "," + STARTHOURS + "," + STARTMINUTE + "," + DAY + "," + ENDHOURS + "," + ENDMINUTE + "," + STATUS + "," + MONTH + "," + YEAR + "," + REPEATORNOT + " FROM " + TABLE_DAILYPLANNER + " WHERE " + STATUS + " = " + 0 + " AND " + YEAR + " = " + year + " ORDER BY " +/* YEAR + "," +*/ DATE + " ASC";
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
         // looping through all rows and adding to list
@@ -250,9 +252,11 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     public ArrayList<DailyPlanner> getCompletedPlan() {
         //   Log.d("Date",date.toString());
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
         ArrayList<DailyPlanner> AllPlan = new ArrayList<>();
         // Select All Query
-        String selectQuery = "SELECT " + ID + "," + DATE + "," + To_TIME + "," + FROM_TIME + "," + EVENT_NAME + "," + EVENT_DESCRIPTION + "," + NOTIFICATION_DESCRIPTION + "," + COMPANY + "," + PRIORITY + "," + REPEAT + "," + STARTHOURS + "," + STARTMINUTE + "," + DAY + "," + ENDHOURS + "," + ENDMINUTE + "," + STATUS + "," + MONTH + "," + YEAR + "," + REPEATORNOT + " FROM " + TABLE_DAILYPLANNER + " WHERE " + STATUS + " = " + 1 + " ORDER BY " + DATE + " ASC";
+        String selectQuery = "SELECT " + ID + "," + DATE + "," + To_TIME + "," + FROM_TIME + "," + EVENT_NAME + "," + EVENT_DESCRIPTION + "," + NOTIFICATION_DESCRIPTION + "," + COMPANY + "," + PRIORITY + "," + REPEAT + "," + STARTHOURS + "," + STARTMINUTE + "," + DAY + "," + ENDHOURS + "," + ENDMINUTE + "," + STATUS + "," + MONTH + "," + YEAR + "," + REPEATORNOT + " FROM " + TABLE_DAILYPLANNER + " WHERE " + STATUS + " = " + 1 + " AND " + YEAR + " = " + year + " ORDER BY " + DATE + " ASC";
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);

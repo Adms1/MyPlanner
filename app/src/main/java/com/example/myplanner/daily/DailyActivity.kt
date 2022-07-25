@@ -42,7 +42,7 @@ class DailyActivity : AppCompatActivity() {
 
         val c = Calendar.getInstance().time
         println("Current time => $c")
-        val df = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+        val df = SimpleDateFormat("yyyy/MM/dd", Locale.getDefault())
         val formattedDate = df.format(c)
         date = (formattedDate)
 

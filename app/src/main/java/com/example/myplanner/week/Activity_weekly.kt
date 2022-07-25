@@ -80,9 +80,9 @@ class activity_weekly : AppCompatActivity(),
         return true
     }
 
-    /* override fun onBackPressed() {
-         return
-     }*/
+    /*override fun onBackPressed() {
+        return
+    }*/
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.main, menu)
@@ -346,7 +346,23 @@ class activity_weekly : AppCompatActivity(),
                 startTime,
                 endTime
             )
-            event.color = getRandomColor()
+            if (cn.company.equals(1)) {
+                event.color = applicationContext.getResources().getColor(R.color.darkBlue)
+            } else if (cn.company.equals(2)) {
+                event.color = applicationContext.getResources().getColor(R.color.orange)
+            } else if (cn.company.equals(3)) {
+                event.color = applicationContext.getResources().getColor(R.color.cyan)
+            } else if (cn.company.equals(4)) {
+                event.color = applicationContext.getResources().getColor(R.color.grayorgray)
+            } else if (cn.company.equals(5)) {
+                event.color = applicationContext.getResources().getColor(R.color.green)
+
+            } else if (cn.company.equals(6)) {
+                event.color = applicationContext.getResources().getColor(R.color.olive)
+
+            } else if (cn.company.equals(7)) {
+                event.color = applicationContext.getResources().getColor(R.color.brown)
+            }
             events.add(event)
 
             weekView!!.setMonthChangeListener { newYear, newMonth -> // Populate the week view with some events.

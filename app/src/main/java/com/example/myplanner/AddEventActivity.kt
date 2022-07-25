@@ -15,7 +15,6 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.AdapterView
-import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.myplanner.Company.CompanyModel
@@ -57,7 +56,9 @@ class AddEventActivity : AppCompatActivity() {
     var month1: String? = null
     var id1: Int? = null
     var repeatornot: Boolean = false
-
+    var startToTime1: String = null.toString()
+    var endToTime1: String = null.toString()
+    var dateString: String = null.toString()
     private var spinnerCompanyList: ArrayList<CompanyModel>? = null
     private var spinnerPriorityList: ArrayList<CompanyModel>? = null
     private var spinnerRepeatList: ArrayList<CompanyModel>? = null
@@ -302,7 +303,6 @@ class AddEventActivity : AppCompatActivity() {
         spinnerRepeatList!!.add(CompanyModel("Year"))
     }
 
-
     private fun companyList() {
         spinnerCompanyList = ArrayList()
         spinnerCompanyList!!.add(CompanyModel("Please Select Company"))
@@ -340,13 +340,29 @@ class AddEventActivity : AppCompatActivity() {
             this,
             TimePickerDialog.OnTimeSetListener { view, hourOfDay, minute ->
                 Log.e("Time :", "$hourOfDay:$minute")
-                if (addevent_tvStime != null) {
-                    val min = if (minute < 10) "0$minute" else minute
-                    val hour = if (hourOfDay < 10) "0$hourOfDay" else hourOfDay
-                    startToTime = "$hour"
-                    startTomin = "$min"
-                    addevent_tvStime.text = "$hour:$min"
-                }
+
+                val datetime = Calendar.getInstance()
+                val c = Calendar.getInstance()
+                Log.d("Testing", datetime[Calendar.DATE].toString())
+                datetime[Calendar.DATE] = day1
+                datetime[Calendar.HOUR_OF_DAY] = Integer.parseInt(hourOfDay.toString())
+                datetime[Calendar.MINUTE] = Integer.parseInt(minute.toString())
+                if (datetime.timeInMillis > c.timeInMillis) {
+                    if (addevent_tvStime != null) {
+                        val min = if (minute < 10) "0$minute" else minute
+                        val hour = if (hourOfDay < 10) "0$hourOfDay" else hourOfDay
+                        startToTime = "$hour"
+                        startTomin = "$min"
+                        addevent_tvStime.text = "$hour:$min"
+                        startToTime1 = addevent_tvStime.text.toString()
+                    }
+                } else {
+                    Toast.makeText(
+                        applicationContext,
+                        "Please Select Valid Time",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                } //  onTimeSet(view, startToTime, startTomin)
             },
             cal.get(Calendar.HOUR_OF_DAY),
             cal.get(Calendar.MINUTE),
@@ -354,6 +370,42 @@ class AddEventActivity : AppCompatActivity() {
         ) //here pass true for 24hrs view else false for AM-PM(12hrs view)
         dialog.setTitle("Select Time")
         dialog.show()
+    }
+
+    fun onTimeSet() {
+        val sdf = SimpleDateFormat("hh:mm")
+        val inTime = sdf.parse(startToTime1)
+        val outTime = sdf.parse(endToTime1)
+
+        if (isTimeAfter(inTime, outTime)) {
+
+        } else {
+
+        }
+        /* val datetime = Calendar.getInstance()
+         val c = Calendar.getInstance()
+         datetime[Calendar.HOUR_OF_DAY] = Integer.parseInt(hourOfDay.toString())
+         datetime[Calendar.MINUTE] = Integer.parseInt(minute.toString())
+         if (datetime.timeInMillis > c.timeInMillis) {
+
+             Toast.makeText(applicationContext, "time check", Toast.LENGTH_SHORT)
+                 .show()
+         } else {
+             Toast.makeText(applicationContext, "Please check time", Toast.LENGTH_SHORT)
+                 .show()
+         }*/
+    }
+
+    fun isTimeAfter(startTime: Date?, endTime: Date): Boolean {
+        return if (endTime.after(startTime)) {
+            //Same way you can check with after() method also.
+            addevent_tvEtime.text = endToTime1.toString()
+            false
+        } else {
+            Toast.makeText(this, "Exit time must be greater then entry time", Toast.LENGTH_LONG)
+                .show();
+            true
+        }
     }
 
     private fun openEndCalendar() {
@@ -368,8 +420,8 @@ class AddEventActivity : AppCompatActivity() {
                     val hour = if (hourOfDay < 10) "0$hourOfDay" else hourOfDay
                     endHours = "$hour"
                     endMin = "$min"
-                    addevent_tvEtime.text = "$hour : $min"
-
+                    endToTime1 = "$hour:$min"
+                    onTimeSet()
                 }
             },
             cal.get(Calendar.HOUR_OF_DAY),
@@ -386,14 +438,20 @@ class AddEventActivity : AppCompatActivity() {
         calendar[Calendar.DAY_OF_MONTH] = date
         calendar[Calendar.MONTH] = month
         calendar[Calendar.YEAR] = year
-        val dateFormat = SimpleDateFormat("dd/MM/yyyy")
-        val dateString: String = dateFormat.format(calendar.time)
+        val dateFormat = SimpleDateFormat("yyyy/MM/dd")
+        dateString = dateFormat.format(calendar.time)
+        strDate = dateString
+
+        val dateFormatDisplay = SimpleDateFormat("dd/MM/yyyy")
+        val dateStringDisplay: String = dateFormatDisplay.format(calendar.time)
+
+
         val dateFormat1 = SimpleDateFormat("MM")
         val dateString1: String = dateFormat1.format(calendar.time)
         month1 = dateString1
         strYear = year.toString()
         day1 = date
-        addevent_tvDate.text = dateString.toString()
+        addevent_tvDate.text = dateStringDisplay.toString()
     }
 
     private fun getMonthForInt(num: Int): String {
@@ -483,7 +541,7 @@ class AddEventActivity : AppCompatActivity() {
 
                 strEventName = addevent_tvEname.text.toString()
                 strEventDescription = addevent_tvEdesc.text.toString()
-                strDate = addevent_tvDate.text.toString()
+                strDate = dateString
                 strToTime = addevent_tvStime.text.toString()
                 strFromTime = addevent_tvEtime.text.toString()
                 strNotification = addevent_tvNotification.text.toString()
@@ -519,7 +577,7 @@ class AddEventActivity : AppCompatActivity() {
                                 2 -> {
                                     repeatornot = true
                                     var dt = strDate // Start date
-                                    val sdf = SimpleDateFormat("dd/MM/yyyy")
+                                    val sdf = SimpleDateFormat("yyyy/MM/dd")
                                     val c = Calendar.getInstance()
                                     c.add(Calendar.DATE, 7)
                                     dt = sdf.format(c.time)
@@ -550,22 +608,24 @@ class AddEventActivity : AppCompatActivity() {
                                 }
                                 3 -> {
                                     repeatornot = true
+                                    val calendar = Calendar.getInstance()
+                                    calendar[Calendar.DAY_OF_MONTH] = day1
+                                    calendar[Calendar.MONTH] = month + 1
+                                    calendar[Calendar.YEAR] = year
 
-                                    var dt = strDate // Start date
-                                    val sdf = SimpleDateFormat("dd/MM/yyyy")
-                                    val c = Calendar.getInstance()
-                                    c.add(Calendar.MONTH, 1)
-                                    dt = sdf.format(c.time)
+                                    val dateFormat = SimpleDateFormat("yyyy/MM/dd")
+                                    dateString = dateFormat.format(calendar.time)
+
                                     val dateFormat1 = SimpleDateFormat("MM")
-                                    val dateString1: String = dateFormat1.format(c.time)
+                                    val dateString1: String = dateFormat1.format(calendar.time)
 
-                                    Log.d("Monthly", dt)
+                                    Log.d("Monthly", dateString)
                                     Log.d("MonthMonthly", dateString1)
 
                                     db.addDailyPlan(
                                         strEventName,
                                         strEventDescription,
-                                        dt,
+                                        dateString,
                                         strToTime,
                                         strFromTime,
                                         strNotification,
@@ -587,19 +647,22 @@ class AddEventActivity : AppCompatActivity() {
                                 4 -> {
                                     repeatornot = true
 
-                                    var dt = strDate // Start date
-                                    val sdf = SimpleDateFormat("dd/MM/yyyy")
-                                    val c = Calendar.getInstance()
-                                    c.add(Calendar.YEAR, 1) // number of days to add
-                                    dt = sdf.format(c.time)
-                                    val dateFormat1 = SimpleDateFormat("yyyy")
-                                    val dateString1: String = dateFormat1.format(c.time)
+                                    val calendar = Calendar.getInstance()
+                                    calendar[Calendar.DAY_OF_MONTH] = day1
+                                    calendar[Calendar.MONTH] = month
+                                    calendar[Calendar.YEAR] = year + 1
 
-                                    Log.d("Yearly", dt)
+                                    val dateFormat = SimpleDateFormat("yyyy/MM/dd")
+                                    dateString = dateFormat.format(calendar.time)
+
+                                    val dateFormat1 = SimpleDateFormat("yyyy")
+                                    val dateString1: String = dateFormat1.format(calendar.time)
+
+
                                     db.addDailyPlan(
                                         strEventName,
                                         strEventDescription,
-                                        dt,
+                                        dateString,
                                         strToTime,
                                         strFromTime,
                                         strNotification,

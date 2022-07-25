@@ -752,7 +752,7 @@
         app:todayBackgroundColor="#1848adff"
         app:headerColumnBackground="#ffffffff"/>
 
-    <TextView
+   <!-- <TextView
         android:id="@+id/draggable_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -760,5 +760,5 @@
         android:padding="3dp"
         android:text="@string/drag_me"
         android:textColor="@android:color/white" />
-
+-->
 </RelativeLayout>

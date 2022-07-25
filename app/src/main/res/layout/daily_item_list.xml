@@ -87,6 +87,7 @@
             android:id="@+id/txtEvent"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="5dp"
             android:ellipsize="end"
             android:includeFontPadding="false"
             android:maxLines="1"
@@ -95,28 +96,13 @@
             android:paddingBottom="@dimen/tiny_margin"
             android:textColor="?android:textColorPrimary"
             android:textSize="@dimen/day_text_size"
-            android:layout_marginEnd="5dp"
-            app:layout_constraintEnd_toStartOf="@+id/imgRepeat"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/imgRepeat"
             app:layout_constraintStart_toEndOf="@+id/event_item_task_image"
             app:layout_constraintTop_toTopOf="parent"
             tools:ignore="RtlSymmetry"
             tools:text="Event title" />
 
-        <ImageView
-            android:id="@+id/imgRepeat"
-            android:layout_width="30dp"
-            android:layout_height="0dp"
-            android:layout_marginEnd="20dp"
-            android:contentDescription="@string/task"
-            android:paddingTop="@dimen/small_margin"
-            android:paddingBottom="@dimen/small_margin"
-            android:src="@drawable/repeat"
-            android:visibility="visible"
-            app:layout_constraintBottom_toBottomOf="@+id/txtEvent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/txtEvent"
-            app:layout_constraintVertical_bias="0.0" />
 
         <android.widget.TextView
             android:id="@+id/txtTime"
@@ -135,6 +121,47 @@
             tools:text="13:00" />
 
         <ImageView
+            android:id="@+id/imgRepeat"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginEnd="40dp"
+            android:contentDescription="@string/task"
+            android:paddingBottom="@dimen/small_margin"
+            android:src="@drawable/ic_baseline_repeat_24"
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="@+id/imgPriority"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteY="16dp" />
+
+        <ImageView
+            android:id="@+id/imgPriority"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginEnd="16dp"
+            android:contentDescription="@string/task"
+            android:paddingBottom="@dimen/small_margin"
+            android:src="@drawable/ic_baseline_arrow_upward_24"
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteY="16dp" />
+
+        <TextView
+            android:id="@+id/txtPriority"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginEnd="16dp"
+            android:contentDescription="@string/task"
+            android:gravity="center"
+            android:paddingBottom="@dimen/small_margin"
+            android:text="!!!"
+            android:textStyle="bold"
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteY="16dp" />
+
+        <ImageView
             android:id="@+id/event_item_color_bar1"
             android:layout_width="@dimen/event_color_bar_width"
             android:layout_height="0dp"
@@ -144,26 +171,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/txtEvent" />
 
-        <!--
-                <android.widget.TextView
-                    android:id="@+id/event_item_description"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/txtEvent"
-                    android:layout_marginStart="@dimen/medium_margin"
-                    android:alpha="0.8"
-                    android:ellipsize="end"
-                    android:includeFontPadding="false"
-                    android:maxLines="1"
-                    android:paddingEnd="@dimen/activity_margin"
-                    android:paddingBottom="@dimen/small_margin"
-                    android:textFontWeight="300"
-                    android:textSize="@dimen/normal_text_size"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/event_item_color_bar"
-                    app:layout_constraintTop_toBottomOf="@+id/txtTime"
-                    tools:text="Event description" />
-        -->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
