@@ -40,8 +40,6 @@ class MonthlyEventListAdapter(val context: Context,
         var txtDate: TextView = itemView.findViewById(R.id.mevent_date)
         var txtEvent: TextView = itemView.findViewById(R.id.mevent_event)
         var txtTime: TextView = itemView.findViewById(R.id.mevent_time)
-
-
     }
 
 }

@@ -399,6 +399,11 @@ class activity_weekly : AppCompatActivity(),
 
     }
 
+    override fun onBackPressed() {
+        finish()
+        return
+    }
+
 
 }
 

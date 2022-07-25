@@ -3,6 +3,7 @@ package com.example.myplanner.month
 import android.graphics.Color
 import android.os.Build
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
@@ -10,12 +11,16 @@ import com.example.myplanner.CalendarUtils
 import com.example.myplanner.R
 import com.example.myplanner.month.CalendarAdapter.OnItemListener
 import com.example.myplanner.month.CalendarViewHolder
+import com.example.myplanner.pojo.DailyPlanner
+import com.github.dhaval2404.colorpicker.util.setVisibility
 import java.time.LocalDate
 import java.util.ArrayList
 
 internal class CalendarAdapter(
     private val days: ArrayList<LocalDate>,
-    private val onItemListener: OnItemListener
+    private val onItemListener: OnItemListener,
+    private val monthlyPalnning: ArrayList<DailyPlanner>
+
 ) : RecyclerView.Adapter<CalendarViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CalendarViewHolder {
         val inflater = LayoutInflater.from(parent.context)

@@ -36,5 +36,8 @@ class DashboardActivity : AppCompatActivity() {
         }
     }
 
-
+    override fun onBackPressed() {
+        finish()
+        return
+    }
 }
