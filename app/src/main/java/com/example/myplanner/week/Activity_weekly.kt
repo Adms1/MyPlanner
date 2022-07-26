@@ -340,6 +340,7 @@ class activity_weekly : AppCompatActivity(),
             endTime[Calendar.HOUR_OF_DAY] = cn.endhours
             endTime[Calendar.MINUTE] = cn.endmin
             val eventName = cn.event_name
+
             event = WeekViewEvent(
                 cn.id.toLong(),
                 getEventTitle(eventName, startTime),

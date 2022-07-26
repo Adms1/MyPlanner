@@ -46,8 +46,9 @@ public class PriorityAdapter extends ArrayAdapter<CompanyModel> {
             txtCompany.setText(currentItem.getText());
 
             if (txtCompany.getText().toString().equals("Urgent")) {
-                imgSign.setVisibility(View.GONE);
-                imgText.setVisibility(View.VISIBLE);
+                imgSign.setVisibility(View.VISIBLE);
+                imgText.setVisibility(View.GONE);
+                imgSign.setBackground(getContext().getResources().getDrawable(R.drawable.img));
                 addevent_line1.setVisibility(View.VISIBLE);
             } else if (txtCompany.getText().toString().equals("High")) {
                 imgSign.setBackground(getContext().getResources().getDrawable(R.drawable.ic_baseline_arrow_upward_24));

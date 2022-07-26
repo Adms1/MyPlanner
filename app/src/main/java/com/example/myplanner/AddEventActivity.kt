@@ -333,7 +333,6 @@ class AddEventActivity : AppCompatActivity() {
         picker.show()
         picker.getDatePicker().setMinDate(System.currentTimeMillis() - 1000); }
 
-
     private fun openStartCalendar() {
         val cal = Calendar.getInstance()
         val dialog = TimePickerDialog(
@@ -373,7 +372,7 @@ class AddEventActivity : AppCompatActivity() {
     }
 
     fun onTimeSet() {
-        val sdf = SimpleDateFormat("hh:mm")
+        val sdf = SimpleDateFormat("HH:mm")
         val inTime = sdf.parse(startToTime1)
         val outTime = sdf.parse(endToTime1)
 
@@ -581,9 +580,14 @@ class AddEventActivity : AppCompatActivity() {
                                     val c = Calendar.getInstance()
                                     c.add(Calendar.DATE, 7)
                                     dt = sdf.format(c.time)
-                                    val dateFormat1 = SimpleDateFormat("dd")
-                                    val dateString1: String = dateFormat1.format(c.time)
+                                    val dateFormat = SimpleDateFormat("dd")
+                                    val dateString: String = dateFormat.format(c.time)
 
+                                    val monthFormat = SimpleDateFormat("MM")
+                                    val monthString: String = monthFormat.format(c.time)
+
+                                    val yearFormat = SimpleDateFormat("yyyy")
+                                    val yearString: String = yearFormat.format(c.time)
 
                                     db.addDailyPlan(
                                         strEventName,
@@ -596,12 +600,12 @@ class AddEventActivity : AppCompatActivity() {
                                         strPriority,
                                         Integer.parseInt(startToTime),
                                         Integer.parseInt(startTomin),
-                                        Integer.parseInt(dateString1),
+                                        Integer.parseInt(dateString),
                                         Integer.parseInt(endHours),
                                         Integer.parseInt(endMin),
                                         strRepeat,
-                                        month1.toString(),
-                                        Integer.parseInt(strYear.toString()),
+                                        monthString,
+                                        Integer.parseInt(yearString),
                                         repeatornot.toString()
 
                                     )
@@ -616,11 +620,14 @@ class AddEventActivity : AppCompatActivity() {
                                     val dateFormat = SimpleDateFormat("yyyy/MM/dd")
                                     dateString = dateFormat.format(calendar.time)
 
-                                    val dateFormat1 = SimpleDateFormat("MM")
-                                    val dateString1: String = dateFormat1.format(calendar.time)
+                                    val monthformate = SimpleDateFormat("MM")
+                                    val monthString: String = monthformate.format(calendar.time)
+
+                                    val yearFormat = SimpleDateFormat("yyyy")
+                                    val yearString: String = yearFormat.format(calendar.time)
 
                                     Log.d("Monthly", dateString)
-                                    Log.d("MonthMonthly", dateString1)
+                                    Log.d("MonthMonthly", monthString)
 
                                     db.addDailyPlan(
                                         strEventName,
@@ -637,8 +644,8 @@ class AddEventActivity : AppCompatActivity() {
                                         Integer.parseInt(endHours),
                                         Integer.parseInt(endMin),
                                         strRepeat,
-                                        dateString1,
-                                        Integer.parseInt(strYear.toString()),
+                                        monthString,
+                                        Integer.parseInt(yearString),
                                         repeatornot.toString()
 
                                     )

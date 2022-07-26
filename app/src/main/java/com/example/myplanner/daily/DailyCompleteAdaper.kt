@@ -13,6 +13,7 @@ import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myplanner.R
 import com.example.myplanner.pojo.DailyPlanner
+import java.text.SimpleDateFormat
 import java.util.*
 
 class DailyCompleteAdaper(
@@ -37,8 +38,13 @@ class DailyCompleteAdaper(
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: Viewholder, position: Int) {
-
-        if (listOfDailyPlan[position].date == date1) {
+        val strCurrentDate = listOfDailyPlan[position].date
+        var format = SimpleDateFormat("yyyy/MM/dd")
+        val newDate: Date = format.parse(strCurrentDate)
+        format = SimpleDateFormat("dd/MM/yyyy")
+        val date: String = format.format(newDate)
+        var dateFormat = date
+        if (dateFormat == date1) {
             holder.headingView.visibility = View.GONE
             holder.linearLayout.visibility = View.GONE
 
@@ -46,15 +52,22 @@ class DailyCompleteAdaper(
             holder.headingView.visibility = View.VISIBLE
             holder.linearLayout.visibility = View.VISIBLE
 
-            holder.headingView.text = listOfDailyPlan[position].date
-            date1 = holder.headingView.text.toString()
-            Log.d("date", date1.toString())
+            val strCurrentDate = listOfDailyPlan[position].date
+            var format = SimpleDateFormat("yyyy/MM/dd")
+            val newDate: Date = format.parse(strCurrentDate)
+            format = SimpleDateFormat("dd/MM/yyyy")
+            val date: String = format.format(newDate)
+            date1 = date
+            holder.headingView.text = date1
+
+            /* holder.headingView.text = listOfDailyPlan[position].date
+             date1 = holder.headingView.text.toString()
+             Log.d("date", date1.toString())*/
         }
 
         if (listOfDailyPlan[position].company.equals(1)) {
             holder.event_item_color_bar.setBackgroundColor(context.resources.getColor(R.color.darkBlue))
             holder.event_item_color_bar1.setBackgroundColor(context.resources.getColor(R.color.darkBlue))
-
         } else if (listOfDailyPlan[position].company.equals(2)) {
             holder.event_item_color_bar.setBackgroundColor(context.resources.getColor(R.color.orange))
             holder.event_item_color_bar1.setBackgroundColor(context.resources.getColor(R.color.orange))
@@ -78,7 +91,6 @@ class DailyCompleteAdaper(
         holder.txtEvent.text = listOfDailyPlan[position].event_name
         holder.txtTime.text = listOfDailyPlan[position].to_time
 
-        holder.lastDate = holder.headingView.text.toString()
     }
 
     class Viewholder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -86,7 +98,6 @@ class DailyCompleteAdaper(
         var txtEvent: TextView = itemView.findViewById(R.id.txtEvent)
         var linearLayout: LinearLayout = itemView.findViewById(R.id.linerMain)
         var headingView: TextView = itemView.findViewById(R.id.headingView)
-        var lastDate: String? = ""
 
         var event_item_color_bar: ImageView = itemView.findViewById(R.id.event_item_color_bar)
         var event_item_color_bar1: ImageView = itemView.findViewById(R.id.event_item_color_bar1)

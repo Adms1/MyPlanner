@@ -32,7 +32,7 @@
             android:layout_weight="0.1"
             android:background="@color/white"
             android:contentDescription="@string/app_name"
-            android:visibility="visible" />
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/txtPriority"
