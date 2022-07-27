@@ -38,7 +38,7 @@ class DailyCompleteAdaper(
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: Viewholder, position: Int) {
-        val strCurrentDate = listOfDailyPlan[position].date
+        val strCurrentDate = listOfDailyPlan[position].plandate
         var format = SimpleDateFormat("yyyy/MM/dd")
         val newDate: Date = format.parse(strCurrentDate)
         format = SimpleDateFormat("dd/MM/yyyy")
@@ -52,7 +52,7 @@ class DailyCompleteAdaper(
             holder.headingView.visibility = View.VISIBLE
             holder.linearLayout.visibility = View.VISIBLE
 
-            val strCurrentDate = listOfDailyPlan[position].date
+            val strCurrentDate = listOfDailyPlan[position].plandate
             var format = SimpleDateFormat("yyyy/MM/dd")
             val newDate: Date = format.parse(strCurrentDate)
             format = SimpleDateFormat("dd/MM/yyyy")
@@ -65,31 +65,31 @@ class DailyCompleteAdaper(
              Log.d("date", date1.toString())*/
         }
 
-        if (listOfDailyPlan[position].company.equals(1)) {
+        if (listOfDailyPlan[position].CompanyID.equals(1)) {
             holder.event_item_color_bar.setBackgroundColor(context.resources.getColor(R.color.darkBlue))
             holder.event_item_color_bar1.setBackgroundColor(context.resources.getColor(R.color.darkBlue))
-        } else if (listOfDailyPlan[position].company.equals(2)) {
+        } else if (listOfDailyPlan[position].CompanyID.equals(2)) {
             holder.event_item_color_bar.setBackgroundColor(context.resources.getColor(R.color.orange))
             holder.event_item_color_bar1.setBackgroundColor(context.resources.getColor(R.color.orange))
-        } else if (listOfDailyPlan[position].company.equals(3)) {
+        } else if (listOfDailyPlan[position].CompanyID.equals(3)) {
             holder.event_item_color_bar.setBackgroundColor(context.resources.getColor(R.color.cyan))
             holder.event_item_color_bar1.setBackgroundColor(context.resources.getColor(R.color.cyan))
-        } else if (listOfDailyPlan[position].company.equals(4)) {
+        } else if (listOfDailyPlan[position].CompanyID.equals(4)) {
             holder.event_item_color_bar.setBackgroundColor(context.resources.getColor(R.color.grayorgray))
             holder.event_item_color_bar1.setBackgroundColor(context.resources.getColor(R.color.grayorgray))
-        } else if (listOfDailyPlan[position].company.equals(5)) {
+        } else if (listOfDailyPlan[position].CompanyID.equals(5)) {
             holder.event_item_color_bar.setBackgroundColor(context.resources.getColor(R.color.green))
             holder.event_item_color_bar1.setBackgroundColor(context.resources.getColor(R.color.green))
-        } else if (listOfDailyPlan[position].company.equals(6)) {
+        } else if (listOfDailyPlan[position].CompanyID.equals(6)) {
             holder.event_item_color_bar.setBackgroundColor(context.resources.getColor(R.color.olive))
             holder.event_item_color_bar1.setBackgroundColor(context.resources.getColor(R.color.olive))
-        } else if (listOfDailyPlan[position].company.equals(7)) {
+        } else if (listOfDailyPlan[position].CompanyID.equals(7)) {
             holder.event_item_color_bar.setBackgroundColor(context.resources.getColor(R.color.brown))
             holder.event_item_color_bar1.setBackgroundColor(context.resources.getColor(R.color.brown))
         }
 
-        holder.txtEvent.text = listOfDailyPlan[position].event_name
-        holder.txtTime.text = listOfDailyPlan[position].to_time
+        holder.txtEvent.text = listOfDailyPlan[position].EventName
+        holder.txtTime.text = listOfDailyPlan[position].ToTime.toString()
 
     }
 

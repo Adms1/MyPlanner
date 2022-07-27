@@ -80,9 +80,10 @@ class activity_weekly : AppCompatActivity(),
         return true
     }
 
-    /*override fun onBackPressed() {
-        return
-    }*/
+//    override fun onBackPressed() {
+//        return
+//    }
+
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.main, menu)
@@ -242,12 +243,12 @@ class activity_weekly : AppCompatActivity(),
             addevent_tvEname.setText("")
             addevent_tvEdesc.setText("")
         }
-        addevent_tvEname.setText(dailyPlanner.event_name)
-        addevent_tvEdesc.setText(dailyPlanner.event_description)
-        addevent_tvDate.setText(dailyPlanner.date)
-        addevent_tvStime.setText(dailyPlanner.to_time)
-        addevent_tvEtime.setText(dailyPlanner.from_time)
-        addevent_tvNotification.setText(dailyPlanner.notification_description)
+        addevent_tvEname.setText(dailyPlanner.EventName)
+        addevent_tvEdesc.setText(dailyPlanner.EventDescription)
+        addevent_tvDate.setText(dailyPlanner.plandate)
+        addevent_tvStime.setText(""+dailyPlanner.ToTime)
+        addevent_tvEtime.setText(""+dailyPlanner.FromTime)
+        addevent_tvNotification.setText(dailyPlanner.EventName)
 
         addevent_tvEname.isCursorVisible = false
         addevent_tvEdesc.isCursorVisible = false
@@ -285,9 +286,9 @@ class activity_weekly : AppCompatActivity(),
             spinnerRepeat.adapter = adapter
         }
 
-        spinnerRepeat.setSelection(dailyPlanner.repeat)
-        spinnerPriority.setSelection(dailyPlanner.priority)
-        spinnerCompany.setSelection(dailyPlanner.company)
+        spinnerRepeat.setSelection(dailyPlanner.RepeatModeID)
+        spinnerPriority.setSelection(dailyPlanner.ProrityID)
+        spinnerCompany.setSelection(dailyPlanner.CompanyID)
 
         dialog.setCanceledOnTouchOutside(true);
         dialog.show()
@@ -331,15 +332,15 @@ class activity_weekly : AppCompatActivity(),
         for (cn in weeklyPalnning) {
 
             startTime = Calendar.getInstance()
-            startTime[Calendar.HOUR_OF_DAY] = cn.starthours
-            startTime[Calendar.MINUTE] = cn.startmin
-            startTime[Calendar.DAY_OF_MONTH] = cn.day
-            startTime[Calendar.MONTH] = Integer.parseInt(cn.month) - 1
-            startTime[Calendar.YEAR] = cn.year
+            startTime[Calendar.HOUR_OF_DAY] = cn.StartHours
+            startTime[Calendar.MINUTE] = cn.StartMin
+            startTime[Calendar.DAY_OF_MONTH] = cn.Day
+            startTime[Calendar.MONTH] =  Integer.parseInt(cn.Month.toString()) - 1
+            startTime[Calendar.YEAR] = cn.Year
             endTime = startTime.clone() as Calendar
-            endTime[Calendar.HOUR_OF_DAY] = cn.endhours
-            endTime[Calendar.MINUTE] = cn.endmin
-            val eventName = cn.event_name
+            endTime[Calendar.HOUR_OF_DAY] = cn.EndHours
+            endTime[Calendar.MINUTE] = cn.EndMin
+            val eventName = cn.EventName
 
             event = WeekViewEvent(
                 cn.id.toLong(),
@@ -347,21 +348,21 @@ class activity_weekly : AppCompatActivity(),
                 startTime,
                 endTime
             )
-            if (cn.company.equals(1)) {
+            if (cn.CompanyID.equals(1)) {
                 event.color = applicationContext.getResources().getColor(R.color.darkBlue)
-            } else if (cn.company.equals(2)) {
+            } else if (cn.CompanyID.equals(2)) {
                 event.color = applicationContext.getResources().getColor(R.color.orange)
-            } else if (cn.company.equals(3)) {
+            } else if (cn.CompanyID.equals(3)) {
                 event.color = applicationContext.getResources().getColor(R.color.cyan)
-            } else if (cn.company.equals(4)) {
+            } else if (cn.CompanyID.equals(4)) {
                 event.color = applicationContext.getResources().getColor(R.color.grayorgray)
-            } else if (cn.company.equals(5)) {
+            } else if (cn.CompanyID.equals(5)) {
                 event.color = applicationContext.getResources().getColor(R.color.green)
 
-            } else if (cn.company.equals(6)) {
+            } else if (cn.CompanyID.equals(6)) {
                 event.color = applicationContext.getResources().getColor(R.color.olive)
 
-            } else if (cn.company.equals(7)) {
+            } else if (cn.CompanyID.equals(7)) {
                 event.color = applicationContext.getResources().getColor(R.color.brown)
             }
             events.add(event)
@@ -370,7 +371,7 @@ class activity_weekly : AppCompatActivity(),
                 // Return only the events that matches newYear and newMonth.
                 val matchedEvents: MutableList<WeekViewEvent> = ArrayList()
                 for (event in events) {
-                    if (eventMatches(event, cn.year - 1, Integer.parseInt(cn.month) - 1)) {
+                    if (eventMatches(event, cn.Year - 1, cn.Month - 1)) {
                         matchedEvents.add(event)
                     }
                 }

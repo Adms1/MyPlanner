@@ -43,10 +43,10 @@ class AddEventActivity : AppCompatActivity() {
     private var strToTime: String? = null
     private var strFromTime: String? = null
     private var strNotification: String? = null
-    var strRepeat: String? = null
+    var strRepeat: Int? = null
     var strYear: String? = null
-    var strPriority: String? = null
-    var strCompany: String? = null
+    var strPriority: Int? = null
+    var strCompany: Int? = null
     private var strDateTime: String? = null
     var startToTime: String? = null
     var startTomin: String? = null
@@ -83,12 +83,12 @@ class AddEventActivity : AppCompatActivity() {
         if (strDateTime.equals("editDateTime")) {
             id1 = sharedPreference.getInt("id", 0)
             val strDate = sharedPreference.getString("date", "")
-            val strToTime = sharedPreference.getString("toTime", "")
-            val strFromTime = sharedPreference.getString("fromTime", "")
+            val strToTime = sharedPreference.getInt("toTime", 0)
+            val strFromTime = sharedPreference.getInt("fromTime", 0)
             val strEventName = sharedPreference.getString("eventName", "")
             val strEventDescription = sharedPreference.getString("eventDescription", "")
-            val strNotificationDescription =
-                sharedPreference.getString("notificationDescription", "")
+            /* val strNotificationDescription =
+                 sharedPreference.getString("notificationDescription", "")*/
             val strCompany1 = sharedPreference.getInt("company", 0)
             val strRepeat1 = sharedPreference.getInt("repeat", 0)
             val strPriority1 = sharedPreference.getInt("Priority", 0)
@@ -99,7 +99,7 @@ class AddEventActivity : AppCompatActivity() {
             val strEndHours = sharedPreference.getInt("EndHours", 0)
             val strEndMin = sharedPreference.getInt("EndMin", 0)
             val strDay = sharedPreference.getInt("Day", 0)
-            val strMonth = sharedPreference.getString("Month", "")
+            val strMonth = sharedPreference.getInt("Month", 0)
             var strYear = sharedPreference.getInt("Year", 0)
 
 
@@ -136,20 +136,20 @@ class AddEventActivity : AppCompatActivity() {
             spinnerPriority.setSelection(strPriority1)
             spinnerCompany.setSelection(strCompany1)
 
-            strCompany = strCompany1.toString()
-            strPriority = strPriority1.toString()
-            strRepeat = strRepeat1.toString()
+            strCompany = strCompany1
+            strPriority = strPriority1
+            strRepeat = strRepeat1
 
             addevent_tvNotification.setTextColor(resources.getColor(R.color.darkgrey))
             addevent_tvEdesc.setTextColor(resources.getColor(R.color.darkgrey))
             addevent_tvEname.setTextColor(resources.getColor(R.color.darkgrey))
 
-            addevent_tvDate.text = strDate
-            addevent_tvStime.text = strToTime
-            addevent_tvEtime.text = strFromTime
+            addevent_tvDate.text = strDate.toString()
+            addevent_tvStime.text = strToTime.toString()
+            addevent_tvEtime.text = strFromTime.toString()
             addevent_tvEname.setText(strEventName.toString())
             addevent_tvEdesc.setText(strEventDescription.toString())
-            addevent_tvNotification.setText(strNotificationDescription.toString())
+            addevent_tvNotification.setText(strEventName.toString())
             addevent_tvEname.isCursorVisible = false
             addevent_tvEdesc.isCursorVisible = false
             addevent_tvNotification.isCursorVisible = false
@@ -174,7 +174,7 @@ class AddEventActivity : AppCompatActivity() {
                     view: View, position: Int, id: Long
                 ) {
 
-                    strCompany = spinnerCompany.selectedItemPosition.toString()
+                    strCompany = spinnerCompany.selectedItemPosition
 
                 }
 
@@ -198,7 +198,7 @@ class AddEventActivity : AppCompatActivity() {
                     view: View, position: Int, id: Long
                 ) {
 
-                    strPriority = spinnerPriority.selectedItemPosition.toString()
+                    strPriority = spinnerPriority.selectedItemPosition
 
                 }
 
@@ -223,7 +223,7 @@ class AddEventActivity : AppCompatActivity() {
                     view: View, position: Int, id: Long
                 ) {
                     strDate = addevent_tvDate.text.toString()
-                    strRepeat = spinnerRepeat.selectedItemPosition.toString()
+                    strRepeat = spinnerRepeat.selectedItemPosition
                     /*Toast.makeText(applicationContext, "Cooming Soon", Toast.LENGTH_SHORT)
                         .show()
                  */
@@ -259,6 +259,10 @@ class AddEventActivity : AppCompatActivity() {
 
             openCalendar()
         }
+        addevent_ivCal1.setOnClickListener {
+
+            openCalendar1()
+        }
 
 /*
         addevent_ivColor.setOnClickListener {
@@ -278,7 +282,9 @@ class AddEventActivity : AppCompatActivity() {
 
         btnTaskComplete.setOnClickListener {
             val db = DatabaseHandler(applicationContext)
+/*
             id1?.let { it1 -> db.UpdateStatus(it1) }
+*/
             val intent = Intent(this@AddEventActivity, DailyActivity::class.java)
             startActivity(intent)
 
@@ -332,6 +338,24 @@ class AddEventActivity : AppCompatActivity() {
         )
         picker.show()
         picker.getDatePicker().setMinDate(System.currentTimeMillis() - 1000); }
+
+    private fun openCalendar1() {
+        val picker = DatePickerDialog(
+            this@AddEventActivity,
+            { view, year, monthOfYear, dayOfMonth ->
+// set this date in TextView for Displ
+                val date = (day.toString() + "/" + (month + 1) + "/" + year)
+
+                endDate.text = date
+
+                updateLabel1(dayOfMonth, monthOfYear, year)
+
+
+            }, year, month, day
+        )
+        picker.show()
+        picker.getDatePicker().setMinDate(System.currentTimeMillis() - 1000); }
+
 
     private fun openStartCalendar() {
         val cal = Calendar.getInstance()
@@ -453,6 +477,29 @@ class AddEventActivity : AppCompatActivity() {
         addevent_tvDate.text = dateStringDisplay.toString()
     }
 
+    private fun updateLabel1(date: Int, month: Int, year: Int) {
+//  val monthName = getMonthForInt(month - 1)
+        val calendar = Calendar.getInstance()
+        calendar[Calendar.DAY_OF_MONTH] = date
+        calendar[Calendar.MONTH] = month
+        calendar[Calendar.YEAR] = year
+        val dateFormat = SimpleDateFormat("yyyy/MM/dd")
+        dateString = dateFormat.format(calendar.time)
+        strDate = dateString
+
+        val dateFormatDisplay = SimpleDateFormat("dd/MM/yyyy")
+        val dateStringDisplay: String = dateFormatDisplay.format(calendar.time)
+
+
+        val dateFormat1 = SimpleDateFormat("MM")
+        val dateString1: String = dateFormat1.format(calendar.time)
+        month1 = dateString1
+        strYear = year.toString()
+        day1 = date
+        endDate.text = dateStringDisplay.toString()
+    }
+
+
     private fun getMonthForInt(num: Int): String {
         var month = "wrong"
         val dfs = DateFormatSymbols()
@@ -500,7 +547,7 @@ class AddEventActivity : AppCompatActivity() {
                 .show()
 
             isValidData = false
-        } else if (isEmpty(this.strCompany) || this.strCompany.equals("0")) {
+        } else if (isEmpty(this.strCompany.toString()) || this.strCompany!!.equals("0")) {
             Toast.makeText(
                 applicationContext,
                 "Please Select Any One Company",
@@ -508,7 +555,7 @@ class AddEventActivity : AppCompatActivity() {
             ).show()
 
             isValidData = false
-        } else if (isEmpty(this.strPriority) || this.strPriority.equals("0")) {
+        } else if (isEmpty(this.strPriority.toString()) || this.strPriority!!.equals("0")) {
             Toast.makeText(
                 applicationContext,
                 "Please Select Priority",
@@ -516,7 +563,7 @@ class AddEventActivity : AppCompatActivity() {
             ).show()
 
             isValidData = false
-        } else if (isEmpty(this.strRepeat) || this.strRepeat.equals("0")) {
+        } else if (isEmpty(this.strRepeat.toString()) || this.strRepeat!!.equals("0")) {
             Toast.makeText(
                 applicationContext,
                 "Please Select Event Repeat Or Not",
@@ -551,14 +598,14 @@ class AddEventActivity : AppCompatActivity() {
 
                     if (strDateTime.equals("editDateTime")) {
                         id1?.let {
-                            db.updateDateTime(
-                                it, strDate, strToTime, strFromTime, Integer.parseInt(startToTime),
-                                Integer.parseInt(startTomin),
-                                day1,
-                                Integer.parseInt(endHours),
-                                Integer.parseInt(endMin),
-                                month1.toString()
-                            )
+                            /* db.updateDateTime(
+                                 it, strDate, strToTime, strFromTime, Integer.parseInt(startToTime),
+                                 Integer.parseInt(startTomin),
+                                 day1,
+                                 Integer.parseInt(endHours),
+                                 Integer.parseInt(endMin),
+                                 month1.toString()
+                             )*/
                             // Integer.parseInt(strYear.toString()))
                         }
 
@@ -589,26 +636,27 @@ class AddEventActivity : AppCompatActivity() {
                                     val yearFormat = SimpleDateFormat("yyyy")
                                     val yearString: String = yearFormat.format(c.time)
 
-                                    db.addDailyPlan(
-                                        strEventName,
-                                        strEventDescription,
-                                        dt,
-                                        strToTime,
-                                        strFromTime,
-                                        strNotification,
-                                        strCompany,
-                                        strPriority,
-                                        Integer.parseInt(startToTime),
-                                        Integer.parseInt(startTomin),
-                                        Integer.parseInt(dateString),
-                                        Integer.parseInt(endHours),
-                                        Integer.parseInt(endMin),
-                                        strRepeat,
-                                        monthString,
-                                        Integer.parseInt(yearString),
-                                        repeatornot.toString()
 
-                                    )
+                                    /* db.addDailyPlan(
+                                         strEventName,
+                                         strEventDescription,
+                                         dt,
+                                         strToTime,
+                                         strFromTime,
+                                         strNotification,
+                                         strCompany,
+                                         strPriority,
+                                         Integer.parseInt(startToTime),
+                                         Integer.parseInt(startTomin),
+                                         Integer.parseInt(dateString),
+                                         Integer.parseInt(endHours),
+                                         Integer.parseInt(endMin),
+                                         strRepeat,
+                                         monthString,
+                                         Integer.parseInt(yearString),
+                                         repeatornot.toString()
+
+                                     )*/
                                 }
                                 3 -> {
                                     repeatornot = true
@@ -629,26 +677,26 @@ class AddEventActivity : AppCompatActivity() {
                                     Log.d("Monthly", dateString)
                                     Log.d("MonthMonthly", monthString)
 
-                                    db.addDailyPlan(
-                                        strEventName,
-                                        strEventDescription,
-                                        dateString,
-                                        strToTime,
-                                        strFromTime,
-                                        strNotification,
-                                        strCompany,
-                                        strPriority,
-                                        Integer.parseInt(startToTime),
-                                        Integer.parseInt(startTomin),
-                                        day1,
-                                        Integer.parseInt(endHours),
-                                        Integer.parseInt(endMin),
-                                        strRepeat,
-                                        monthString,
-                                        Integer.parseInt(yearString),
-                                        repeatornot.toString()
+                                    /*   db.addDailyPlan(
+                                           strEventName,
+                                           strEventDescription,
+                                           dateString,
+                                           strToTime,
+                                           strFromTime,
+                                           strNotification,
+                                           strCompany,
+                                           strPriority,
+                                           Integer.parseInt(startToTime),
+                                           Integer.parseInt(startTomin),
+                                           day1,
+                                           Integer.parseInt(endHours),
+                                           Integer.parseInt(endMin),
+                                           strRepeat,
+                                           monthString,
+                                           Integer.parseInt(yearString),
+                                           repeatornot.toString()
 
-                                    )
+                                       )*/
 
                                 }
                                 4 -> {
@@ -666,50 +714,72 @@ class AddEventActivity : AppCompatActivity() {
                                     val dateString1: String = dateFormat1.format(calendar.time)
 
 
-                                    db.addDailyPlan(
-                                        strEventName,
-                                        strEventDescription,
-                                        dateString,
-                                        strToTime,
-                                        strFromTime,
-                                        strNotification,
-                                        strCompany,
-                                        strPriority,
-                                        Integer.parseInt(startToTime),
-                                        Integer.parseInt(startTomin),
-                                        day1,
-                                        Integer.parseInt(endHours),
-                                        Integer.parseInt(endMin),
-                                        strRepeat,
-                                        month1.toString(),
-                                        Integer.parseInt(dateString1),
-                                        repeatornot.toString()
+                                    /*   db.addDailyPlan(
+                                           strEventName,
+                                           strEventDescription,
+                                           dateString,
+                                           strToTime,
+                                           strFromTime,
+                                           strNotification,
+                                           strCompany,
+                                           strPriority,
+                                           Integer.parseInt(startToTime),
+                                           Integer.parseInt(startTomin),
+                                           day1,
+                                           Integer.parseInt(endHours),
+                                           Integer.parseInt(endMin),
+                                           strRepeat,
+                                           month1.toString(),
+                                           Integer.parseInt(dateString1),
+                                           repeatornot.toString()
 
-                                    )
+                                       )*/
 
                                 }
                             }
-                            // setAlarm(strNotification!!, strDate!!, strToTime!!)
-                            db.addDailyPlan(
+                            db.addEvent(
+                                strDate,
+                                endDate.text.toString(),
                                 strEventName,
                                 strEventDescription,
+                                strCompany!!,
+                                strRepeat!!,
+                                strPriority!!,
                                 strDate,
-                                strToTime,
-                                strFromTime,
-                                strNotification,
-                                strCompany,
-                                strPriority,
-                                Integer.parseInt(startToTime),
-                                Integer.parseInt(startTomin),
-                                day1,
-                                Integer.parseInt(endHours),
-                                Integer.parseInt(endMin),
-                                strRepeat,
-                                month1.toString(),
-                                Integer.parseInt(strYear.toString()),
                                 repeatornot.toString()
-
                             )
+                            db.addEventDetails(
+                                day1,
+                                Integer.parseInt(month1),
+                                year,
+                                strFromTime,
+                                strToTime,
+                                startToTime,
+                                endHours,
+                                startTomin,
+                                endMin
+                            )
+
+                            /*  db.addDailyPlan(
+                                  strEventName,
+                                  strEventDescription,
+                                  strDate,
+                                  strToTime,
+                                  strFromTime,
+                                  strNotification,
+                                  strCompany,
+                                  strPriority,
+                                  Integer.parseInt(startToTime),
+                                  Integer.parseInt(startTomin),
+                                  day1,
+                                  Integer.parseInt(endHours),
+                                  Integer.parseInt(endMin),
+                                  strRepeat,
+                                  month1.toString(),
+                                  Integer.parseInt(strYear.toString()),
+                                  repeatornot.toString()
+
+                              )*/
 
                         } catch (e: Exception) {
                             Toast.makeText(applicationContext, e.toString(), Toast.LENGTH_SHORT)

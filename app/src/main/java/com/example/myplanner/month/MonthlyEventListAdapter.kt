@@ -73,12 +73,12 @@ class MonthlyEventListAdapter(
                 addevent_tvEname.setText("")
                 addevent_tvEdesc.setText("")
             }
-            addevent_tvEname.setText(dailyPlanner.event_name)
-            addevent_tvEdesc.setText(dailyPlanner.event_description)
-            addevent_tvDate.setText(dailyPlanner.date)
-            addevent_tvStime.setText(dailyPlanner.to_time)
-            addevent_tvEtime.setText(dailyPlanner.from_time)
-            addevent_tvNotification.setText(dailyPlanner.notification_description)
+            addevent_tvEname.setText(dailyPlanner.EventName)
+            addevent_tvEdesc.setText(dailyPlanner.EventDescription)
+            addevent_tvDate.setText(dailyPlanner.plandate)
+            addevent_tvStime.setText(dailyPlanner.ToTime)
+            addevent_tvEtime.setText(dailyPlanner.FromTime)
+            addevent_tvNotification.setText(dailyPlanner.EventName)
 
             addevent_tvEname.isCursorVisible = false
             addevent_tvEdesc.isCursorVisible = false
@@ -114,17 +114,17 @@ class MonthlyEventListAdapter(
                 spinnerRepeat.adapter = adapter
             }
 
-            spinnerRepeat.setSelection(dailyPlanner.repeat)
-            spinnerPriority.setSelection(dailyPlanner.priority)
-            spinnerCompany.setSelection(dailyPlanner.company)
+            spinnerRepeat.setSelection(dailyPlanner.RepeatModeID)
+            spinnerPriority.setSelection(dailyPlanner.ProrityID)
+            spinnerCompany.setSelection(dailyPlanner.CompanyID)
 
             dialog.setCanceledOnTouchOutside(true);
             dialog.show()
         })
 
-        holder.txtDate.text = monthlyPlannig[position].day.toString()
-        holder.txtEvent.text = monthlyPlannig[position].event_name
-        holder.txtTime.text = monthlyPlannig[position].to_time
+        holder.txtDate.text = monthlyPlannig[position].Day.toString()
+        holder.txtEvent.text = monthlyPlannig[position].EventName
+        holder.txtTime.text = monthlyPlannig[position].ToTime.toString()
 
     }
 
@@ -170,3 +170,4 @@ class MonthlyEventListAdapter(
     }
 
 }
+

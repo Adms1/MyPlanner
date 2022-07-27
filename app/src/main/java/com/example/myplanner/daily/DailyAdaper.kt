@@ -41,7 +41,7 @@ class DailyAdaper(
 
         if (holder.oneTimeCheck) {
             holder.oneTimeCheck = false
-            val strCurrentDate = listOfDailyPlan[position].date
+            val strCurrentDate = listOfDailyPlan[position].plandate
             var format = SimpleDateFormat("yyyy/MM/dd")
             val newDate: Date = format.parse(strCurrentDate)
             format = SimpleDateFormat("dd/MM/yyyy")
@@ -55,7 +55,7 @@ class DailyAdaper(
                 holder.headingView.visibility = View.VISIBLE
                 holder.linearLayout.visibility = View.VISIBLE
 
-                val strCurrentDate = listOfDailyPlan[position].date
+                val strCurrentDate = listOfDailyPlan[position].plandate
                 var format = SimpleDateFormat("yyyy/MM/dd")
                 val newDate: Date = format.parse(strCurrentDate)
                 format = SimpleDateFormat("dd/MM/yyyy")
@@ -64,6 +64,7 @@ class DailyAdaper(
                 holder.headingView.text = date1
             }
         }
+
         if (listOfDailyPlan[position].RepeatOrNot.equals("true")) {
             holder.imgRepeat.visibility = View.VISIBLE
 
@@ -71,50 +72,51 @@ class DailyAdaper(
             holder.imgRepeat.visibility = View.GONE
 
         }
-        if (listOfDailyPlan[position].priority.equals(1)) {
+
+        if (listOfDailyPlan[position].ProrityID.equals(1)) {
             holder.txtPriority.setVisibility(View.VISIBLE)
             holder.imgpriority.setVisibility(View.GONE)
 
-        } else if (listOfDailyPlan[position].priority.equals(2)) {
+        } else if (listOfDailyPlan[position].ProrityID.equals(2)) {
             holder.imgpriority.setImageDrawable(context.getDrawable(R.drawable.ic_baseline_arrow_upward_24))
             holder.txtPriority.setVisibility(View.GONE)
 
-        } else if (listOfDailyPlan[position].priority.equals(3)) {
+        } else if (listOfDailyPlan[position].ProrityID.equals(3)) {
             holder.imgpriority.setImageDrawable(context.getDrawable(R.drawable.ic_baseline_notes_24))
             holder.txtPriority.setVisibility(View.GONE)
 
-        } else if (listOfDailyPlan[position].priority.equals(4)) {
+        } else if (listOfDailyPlan[position].ProrityID.equals(4)) {
             holder.imgpriority.setImageDrawable(context.getDrawable(R.drawable.ic_baseline_arrow_downward_24))
             holder.txtPriority.setVisibility(View.GONE)
 
         }
-        if (listOfDailyPlan[position].company.equals(1)) {
+        if (listOfDailyPlan[position].CompanyID.equals(1)) {
             holder.event_item_color_bar.setBackgroundColor(context.resources.getColor(R.color.darkBlue))
             holder.event_item_color_bar1.setBackgroundColor(context.resources.getColor(R.color.darkBlue))
 
-        } else if (listOfDailyPlan[position].company.equals(2)) {
+        } else if (listOfDailyPlan[position].CompanyID.equals(2)) {
             holder.event_item_color_bar.setBackgroundColor(context.resources.getColor(R.color.orange))
             holder.event_item_color_bar1.setBackgroundColor(context.resources.getColor(R.color.orange))
-        } else if (listOfDailyPlan[position].company.equals(3)) {
+        } else if (listOfDailyPlan[position].CompanyID.equals(3)) {
             holder.event_item_color_bar.setBackgroundColor(context.resources.getColor(R.color.cyan))
             holder.event_item_color_bar1.setBackgroundColor(context.resources.getColor(R.color.cyan))
-        } else if (listOfDailyPlan[position].company.equals(4)) {
+        } else if (listOfDailyPlan[position].CompanyID.equals(4)) {
             holder.event_item_color_bar.setBackgroundColor(context.resources.getColor(R.color.grayorgray))
             holder.event_item_color_bar1.setBackgroundColor(context.resources.getColor(R.color.grayorgray))
-        } else if (listOfDailyPlan[position].company.equals(5)) {
+        } else if (listOfDailyPlan[position].CompanyID.equals(5)) {
             holder.event_item_color_bar.setBackgroundColor(context.resources.getColor(R.color.green))
             holder.event_item_color_bar1.setBackgroundColor(context.resources.getColor(R.color.green))
-        } else if (listOfDailyPlan[position].company.equals(6)) {
+        } else if (listOfDailyPlan[position].CompanyID.equals(6)) {
             holder.event_item_color_bar.setBackgroundColor(context.resources.getColor(R.color.olive))
             holder.event_item_color_bar1.setBackgroundColor(context.resources.getColor(R.color.olive))
-        } else if (listOfDailyPlan[position].company.equals(7)) {
+        } else if (listOfDailyPlan[position].CompanyID.equals(7)) {
             holder.event_item_color_bar.setBackgroundColor(context.resources.getColor(R.color.brown))
             holder.event_item_color_bar1.setBackgroundColor(context.resources.getColor(R.color.brown))
         }
 
 
-        holder.txtEvent.text = listOfDailyPlan[position].event_name
-        holder.txtTime.text = listOfDailyPlan[position].to_time
+        holder.txtEvent.text = listOfDailyPlan[position].EventName
+        holder.txtTime.text = listOfDailyPlan[position].ToTime.toString()
 
         holder.eventItemHolder.setOnClickListener {
             val sharedPreference =
@@ -122,32 +124,27 @@ class DailyAdaper(
             val editor = sharedPreference.edit()
             editor.putString("editOrNotDateTime", "editDateTime")
             editor.putInt("id", listOfDailyPlan[position].id)
-            val Date = listOfDailyPlan[position].date
+            val Date = listOfDailyPlan[position].plandate
             var format = SimpleDateFormat("yyyy/MM/dd")
             val newDate: Date = format.parse(Date)
             format = SimpleDateFormat("dd/MM/yyyy")
             val date: String = format.format(newDate)
             editor.putString("date", date)
-            editor.putString("toTime", listOfDailyPlan[position].to_time)
-            editor.putString("fromTime", listOfDailyPlan[position].from_time)
-            editor.putString("eventName", listOfDailyPlan[position].event_name)
-            editor.putString("eventDescription", listOfDailyPlan[position].event_description)
-            editor.putString(
-                "notificationDescription",
-                listOfDailyPlan[position].notification_description
-            )
-            editor.putInt("company", listOfDailyPlan[position].company)
-            editor.putInt("Priority", listOfDailyPlan[position].priority)
+            editor.putInt("toTime", listOfDailyPlan[position].ToTime)
+            editor.putInt("fromTime", listOfDailyPlan[position].FromTime)
+            editor.putString("eventName", listOfDailyPlan[position].EventName)
+            editor.putString("eventDescription", listOfDailyPlan[position].EventDescription)
+            editor.putInt("company", listOfDailyPlan[position].CompanyID)
+            editor.putInt("Priority", listOfDailyPlan[position].ProrityID)
+            editor.putInt("repeat", listOfDailyPlan[position].RepeatModeID)
 
-            editor.putInt("repeat", listOfDailyPlan[position].repeat)
-
-            editor.putInt("StartHours", listOfDailyPlan[position].starthours)
-            editor.putInt("StartMin", listOfDailyPlan[position].startmin)
-            editor.putInt("EndHours", listOfDailyPlan[position].endhours)
-            editor.putInt("EndMin", listOfDailyPlan[position].endmin)
-            editor.putInt("Day", listOfDailyPlan[position].day)
-            editor.putString("Month", listOfDailyPlan[position].month)
-            editor.putInt("Year", listOfDailyPlan[position].year)
+            editor.putInt("StartHours", listOfDailyPlan[position].StartHours)
+            editor.putInt("StartMin", listOfDailyPlan[position].StartMin)
+            editor.putInt("EndHours", listOfDailyPlan[position].EndHours)
+            editor.putInt("EndMin", listOfDailyPlan[position].EndMin)
+            editor.putInt("Day", listOfDailyPlan[position].Day)
+            editor.putInt("Month", listOfDailyPlan[position].Month)
+            editor.putInt("Year", listOfDailyPlan[position].Year)
             editor.apply()
             val intent = Intent(context, AddEventActivity::class.java)
             context.startActivity(intent)
