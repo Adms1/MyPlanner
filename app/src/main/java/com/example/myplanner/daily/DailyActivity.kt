@@ -77,10 +77,10 @@ class DailyActivity : AppCompatActivity() {
     private fun setList() {
         val db = DatabaseHandler(this)
 
-      /*  listOfDailyPlan = db.getTodayPlan("'" + date.toString() + "'")
+        listOfDailyPlan = db.getTodayPlan("'" + date.toString() + "'")
         Log.d("sizeOfPlan", listOfDailyPlan.size.toString())
         daily_rvList.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-        daily_rvList.adapter = DailyAdaper(this, listOfDailyPlan, date1.toString())*/
+        daily_rvList.adapter = DailyAdaper(this, listOfDailyPlan, date1.toString())
     }
 
     override fun onSupportNavigateUp(): Boolean {

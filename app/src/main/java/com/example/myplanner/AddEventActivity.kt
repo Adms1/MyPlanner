@@ -83,8 +83,8 @@ class AddEventActivity : AppCompatActivity() {
         if (strDateTime.equals("editDateTime")) {
             id1 = sharedPreference.getInt("id", 0)
             val strDate = sharedPreference.getString("date", "")
-            val strToTime = sharedPreference.getInt("toTime", 0)
-            val strFromTime = sharedPreference.getInt("fromTime", 0)
+            val strToTime = sharedPreference.getString("toTime", "")
+            val strFromTime = sharedPreference.getString("fromTime", "")
             val strEventName = sharedPreference.getString("eventName", "")
             val strEventDescription = sharedPreference.getString("eventDescription", "")
             /* val strNotificationDescription =

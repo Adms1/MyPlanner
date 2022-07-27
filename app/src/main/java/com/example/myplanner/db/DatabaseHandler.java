@@ -75,7 +75,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
         String CREATE_TABLE_PlannerDetails = "CREATE TABLE " + PlannerDetails + "("
                 + PlanID + " INTEGER PRIMARY KEY AUTOINCREMENT," + Day + " INTEGER," + Month + " INTEGER ," + Year + " INTEGER, " +
-                FromTime + " INTEGER, " + ToTime + " INTEGER, " + StartHours + " INTEGER, " +
+                FromTime + " TEXT, " + ToTime + " TEXT, " + StartHours + " INTEGER, " +
                 EndHours + " INTEGER ," + StartMin + " INTEGER ," + EndMin + " INTEGER)";
         db.execSQL(CREATE_TABLE_PlannerDetails);
     }
@@ -192,7 +192,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         int year = calendar.get(Calendar.YEAR);
         ArrayList<DailyPlanner> AllPlan = new ArrayList<>();
         // Select All Query
-        String selectQuery1 = "SELECT m." + planId + ",m." + PlanDate + ",m." + EndDate + ",m." + EventName + ",m." + EventDescription + ",m." + CompanyID + ",m." + RepeatModeID + ",m." + ProrityID + ",m." + IsActive + ",m." + CreatedDate + ",m." + RepeatOrNot + ",d." + planId + ",d." + Day + ",d." + Month + ",d." + Year +  ",d." + StartHours + ",d." + EndHours + ",d." + StartMin + ",d." + EndMin +",d." + FromTime + ",d." + ToTime + " FROM " +
+        String selectQuery1 = "SELECT m." + planId + ",m." + PlanDate + ",m." + EndDate + ",m." + EventName + ",m." + EventDescription + ",m." + CompanyID + ",m." + RepeatModeID + ",m." + ProrityID + ",m." + IsActive + ",m." + CreatedDate + ",m." + RepeatOrNot + ",d." + planId + ",d." + Day + ",d." + Month + ",d." + Year + ",d." + StartHours + ",d." + EndHours + ",d." + StartMin + ",d." + EndMin + ",d." + FromTime + ",d." + ToTime + " FROM " +
                 PlannerMaster + " AS m " + " INNER JOIN " + PlannerDetails + " as d ON " + " d." + PlanID + " = m." + PlanID + " WHERE m. " + PlanDate + " = " + date + " AND " + IsActive + " = " + 0 + " AND d." + Year + " = " + year + " ORDER BY m." + PlanDate + " ASC" + ",d." + ToTime + " ASC";
 
         SQLiteDatabase db = this.getReadableDatabase();
@@ -200,7 +200,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
             do {
-                 AllPlan.add(new DailyPlanner(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getInt(5), cursor.getInt(6), cursor.getInt(7), cursor.getString(8), cursor.getString(9), cursor.getString(10), cursor.getInt(11), cursor.getInt(12), cursor.getInt(13), cursor.getInt(14), cursor.getInt(15), cursor.getInt(16), cursor.getInt(17), cursor.getInt(18), cursor.getInt(19), cursor.getInt(20)));
+                AllPlan.add(new DailyPlanner(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getInt(5), cursor.getInt(6), cursor.getInt(7), cursor.getString(8), cursor.getString(9), cursor.getString(10), cursor.getInt(11), cursor.getInt(12), cursor.getInt(13), cursor.getInt(14), cursor.getInt(15), cursor.getInt(16), cursor.getInt(17), cursor.getInt(18), cursor.getString(19), cursor.getString(20)));
             } while (cursor.moveToNext());
         }
         // closing connection
@@ -223,7 +223,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
             do {
-                AllPlan.add(new DailyPlanner(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getInt(5), cursor.getInt(6), cursor.getInt(7), cursor.getString(8), cursor.getString(9), cursor.getString(10), cursor.getInt(11), cursor.getInt(12), cursor.getInt(13), cursor.getInt(14), cursor.getInt(15), cursor.getInt(16), cursor.getInt(17), cursor.getInt(18), cursor.getInt(19), cursor.getInt(20)));
+                AllPlan.add(new DailyPlanner(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getInt(5), cursor.getInt(6), cursor.getInt(7), cursor.getString(8), cursor.getString(9), cursor.getString(10), cursor.getInt(11), cursor.getInt(12), cursor.getInt(13), cursor.getInt(14), cursor.getInt(15), cursor.getInt(16), cursor.getInt(17), cursor.getInt(18), cursor.getString(19), cursor.getString(20)));
             } while (cursor.moveToNext());
         }
         // closing connection
@@ -249,7 +249,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
             do {
-                AllPlan.add(new DailyPlanner(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getInt(5), cursor.getInt(6), cursor.getInt(7), cursor.getString(8), cursor.getString(9), cursor.getString(10), cursor.getInt(11), cursor.getInt(12), cursor.getInt(13), cursor.getInt(14), cursor.getInt(15), cursor.getInt(16), cursor.getInt(17), cursor.getInt(18), cursor.getInt(19), cursor.getInt(20)));
+                AllPlan.add(new DailyPlanner(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getInt(5), cursor.getInt(6), cursor.getInt(7), cursor.getString(8), cursor.getString(9), cursor.getString(10), cursor.getInt(11), cursor.getInt(12), cursor.getInt(13), cursor.getInt(14), cursor.getInt(15), cursor.getInt(16), cursor.getInt(17), cursor.getInt(18), cursor.getString(19), cursor.getString(20)));
             } while (cursor.moveToNext());
         }
         // closing connection
@@ -277,7 +277,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
             do {
-                AllPlan.add(new DailyPlanner(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getInt(5), cursor.getInt(6), cursor.getInt(7), cursor.getString(8), cursor.getString(9), cursor.getString(10), cursor.getInt(11), cursor.getInt(12), cursor.getInt(13), cursor.getInt(14), cursor.getInt(15), cursor.getInt(16), cursor.getInt(17), cursor.getInt(18), cursor.getInt(19), cursor.getInt(20)));
+                AllPlan.add(new DailyPlanner(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getInt(5), cursor.getInt(6), cursor.getInt(7), cursor.getString(8), cursor.getString(9), cursor.getString(10), cursor.getInt(11), cursor.getInt(12), cursor.getInt(13), cursor.getInt(14), cursor.getInt(15), cursor.getInt(16), cursor.getInt(17), cursor.getInt(18), cursor.getString(19), cursor.getString(20)));
             } while (cursor.moveToNext());
         }
         // closing connection
@@ -291,7 +291,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public DailyPlanner getWeeklyClickEvent(int id) {
         Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
-        DailyPlanner um = new DailyPlanner(0, "", "", "", "", 0, 0, 0, "", "", "", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+        DailyPlanner um = new DailyPlanner(0, "", "", "", "", 0, 0, 0, "", "", "", 0, 0, 0, 0, 0, 0, 0, 0, "", "");
         String selectQuery = "SELECT m." + planId + ",m." + PlanDate + ",m." + EndDate + ",m." + EventName + ",m." + EventDescription + ",m." + CompanyID + ",m." + RepeatModeID + ",m." + ProrityID + ",m." + IsActive + ",m." + CreatedDate + ",m." + RepeatOrNot + ",d." + planId + ",d." + Day + ",d." + Month + ",d." + Year + ",d." + ToTime + ",d." + FromTime + ",d." + StartHours + ",d." + StartMin + ",d." + EndHours + ",d." + EndMin + ",m." + RepeatOrNot + " FROM " +
                 PlannerMaster + " AS m " + " INNER JOIN " + PlannerDetails + " as d ON " + " d." + PlanID + " = m." + PlanID + " WHERE m. " + planId + " = " + id + " AND d." + Year + " = " + year + " ORDER BY m." + PlanDate + " ASC" + ",d." + ToTime + " ASC";
 
@@ -300,7 +300,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
             do {
-                um = new DailyPlanner(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getInt(5), cursor.getInt(6), cursor.getInt(7), cursor.getString(8), cursor.getString(9), cursor.getString(10), cursor.getInt(11), cursor.getInt(12), cursor.getInt(13), cursor.getInt(14), cursor.getInt(15), cursor.getInt(16), cursor.getInt(17), cursor.getInt(18), cursor.getInt(19), cursor.getInt(20))
+                um = new DailyPlanner(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getInt(5), cursor.getInt(6), cursor.getInt(7), cursor.getString(8), cursor.getString(9), cursor.getString(10), cursor.getInt(11), cursor.getInt(12), cursor.getInt(13), cursor.getInt(14), cursor.getInt(15), cursor.getInt(16), cursor.getInt(17), cursor.getInt(18), cursor.getString(19), cursor.getString(20))
                 ;
 
             } while (cursor.moveToNext());
@@ -326,7 +326,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
             do {
-                AllPlan.add(new DailyPlanner(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getInt(5), cursor.getInt(6), cursor.getInt(7), cursor.getString(8), cursor.getString(9), cursor.getString(10), cursor.getInt(11), cursor.getInt(12), cursor.getInt(13), cursor.getInt(14), cursor.getInt(15), cursor.getInt(16), cursor.getInt(17), cursor.getInt(18), cursor.getInt(19), cursor.getInt(20)));
+                AllPlan.add(new DailyPlanner(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getInt(5), cursor.getInt(6), cursor.getInt(7), cursor.getString(8), cursor.getString(9), cursor.getString(10), cursor.getInt(11), cursor.getInt(12), cursor.getInt(13), cursor.getInt(14), cursor.getInt(15), cursor.getInt(16), cursor.getInt(17), cursor.getInt(18), cursor.getString(19), cursor.getString(20)));
 
             } while (cursor.moveToNext());
         }

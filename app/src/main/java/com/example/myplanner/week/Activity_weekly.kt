@@ -246,8 +246,8 @@ class activity_weekly : AppCompatActivity(),
         addevent_tvEname.setText(dailyPlanner.EventName)
         addevent_tvEdesc.setText(dailyPlanner.EventDescription)
         addevent_tvDate.setText(dailyPlanner.plandate)
-        addevent_tvStime.setText(""+dailyPlanner.ToTime)
-        addevent_tvEtime.setText(""+dailyPlanner.FromTime)
+        addevent_tvStime.setText("" + dailyPlanner.ToTime)
+        addevent_tvEtime.setText("" + dailyPlanner.FromTime)
         addevent_tvNotification.setText(dailyPlanner.EventName)
 
         addevent_tvEname.isCursorVisible = false
@@ -335,7 +335,7 @@ class activity_weekly : AppCompatActivity(),
             startTime[Calendar.HOUR_OF_DAY] = cn.StartHours
             startTime[Calendar.MINUTE] = cn.StartMin
             startTime[Calendar.DAY_OF_MONTH] = cn.Day
-            startTime[Calendar.MONTH] =  Integer.parseInt(cn.Month.toString()) - 1
+            startTime[Calendar.MONTH] = Integer.parseInt(cn.Month.toString()) - 1
             startTime[Calendar.YEAR] = cn.Year
             endTime = startTime.clone() as Calendar
             endTime[Calendar.HOUR_OF_DAY] = cn.EndHours

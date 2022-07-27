@@ -22,9 +22,8 @@ class DailyPlanner(
     var EndHours: Int,
     var StartMin: Int,
     var EndMin: Int,
-    var FromTime: Int,
-    var ToTime: Int,
-
+    var FromTime: String,
+    var ToTime: String,
 
     )
 

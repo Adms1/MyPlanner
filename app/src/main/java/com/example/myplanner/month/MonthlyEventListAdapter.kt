@@ -124,7 +124,7 @@ class MonthlyEventListAdapter(
 
         holder.txtDate.text = monthlyPlannig[position].Day.toString()
         holder.txtEvent.text = monthlyPlannig[position].EventName
-        holder.txtTime.text = monthlyPlannig[position].ToTime.toString()
+        holder.txtTime.text = monthlyPlannig[position].ToTime
 
     }
 
